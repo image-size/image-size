@@ -1,0 +1,27 @@
+#!/usr/bin/env node
+
+var fs = require('fs');
+var path = require('path');
+
+var imageSize = require('..');
+
+var files = process.argv.slice(2);
+
+if (!files.length) {
+  console.error('Usage: image-size image1 [image2] [image3] ...');
+  process.exit(-1);
+}
+
+files.forEach(function (image) {
+  try {
+    if (fs.existsSync(path.resolve(image))) {
+      var size = imageSize(image);
+      var label = [size.width, size.height].join('x');
+      console.info(label, image);
+    } else {
+      console.error('file doesn\'t exist - ', image);
+    }
+  } catch (e) {
+    console.error(e.message, '-', image);
+  }
+});

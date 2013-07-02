@@ -1,8 +1,11 @@
 {
   "name": "image-size",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "get dimensions of any image file",
   "main": "index.js",
+  "bin": {
+    "image-size": "./bin/image-size"
+  },
   "scripts": {
     "test": "node_modules/.bin/mocha --ui bdd --reporter spec specs/*.spec.js"
   },

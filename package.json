@@ -1,10 +1,10 @@
 {
   "name": "image-size",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "get dimensions of any image file",
   "main": "index.js",
   "scripts": {
-    "test": "mocha specs/*.spec.js"
+    "test": "node_modules/.bin/mocha --ui bdd --reporter spec specs/*.spec.js"
   },
   "repository": {
     "type": "git",
@@ -14,9 +14,12 @@
     "image",
     "dimensions"
   ],
-  "author": "wunderbits <web@6wunderkinder.com> (http://wunderbits.6wunderkinder.com/)",
+  "author": "netroy <aditya@netroy.in> (http://netroy.in/)",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/netroy/image-size/issues"
+  },
+  "devDependencies": {
+    "mocha": "~1.12.0"
   }
 }

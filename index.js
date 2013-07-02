@@ -3,7 +3,8 @@ var path = require('path');
 
 var detector = require('./lib/detector');
 var handlers = {
-  'png': require('./lib/png')
+  'png': require('./lib/png'),
+  'gif': require('./lib/gif')
 };
 
 module.exports = function (filepath) {

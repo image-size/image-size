@@ -5,6 +5,7 @@ body {
   font:14px/1.5 Lato, "Helvetica Neue", Helvetica, Arial, sans-serif;
   color:#777;
   font-weight:300;
+  line-height: 22px;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -129,7 +130,7 @@ header li {
 }
 
 header ul a {
-  line-height:1;
+  line-height:14px;
   font-size:11px;
   color:#999;
   display:block;
@@ -210,6 +211,7 @@ footer {
   header a small {
     display:inline;
   }
+
   header ul {
     position:absolute;
     right:50px;

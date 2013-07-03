@@ -1,3 +1,5 @@
 .DS_Store
-npm-debug.log
+coverage.html
+lib-cov
 node_modules
+npm-debug.log

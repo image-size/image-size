@@ -7,7 +7,7 @@
     "image-size": "./bin/image-size"
   },
   "scripts": {
-    "test": "node_modules/.bin/mocha --ui bdd --reporter spec specs/*.spec.js"
+    "test": "make"
   },
   "repository": {
     "type": "git",

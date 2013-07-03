@@ -1,10 +1,11 @@
 var fs = require('fs');
 var path = require('path');
 
-var detector = require('./lib/detector');
+var libpath = process.env.TEST_COV ? './lib-cov/' : './lib/';
+var detector = require(libpath + 'detector');
 var handlers = {
-  'png': require('./lib/png'),
-  'gif': require('./lib/gif')
+  'png': require(libpath + 'png'),
+  'gif': require(libpath + 'gif')
 };
 
 module.exports = function (filepath) {

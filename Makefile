@@ -2,11 +2,19 @@ UI = bdd
 REPORTER = dot
 TESTS = specs/*.spec.js
 BIN = ./node_modules/.bin/mocha
+LINT = ./node_modules/.bin/jshint
+WATCH =
 
 all: lint test
 
+lint:
+	@$(LINT) lib/
+
 test:
-	@$(BIN) --ui $(UI) --reporter $(REPORTER) $(TESTS)
+	@$(BIN) --ui $(UI) --reporter $(REPORTER) $(WATCH) $(TESTS)
+
+watch:
+	@$(MAKE) test REPORTER=spec WATCH=--watch
 
 coverage:
 	@jscoverage --no-highlight lib lib-cov

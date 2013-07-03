@@ -20,10 +20,10 @@ console.log(dimesions.width, dimesions.height);
 #### Supported formats
 * PNG
 * GIF
+* BMP
 
 ##### Upcoming
 * JPEG
-* BMP
 * WebP
 * TIFF
 * PSD

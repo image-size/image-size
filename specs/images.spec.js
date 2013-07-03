@@ -1,4 +1,5 @@
-var assert = require('assert');
+var expect = require('expect.js');
+
 var imageSize = require('..');
 
 ['png', 'gif'].forEach(function (type) {
@@ -12,8 +13,8 @@ var imageSize = require('..');
     });
 
     it('should return correct size for ' + type, function() {
-      assert.equal(123, dimensions.width);
-      assert.equal(456, dimensions.height);
+      expect(dimensions.width).to.be(123);
+      expect(dimensions.height).to.be(456);
     });
   });
 });

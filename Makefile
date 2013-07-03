@@ -3,6 +3,8 @@ REPORTER = dot
 TESTS = specs/*.spec.js
 BIN = ./node_modules/.bin/mocha
 
+all: lint test
+
 test:
 	@$(BIN) --ui $(UI) --reporter $(REPORTER) $(TESTS)
 

@@ -184,6 +184,17 @@ footer {
   bottom:50px;
 }
 
+p.view {
+  margin-left: 15px;
+}
+p.view:before {
+  content: '\002022';
+  display: inline-block;
+  margin-left: -15px;
+  margin-right: 3px;
+  font-size: 700;
+}
+
 @media print, screen and (max-width: 960px) {
 
   div.wrapper {

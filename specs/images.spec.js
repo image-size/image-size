@@ -2,7 +2,7 @@ var expect = require('expect.js');
 
 var imageSize = require('..');
 
-['png', 'gif'].forEach(function (type) {
+['png', 'gif', 'bmp'].forEach(function (type) {
 
   describe(type.toUpperCase(), function() {
 

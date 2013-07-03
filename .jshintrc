@@ -1,0 +1,19 @@
+{
+  "asi": false,
+  "boss": false,
+  "camelcase": false,
+  "curly": false,
+  "eqeqeq": true,
+  "eqnull": false,
+  "indent": 2,
+  "laxcomma": false,
+  "maxlen": 72,
+  "maxcomplexity": 3,
+  "maxstatements": 15,
+  "node": true,
+  "quotmark": "single",
+  "trailing": false,
+  "undef": true,
+  "unused": true,
+  "white": false
+}

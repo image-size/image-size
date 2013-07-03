@@ -1,9 +1,4 @@
-#### Work in progress
-node module to detect dimentions of various supported image formats
-
-[![NPM version](https://badge.fury.io/js/image-size.png)](https://npmjs.org/package/image-size)
-
-[![Build Status](https://travis-ci.org/netroy/image-size.png?branch=master)](https://travis-ci.org/netroy/image-size)
+[![NPM version](https://badge.fury.io/js/image-size.png)](https://npmjs.org/package/image-size) [![Build Status](https://travis-ci.org/netroy/image-size.png?branch=master)](https://travis-ci.org/netroy/image-size)
 
 #### Instalation
 

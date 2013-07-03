@@ -1,6 +1,6 @@
 var expect = require('expect.js');
 
-var imageSize = require('..');
+var imageSize = require('../lib');
 
 ['png', 'gif', 'bmp', 'psd'].forEach(function (type) {
 

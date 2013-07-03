@@ -21,12 +21,12 @@ console.log(dimesions.width, dimesions.height);
 * PNG
 * GIF
 * BMP
+* PSD
 
 ##### Upcoming
 * JPEG
 * WebP
 * TIFF
-* PSD
 
 ##### Credits
 not a direct port, but an attempt to have something like

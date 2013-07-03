@@ -5,7 +5,7 @@ var libpath = process.env.TEST_COV ? './lib-cov/' : './lib/';
 var detector = require(libpath + 'detector');
 
 var handlers = {};
-['png', 'gif', 'bmp'].forEach(function (type) {
+['png', 'gif', 'bmp', 'psd'].forEach(function (type) {
   handlers[type] = require(libpath + type);
 });
 

@@ -18,15 +18,15 @@ console.log(dimesions.width, dimesions.height);
 ```
 
 #### Supported formats
-* PNG
-* GIF
 * BMP
+* GIF
+* JPEG
+* PNG
 * PSD
 
 ##### Upcoming
-* JPEG
-* WebP
 * TIFF
+* WebP
 
 ##### Credits
 not a direct port, but an attempt to have something like

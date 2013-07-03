@@ -1,6 +1,7 @@
 var expect = require('expect.js');
 
-var imageSize = require('../lib');
+var libpath = process.env.TEST_COV ? '../lib-cov/' : '../lib/';
+var imageSize = require(libpath);
 
 ['png', 'gif', 'bmp', 'psd'].forEach(function (type) {
 

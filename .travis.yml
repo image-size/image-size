@@ -3,3 +3,12 @@ node_js:
   - "0.11"
   - "0.10"
   # - "0.8"
+
+git:
+  depth: 1
+
+install:
+  - npm install --loglevel error
+
+script:
+  - make lint test

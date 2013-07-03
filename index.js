@@ -27,6 +27,6 @@ module.exports = function (filepath) {
   if (type in handlers) {
     return handlers[type](buffer);
   } else {
-    throw new Error('unsupported file type');
+    throw new TypeError('unsupported file type');
   }
 };

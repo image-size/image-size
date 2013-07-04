@@ -9,8 +9,11 @@ var imageSize = require(libpath);
 
     var dimensions;
 
-    beforeEach(function () {
-      dimensions = imageSize('specs/images/sample.' + type);
+    beforeEach(function (done) {
+      imageSize('specs/images/sample.' + type, function (err, _dim) {
+        dimensions = _dim;
+        done();
+      });
     });
 
     it('should return correct size for ' + type, function() {

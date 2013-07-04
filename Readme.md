@@ -9,8 +9,16 @@
 
 ```javascript
 var sizeOf = require('image-size');
-var dimesions = sizeOf('images/funny-cats.png');
-console.log(dimesions.width, dimesions.height);
+var dimensions = sizeOf('images/funny-cats.png');
+console.log(dimensions.width, dimensions.height);
+```
+
+##### Async version
+```javascript
+var sizeOf = require('image-size');
+sizeOf('images/funny-cats.png', function (err, dimensions) {
+  console.log(dimensions.width, dimensions.height);
+});
 ```
 
 #### Supported formats

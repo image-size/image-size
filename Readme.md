@@ -1,4 +1,5 @@
 [![NPM version](https://badge.fury.io/js/image-size.png)](https://npmjs.org/package/image-size) [![Build Status](https://travis-ci.org/netroy/image-size.png?branch=master)](https://travis-ci.org/netroy/image-size)
+[![Endorse](https://api.coderwall.com/netroy/endorsecount.png)](https://coderwall.com/netroy)
 
 #### Instalation
 

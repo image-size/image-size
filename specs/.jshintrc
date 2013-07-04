@@ -1,0 +1,9 @@
+{
+  "predef": [
+    "module",
+    "require",
+    "describe",
+    "beforeEach",
+    "it"
+  ]
+}

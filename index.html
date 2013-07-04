@@ -63,6 +63,14 @@
 <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">dimesions</span><span class="p">.</span><span class="nx">width</span><span class="p">,</span> <span class="nx">dimesions</span><span class="p">.</span><span class="nx">height</span><span class="p">);</span>
 </pre></div>
 
+<h5>
+<a name="async-version" class="anchor" href="#async-version"><span class="octicon octicon-link"></span></a>Async version</h5>
+<div class="highlight"><pre><span class="kd">var</span> <span class="nx">sizeOf</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'image-size'</span><span class="p">);</span>
+<span class="nx">sizeOf</span><span class="p">(</span><span class="s1">'images/funny-cats.png'</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">dimensions</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">dimensions</span><span class="p">.</span><span class="nx">width</span><span class="p">,</span> <span class="nx">dimensions</span><span class="p">.</span><span class="nx">height</span><span class="p">);</span>
+<span class="p">});</span>
+</pre></div>
+
 <h4>
 <a name="supported-formats" class="anchor" href="#supported-formats"><span class="octicon octicon-link"></span></a>Supported formats</h4>
 

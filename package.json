@@ -2,7 +2,7 @@
   "name": "image-size",
   "version": "0.1.3",
   "description": "get dimensions of any image file",
-  "main": "index.js",
+  "main": "lib/index.js",
   "engines": {
     "node": ">=0.8.0"
   },

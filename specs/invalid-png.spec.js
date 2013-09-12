@@ -8,7 +8,7 @@ describe('Invalid PNG', function() {
   var dimensions;
 
   function calculate () {
-    dimensions = imageSize('specs/images/sample-invalid.png');
+    dimensions = imageSize.sizeOf('specs/images/sample-invalid.png');
   }
 
   it('should throw for invalid png', function() {

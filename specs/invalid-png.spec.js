@@ -1,14 +1,14 @@
 var expect = require('expect.js');
 
 var libpath = process.env.TEST_COV ? '../lib-cov/' : '../lib/';
-var imageSize = require(libpath);
+var sizeOf = require(libpath);
 
 describe('Invalid PNG', function() {
 
   var dimensions;
 
   function calculate () {
-    dimensions = imageSize.sizeOf('specs/images/sample-invalid.png');
+    dimensions = sizeOf('specs/images/sample-invalid.png');
   }
 
   it('should throw for invalid png', function() {

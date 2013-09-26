@@ -8,7 +8,7 @@
   "indent": 2,
   "laxcomma": false,
   "maxlen": 72,
-  "maxcomplexity": 5,
+  "maxcomplexity": 6,
   "maxstatements": 15,
   "node": true,
   "quotmark": "single",

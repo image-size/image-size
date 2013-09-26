@@ -1,7 +1,7 @@
 var expect = require('expect.js');
 
 var libpath = process.env.TEST_COV ? '../lib-cov/' : '../lib/';
-var imageSize = require(libpath),
+var sizeOf = require(libpath),
     fs = require('fs');
 
 
@@ -9,40 +9,25 @@ var imageSize = require(libpath),
 
   describe(type.toUpperCase(), function() {
 
-    var dimensions;
+    var dimensionsFilePath, dimensionsBuffer;
 
     beforeEach(function (done) {
-      imageSize.sizeOf('specs/images/sample.' + type, function (err, _dim) {
-        dimensions = _dim;
-        done();
-      });
-    });
-
-    it('should return correct size for ' + type, function() {
-      expect(dimensions.width).to.be(123);
-      expect(dimensions.height).to.be(456);
-    });
-  });
-});
-
-['png', 'gif', 'bmp', 'psd', 'jpg'].forEach(function (type) {
-
-  describe(type.toUpperCase(), function() {
-
-    var dimensions;
-
-    beforeEach(function (done) {
-      var buffer = fs.readFile('specs/images/sample.' + type, function (err, data) {
-        imageSize.sizeOfBuffer(data, function (err, _dim) {
-          dimensions = _dim;
-          done();
+      sizeOf('specs/images/sample.' + type, function (err, _dim) {
+        dimensionsFilePath = _dim;
+        var buffer = fs.readFile('specs/images/sample.' + type, function (err, data) {
+          sizeOf(data, function (err, _dimBuffer) {
+            dimensionsBuffer = _dimBuffer;
+            done();
+          });
         });
       });
     });
 
-    it('should return correct size for buffer of ' + type, function() {
-      expect(dimensions.width).to.be(123);
-      expect(dimensions.height).to.be(456);
+    it('should return correct size for ' + type, function() {
+      expect(dimensionsFilePath.width).to.be(123);
+      expect(dimensionsFilePath.height).to.be(456);
+      expect(dimensionsBuffer.width).to.be(123);
+      expect(dimensionsBuffer.height).to.be(456);
     });
   });
 });

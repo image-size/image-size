@@ -10,23 +10,23 @@
 #### Usage
 
 ```javascript
-var imageSize = require('image-size');
-var dimensions = imageSize.sizeOf('images/funny-cats.png');
+var sizeOf = require('image-size');
+var dimensions = sizeOf('images/funny-cats.png');
 console.log(dimensions.width, dimensions.height);
 ```
 
 ##### Async version
 ```javascript
-var imageSize = require('image-size');
-imageSize.sizeOf('images/funny-cats.png', function (err, dimensions) {
+var sizeOf = require('image-size');
+sizeOf('images/funny-cats.png', function (err, dimensions) {
   console.log(dimensions.width, dimensions.height);
 });
 ```
 
 ##### Buffer version
 ```javascript
-var imageSize = require('image-size');
-imageSize.sizeOfBuffer(buffer, function (err, dimensions) {
+var sizeOf = require('image-size');
+sizeOf(buffer, function (err, dimensions) {
   console.log(dimensions.width, dimensions.height);
 });
 ```

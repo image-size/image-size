@@ -40,3 +40,5 @@ sizeOf('images/funny-cats.png', function (err, dimensions) {
 ##### Credits
 not a direct port, but an attempt to have something like
 [dabble's imagesize](https://github.com/dabble/imagesize/blob/master/lib/image_size.rb) as a node module.
+
+##### [Contributors](Contributors.md)

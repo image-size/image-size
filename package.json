@@ -39,6 +39,7 @@
   "devDependencies": {
     "mocha": "~1.13.0",
     "expect.js": "~0.2.0",
-    "jshint": "~2.1.11"
+    "jshint": "~2.1.11",
+    "glob": "~3.2.6"
   }
 }

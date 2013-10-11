@@ -19,11 +19,11 @@ var sizes = {
     'width': 123,
     'height': 456
   },
-  'specs/images/valid/large.jpg': {
+  'specs/images/valid/jpg/large.jpg': {
     'width': 1600,
     'height': 1200
   },
-  'specs/images/valid/very-large.jpg': {
+  'specs/images/valid/jpg/very-large.jpg': {
     'width': 4800,
     'height': 3600
   }
@@ -37,7 +37,7 @@ describe('Valid images', function () {
 
     describe(file, function() {
 
-      var bufferDimensions, asyncDimensions;
+      var type, bufferDimensions, asyncDimensions;
       var bufferSize = 8192;
 
       beforeEach(function (done) {
@@ -46,7 +46,12 @@ describe('Valid images', function () {
         var filepath = path.resolve(file);
         var descriptor = fs.openSync(filepath, 'r');
         fs.readSync(descriptor, buffer, 0, bufferSize, 0);
-        bufferDimensions = imageSize(buffer);
+        type = detector(buffer);
+
+        // tiff cannot support buffers, unless the buffer contains the entire file
+        if (type !== 'tiff') {
+          bufferDimensions = imageSize(buffer);
+        }
 
         imageSize(file, function (err, _dim) {
           asyncDimensions = _dim;
@@ -58,8 +63,11 @@ describe('Valid images', function () {
         var expected = sizes[file] || sizes.default;
         expect(asyncDimensions.width).to.be(expected.width);
         expect(asyncDimensions.height).to.be(expected.height);
-        expect(bufferDimensions.width).to.be(expected.width);
-        expect(bufferDimensions.height).to.be(expected.height);
+
+        if (type !== 'tiff') {
+          expect(bufferDimensions.width).to.be(expected.width);
+          expect(bufferDimensions.height).to.be(expected.height);
+        }
       });
     });
   });
@@ -121,6 +129,27 @@ describe('Invalid invocation', function () {
       expect(imageSize.bind(null, '/monkey/man/yo')).to.throwException(function (e) {
         expect(e.errno).to.be(34);
         expect(e.code).to.be('ENOENT');
+      });
+    });
+  });
+
+  describe('passing buffer for tiff', function () {
+
+    var buffer;
+    beforeEach(function () {
+      var bufferSize = 2048;
+      var file = 'specs/images/valid/tiff/little-endian.tiff';
+
+      buffer = new Buffer(bufferSize);
+      var filepath = path.resolve(file);
+      var descriptor = fs.openSync(filepath, 'r');
+      fs.readSync(descriptor, buffer, 0, bufferSize, 0);
+    });
+
+    it('should throw', function () {
+      expect(imageSize.bind(null, buffer)).to.throwException(function (e) {
+        expect(e).to.be.a(TypeError);
+        expect(e.message).to.contain('doesn\'t support buffer');
       });
     });
   });

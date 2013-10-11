@@ -55,51 +55,83 @@
           </a>
         </p>
 
-<h4>
-<a name="instalation" class="anchor" href="#instalation">
-  <span class="octicon octicon-link"></span>
-</a>Instalation
-</h4>
+        <h4>
+          <a name="instalation" class="anchor" href="#instalation">
+            <span class="octicon octicon-link"></span>
+          </a>Instalation
+        </h4>
 
-<p><code>npm install image-size</code></p>
+        <p>
+          <code><pre>npm install image-size</pre></code>
+        </p>
 
-<h4>
-<a name="usage" class="anchor" href="#usage"><span class="octicon octicon-link"></span></a>Usage</h4>
+        <h4>
+        <a name="usage" class="anchor" href="#usage"><span class="octicon octicon-link"></span></a>Usage</h4>
 
-<div class="highlight"><pre><span class="kd">var</span> <span class="nx">sizeOf</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'image-size'</span><span class="p">);</span>
-<span class="kd">var</span> <span class="nx">dimesions</span> <span class="o">=</span> <span class="nx">sizeOf</span><span class="p">(</span><span class="s1">'images/funny-cats.png'</span><span class="p">);</span>
-<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">dimesions</span><span class="p">.</span><span class="nx">width</span><span class="p">,</span> <span class="nx">dimesions</span><span class="p">.</span><span class="nx">height</span><span class="p">);</span>
-</pre></div>
+        <div class="highlight"><pre><span class="kd">var</span> <span class="nx">sizeOf</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'image-size'</span><span class="p">);</span>
+        <span class="kd">var</span> <span class="nx">dimesions</span> <span class="o">=</span> <span class="nx">sizeOf</span><span class="p">(</span><span class="s1">'images/funny-cats.png'</span><span class="p">);</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">dimesions</span><span class="p">.</span><span class="nx">width</span><span class="p">,</span> <span class="nx">dimesions</span><span class="p">.</span><span class="nx">height</span><span class="p">);</span>
+        </pre></div>
 
-<h5>
-<a name="async-version" class="anchor" href="#async-version"><span class="octicon octicon-link"></span></a>Async version</h5>
-<div class="highlight"><pre><span class="kd">var</span> <span class="nx">sizeOf</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'image-size'</span><span class="p">);</span>
-<span class="nx">sizeOf</span><span class="p">(</span><span class="s1">'images/funny-cats.png'</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">dimensions</span><span class="p">)</span> <span class="p">{</span>
-  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">dimensions</span><span class="p">.</span><span class="nx">width</span><span class="p">,</span> <span class="nx">dimensions</span><span class="p">.</span><span class="nx">height</span><span class="p">);</span>
-<span class="p">});</span>
-</pre></div>
+        <h5>
+        <a name="async-version" class="anchor" href="#async-version"><span class="octicon octicon-link"></span></a>Async version</h5>
+        <div class="highlight"><pre><span class="kd">var</span> <span class="nx">sizeOf</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'image-size'</span><span class="p">);</span>
+        <span class="nx">sizeOf</span><span class="p">(</span><span class="s1">'images/funny-cats.png'</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">dimensions</span><span class="p">)</span> <span class="p">{</span>
+          <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">dimensions</span><span class="p">.</span><span class="nx">width</span><span class="p">,</span> <span class="nx">dimensions</span><span class="p">.</span><span class="nx">height</span><span class="p">);</span>
+        <span class="p">});</span>
+        </pre></div>
 
-<h4>
-<a name="supported-formats" class="anchor" href="#supported-formats"><span class="octicon octicon-link"></span></a>Supported formats</h4>
+        <h4>
+        <a name="supported-formats" class="anchor" href="#supported-formats"><span class="octicon octicon-link"></span></a>Supported formats</h4>
 
-<ul>
-<li>BMP</li>
-<li>GIF</li>
-<li>JPEG</li>
-<li>PNG</li>
-<li>PSD</li>
-</ul><h5>
-<a name="upcoming" class="anchor" href="#upcoming"><span class="octicon octicon-link"></span></a>Upcoming</h5>
+        <ul>
+        <li>BMP</li>
+        <li>GIF</li>
+        <li>JPEG</li>
+        <li>PNG</li>
+        <li>PSD</li>
+        </ul><h5>
+        <a name="upcoming" class="anchor" href="#upcoming"><span class="octicon octicon-link"></span></a>Upcoming</h5>
 
-<ul>
-<li>TIFF</li>
-<li>WebP</li>
-</ul><h5>
-<a name="credits" class="anchor" href="#credits"><span class="octicon octicon-link"></span></a>Credits</h5>
+        <ul>
+        <li>TIFF</li>
+        <li>WebP</li>
+        </ul>
 
-<p>not a direct port, but an attempt to have something like
-<a href="https://github.com/dabble/imagesize/blob/master/lib/image_size.rb">
-  dabble's imagesize</a> as a node module.</p>
+
+        <article class="markdown-body entry-content" itemprop="mainContentOfPage">
+          <h5>Contributors</h5>
+          <ul>
+            <li>
+              <a href="https://github.com/netroy">
+                Aditya Yadav
+              </a>
+            </li>
+          <li>
+            <a href="https://github.com/adamrenklint">
+              Adam Renklint
+            </a> (6Wunderkinder GmbH)
+          </li>
+          <li>
+            <a href="https://github.com/Manny-MADE">
+              Manfred Manik Nerurkar
+            </a> (copyright owned by MADE, GmbH)
+          </li>
+          <li>
+            <a href="https://github.com/fasterize">
+              Rudy KROL
+            </a>
+          </li>
+          </ul>
+        </article>
+
+        <h5>Credits</h5>
+        <p>
+          not a direct port, but an attempt to have something like
+          <a href="https://github.com/dabble/imagesize/blob/master/lib/image_size.rb">
+            dabble's imagesize
+          </a> as a node module.
+        </p>
       </section>
       <footer>
         <p>This project is maintained by <a href="https://github.com/netroy">netroy</a></p>

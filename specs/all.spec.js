@@ -149,7 +149,7 @@ describe('Invalid invocation', function () {
     it('should throw', function () {
       expect(imageSize.bind(null, buffer)).to.throwException(function (e) {
         expect(e).to.be.a(TypeError);
-        expect(e.message).to.contain('can\'t support buffers');
+        expect(e.message).to.contain('doesn\'t support buffer');
       });
     });
   });

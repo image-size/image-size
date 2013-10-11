@@ -19,11 +19,11 @@ var sizes = {
     'width': 123,
     'height': 456
   },
-  'specs/images/valid/large.jpg': {
+  'specs/images/valid/jpg/large.jpg': {
     'width': 1600,
     'height': 1200
   },
-  'specs/images/valid/very-large.jpg': {
+  'specs/images/valid/jpg/very-large.jpg': {
     'width': 4800,
     'height': 3600
   }

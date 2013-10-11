@@ -1,5 +1,6 @@
 var expect = require('expect.js');
 var glob = require('glob');
+var path = require('path');
 
 var libpath = process.env.TEST_COV ? '../lib-cov/' : '../lib/';
 var imageSize = require(libpath);
@@ -30,6 +31,25 @@ describe('Valid images', function () {
       });
 
       it('should return correct size for ' + file, function() {
+        expect(dimensions.width).to.be(123);
+        expect(dimensions.height).to.be(456);
+      });
+    });
+
+    describe(file + ' as buffer', function () {
+
+      var dimensions;
+      var bufferSize = 8192;
+      beforeEach(function() {
+        var buffer = new Buffer(bufferSize);
+        var filepath = path.resolve(file);
+        var descriptor = fs.openSync(filepath, 'r');
+        fs.readSync(descriptor, buffer, 0, bufferSize, 0);
+        dimensions = imageSize(buffer);
+      });
+
+
+      it('should return correct size for ' + file + ' buffer', function() {
         expect(dimensions.width).to.be(123);
         expect(dimensions.height).to.be(456);
       });
@@ -76,6 +96,7 @@ describe('Unsupported Images', function () {
   });
 });
 
+// If something other than a buffer or filepath is passed
 describe('Invalid invocation', function () {
 
   describe('invalid type', function () {

@@ -37,7 +37,7 @@ describe('Valid images', function () {
 
     describe(file, function() {
 
-      var bufferDimensions, asyncDimensions;
+      var type, bufferDimensions, asyncDimensions;
       var bufferSize = 8192;
 
       beforeEach(function (done) {
@@ -46,7 +46,12 @@ describe('Valid images', function () {
         var filepath = path.resolve(file);
         var descriptor = fs.openSync(filepath, 'r');
         fs.readSync(descriptor, buffer, 0, bufferSize, 0);
-        bufferDimensions = imageSize(buffer);
+        type = detector(buffer);
+
+        // tiff cannot support buffers, unless the buffer contains the entire file
+        if (type !== 'tiff') {
+          bufferDimensions = imageSize(buffer);
+        }
 
         imageSize(file, function (err, _dim) {
           asyncDimensions = _dim;
@@ -58,8 +63,11 @@ describe('Valid images', function () {
         var expected = sizes[file] || sizes.default;
         expect(asyncDimensions.width).to.be(expected.width);
         expect(asyncDimensions.height).to.be(expected.height);
-        expect(bufferDimensions.width).to.be(expected.width);
-        expect(bufferDimensions.height).to.be(expected.height);
+
+        if (type !== 'tiff') {
+          expect(bufferDimensions.width).to.be(expected.width);
+          expect(bufferDimensions.height).to.be(expected.height);
+        }
       });
     });
   });

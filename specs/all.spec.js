@@ -37,37 +37,29 @@ describe('Valid images', function () {
 
     describe(file, function() {
 
-      var dimensions;
+      var bufferDimensions, asyncDimensions;
+      var bufferSize = 8192;
+
       beforeEach(function (done) {
+
+        var buffer = new Buffer(bufferSize);
+        var filepath = path.resolve(file);
+        var descriptor = fs.openSync(filepath, 'r');
+        fs.readSync(descriptor, buffer, 0, bufferSize, 0);
+        bufferDimensions = imageSize(buffer);
+
         imageSize(file, function (err, _dim) {
-          dimensions = _dim;
+          asyncDimensions = _dim;
           done();
         });
       });
 
       it('should return correct size for ' + file, function() {
         var expected = sizes[file] || sizes.default;
-        expect(dimensions.width).to.be(expected.width);
-        expect(dimensions.height).to.be(expected.height);
-      });
-    });
-
-    describe(file + ' as buffer', function () {
-
-      var dimensions;
-      var bufferSize = 8192;
-      beforeEach(function() {
-        var buffer = new Buffer(bufferSize);
-        var filepath = path.resolve(file);
-        var descriptor = fs.openSync(filepath, 'r');
-        fs.readSync(descriptor, buffer, 0, bufferSize, 0);
-        dimensions = imageSize(buffer);
-      });
-
-      it('should return correct size for ' + file + ' buffer', function() {
-        var expected = sizes[file] || sizes.default;
-        expect(dimensions.width).to.be(expected.width);
-        expect(dimensions.height).to.be(expected.height);
+        expect(asyncDimensions.width).to.be(expected.width);
+        expect(asyncDimensions.height).to.be(expected.height);
+        expect(bufferDimensions.width).to.be(expected.width);
+        expect(bufferDimensions.height).to.be(expected.height);
       });
     });
   });

@@ -12,16 +12,23 @@ if (!files.length) {
   process.exit(-1);
 }
 
+var bold = ['\x1B[1m',  '\x1B[22m'];
+var grey = ['\x1B[90m', '\x1B[39m'];
+var green = ['\x1B[32m', '\x1B[39m'];
+
 files.forEach(function (image) {
   try {
     if (fs.existsSync(path.resolve(image))) {
       var size = imageSize(image);
-      var label = [size.width, size.height].join('x');
-      console.info(label, image);
+      var label = green[0] + size.width + green[1] +
+                  grey[0] + 'x' + grey[1] +
+                  green[0] + size.height + green[1];
+      console.info(label, '-', grey[0] + image + grey[1]);
     } else {
       console.error('file doesn\'t exist - ', image);
     }
   } catch (e) {
+    // console.error(e.stack);
     console.error(e.message, '-', image);
   }
 });

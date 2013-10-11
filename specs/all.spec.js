@@ -75,3 +75,25 @@ describe('Unsupported Images', function () {
     });
   });
 });
+
+describe('Invalid invocation', function () {
+
+  describe('invalid type', function () {
+    it('should throw', function() {
+      expect(imageSize.bind(null, {})).to.throwException(function (e) {
+        expect(e).to.be.a(TypeError);
+        expect(e.message).to.be('invalid invocation');
+      });
+    });
+  });
+
+  describe('non existant file', function () {
+    it('should throw', function() {
+      expect(imageSize.bind(null, '/monkey/man/yo')).to.throwException(function (e) {
+        expect(e.errno).to.be(34);
+        expect(e.code).to.be('ENOENT');
+      });
+    });
+  });
+
+});

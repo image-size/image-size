@@ -14,6 +14,21 @@ function fileToBuffer (file, size) {
   return buffer;
 }
 
+var sizes = {
+  'default': {
+    'width': 123,
+    'height': 456
+  },
+  'specs/images/valid/large.jpg': {
+    'width': 1600,
+    'height': 1200
+  },
+  'specs/images/valid/very-large.jpg': {
+    'width': 4800,
+    'height': 3600
+  }
+};
+
 // Test all valid files
 describe('Valid images', function () {
 
@@ -31,8 +46,9 @@ describe('Valid images', function () {
       });
 
       it('should return correct size for ' + file, function() {
-        expect(dimensions.width).to.be(123);
-        expect(dimensions.height).to.be(456);
+        var expected = sizes[file] || sizes.default;
+        expect(dimensions.width).to.be(expected.width);
+        expect(dimensions.height).to.be(expected.height);
       });
     });
 
@@ -48,10 +64,10 @@ describe('Valid images', function () {
         dimensions = imageSize(buffer);
       });
 
-
       it('should return correct size for ' + file + ' buffer', function() {
-        expect(dimensions.width).to.be(123);
-        expect(dimensions.height).to.be(456);
+        var expected = sizes[file] || sizes.default;
+        expect(dimensions.width).to.be(expected.width);
+        expect(dimensions.height).to.be(expected.height);
       });
     });
   });

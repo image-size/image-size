@@ -32,10 +32,12 @@ sizeOf('images/funny-cats.png', function (err, dimensions) {
 * JPEG
 * PNG
 * PSD
+* TIFF
 
 ##### Upcoming
-* TIFF
 * WebP
+* SVG
+* SWF
 
 ##### Credits
 not a direct port, but an attempt to have something like

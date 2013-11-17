@@ -127,7 +127,7 @@ describe('Invalid invocation', function () {
   describe('non existant file', function () {
     it('should throw', function() {
       expect(imageSize.bind(null, '/monkey/man/yo')).to.throwException(function (e) {
-        expect(e.errno).to.be(34);
+        // expect(e.errno).to.be(34);
         expect(e.code).to.be('ENOENT');
       });
     });

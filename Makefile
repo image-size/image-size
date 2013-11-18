@@ -5,10 +5,13 @@ BIN = ./node_modules/.bin/mocha
 LINT = ./node_modules/.bin/jshint
 WATCH =
 
-all: lint test
+all: lint complexity test
 
 lint:
 	@$(LINT) lib/
+
+complexity:
+	@$(BIN) --ui $(UI) --reporter $(REPORTER) specs/complexity.js
 
 test:
 	@$(BIN) --ui $(UI) --reporter $(REPORTER) $(WATCH) $(TESTS)

@@ -37,9 +37,10 @@
     "url": "https://github.com/netroy/image-size/issues"
   },
   "devDependencies": {
-    "mocha": "~1.13.0",
+    "escomplex-js": "~0.1.0",
     "expect.js": "~0.2.0",
-    "jshint": "~2.1.11",
-    "glob": "~3.2.6"
+    "glob": "~3.2.7",
+    "jshint": "~2.3.0",
+    "mocha": "~1.14.0"
   }
 }

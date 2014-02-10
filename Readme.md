@@ -29,9 +29,9 @@ sizeOf('images/funny-cats.png', function (err, dimensions) {
 * PNG
 * PSD
 * TIFF
+* WebP
 
 ##### Upcoming
-* WebP
 * SVG
 * SWF
 

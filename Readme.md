@@ -22,6 +22,29 @@ sizeOf('images/funny-cats.png', function (err, dimensions) {
 });
 ```
 
+##### Using a url
+```javascript
+var url = require('url');
+var http = require('http');
+
+var sizeOf = require('image-size');
+
+var imgUrl = 'http://my-amazing-website.com/image.jpeg';
+var options = url.parse(imgUrl);
+
+http.get(options, function (response) {
+  var chunks = [];
+  response.on('data', function (chunk) {
+    chunks.push(chunk);
+  }).on('end', function() {
+    var buffer = Buffer.concat(chunks);
+    console.log(sizeOf(buffer));
+  });
+});
+```
+You can optionally check the buffer lengths & stop downloading the image after a few kilobytes.
+** You don't need to download the entire image **
+
 #### Supported formats
 * BMP
 * GIF

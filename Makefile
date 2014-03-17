@@ -1,5 +1,5 @@
 UI = bdd
-REPORTER = spec
+REPORTER = dot
 TESTS = specs/*.spec.js
 BIN = ./node_modules/.bin/mocha
 LINT = ./node_modules/.bin/jshint

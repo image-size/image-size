@@ -1,5 +1,10 @@
+.coveralls.yml
 .DS_Store
 .git*
+.jshintrc
+.travis.yml
 coverage.html
-lib-cov
+Makefile
+
+lib-cov/
 specs/

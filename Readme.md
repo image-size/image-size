@@ -48,7 +48,7 @@ http.get(options, function (response) {
 });
 ```
 You can optionally check the buffer lengths & stop downloading the image after a few kilobytes.
-** You don't need to download the entire image **
+**You don't need to download the entire image**
 
 #### Supported formats
 * BMP

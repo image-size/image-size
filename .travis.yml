@@ -11,7 +11,9 @@ install:
   - npm install jscoverage coveralls mocha-lcov-reporter
   - npm install --loglevel error
 
-script:
+before_script:
   - ./node_modules/jscoverage/bin/jscoverage --no-highlight lib lib-cov
-  - TEST_COV=1 make test REPORTER=mocha-lcov-reporter | ./node_modules/coveralls/bin/coveralls.js
+  - TEST_COV=1 make test REPORTER=mocha-lcov-reporter | ./node_modules/coveralls/bin/coveralls.js || true
+
+script:
   - npm test

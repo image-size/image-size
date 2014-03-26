@@ -12,13 +12,21 @@ describe('Unsupported Images', function () {
 
     describe(file, function () {
 
-      var calculate = imageSize.bind(null, file);
-
-      it('should throw', function() {
+      it('should throw, if no callback is passed', function () {
+        var calculate = imageSize.bind(null, file);
         expect(calculate).to.throwException(function (e) {
           expect(e).to.be.a(TypeError);
           expect(e.message).to.be('unsupported file type');
         });
+      });
+
+      it('shouldn\'t throw, if a callback is passed', function (done) {
+        var calculate = imageSize.bind(null, file, function (e) {
+          expect(e).to.be.a(TypeError);
+          expect(e.message).to.be('unsupported file type');
+          done();
+        });
+        expect(calculate).to.not.throwException(TypeError);
       });
     });
   });

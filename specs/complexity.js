@@ -28,14 +28,14 @@ describe('Code complexity', function () {
       var analysis = esj.analyse(code);
 
       // Halstead
-      // TODO: analysis.aggregate.halstead
+      // TO-DO: analysis.aggregate.halstead
 
       // Complexity
       describe('functions', function () {
         var fns = analysis.functions || [];
         fns.forEach(function (fn) {
           it(fn.name, function () {
-            // TODO: add checks on fn.halstead
+            // TO-DO: add checks on fn.halstead
             expect(fn.cyclomatic).to.be.lessThan(options.max_complexity);
             expect(fn.cyclomaticDensity).to.be.lessThan(options.max_cyclomatic_density);
           });

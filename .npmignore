@@ -8,3 +8,6 @@ Makefile
 
 lib-cov/
 specs/
+coverage/
+*.jpg
+*.png

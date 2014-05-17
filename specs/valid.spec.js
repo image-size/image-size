@@ -46,10 +46,10 @@ describe('Valid images', function () {
         var filepath = path.resolve(file);
         var descriptor = fs.openSync(filepath, 'r');
         fs.readSync(descriptor, buffer, 0, bufferSize, 0);
-        type = detector(buffer);
+        type = detector(buffer, filepath);
 
         // tiff cannot support buffers, unless the buffer contains the entire file
-        if (type !== 'tiff') {
+        if (type !== 'tiff' && type != 'svg') {
           bufferDimensions = imageSize(buffer);
         }
 
@@ -64,7 +64,7 @@ describe('Valid images', function () {
         expect(asyncDimensions.width).to.be(expected.width);
         expect(asyncDimensions.height).to.be(expected.height);
 
-        if (type !== 'tiff') {
+        if (type !== 'tiff' && type !== 'svg') {
           expect(bufferDimensions.width).to.be(expected.width);
           expect(bufferDimensions.height).to.be(expected.height);
         }

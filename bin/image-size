@@ -13,7 +13,7 @@ if (!files.length) {
 }
 
 var red = ['\x1B[31m', '\x1B[39m'];
-var bold = ['\x1B[1m',  '\x1B[22m'];
+// var bold = ['\x1B[1m',  '\x1B[22m'];
 var grey = ['\x1B[90m', '\x1B[39m'];
 var green = ['\x1B[32m', '\x1B[39m'];
 

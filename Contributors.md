@@ -5,4 +5,5 @@
 * [Rudy Krol](https://github.com/rkrol)
 * [Linus Unnebäck](https://github.com/LinusU)
 * [Ross Johnson](https://github.com/rossj) (Mazira, LLC)
+* [Shinnosuke Watanabe](https://github.com/shinnn)
 

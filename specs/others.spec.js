@@ -49,3 +49,22 @@ describe('Invalid invocation', function () {
   });
 
 });
+
+describe('Callback function', function () {
+  it('should be called only once', function(done) {
+    var tmpError = new Error();
+
+    var origException = process.listeners('uncaughtException').pop();
+    process.removeListener('uncaughtException', origException);
+    process.once('uncaughtException', function (err) {
+      expect(err).to.be(tmpError);
+    });
+
+    imageSize('specs/images/valid/jpg/sample.jpg', function() {
+      process.nextTick(function () {
+        done();
+      });
+      throw tmpError;
+    });
+  });
+});

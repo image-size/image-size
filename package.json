@@ -4,7 +4,7 @@
   "description": "get dimensions of any image file",
   "main": "lib/index.js",
   "engines": {
-    "node": ">=0.8.0"
+    "node": ">=0.10.0"
   },
   "bin": {
     "image-size": "./bin/image-size"
@@ -29,7 +29,8 @@
     "gif",
     "psd",
     "tiff",
-    "webp"
+    "webp",
+    "svg"
   ],
   "author": "netroy <aditya@netroy.in> (http://netroy.in/)",
   "license": "MIT",

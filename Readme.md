@@ -58,9 +58,9 @@ You can optionally check the buffer lengths & stop downloading the image after a
 * PSD
 * TIFF
 * WebP
+* SVG
 
 ##### Upcoming
-* SVG
 * SWF
 
 ##### Credits

@@ -3,7 +3,6 @@
 [![Gittip](http://img.shields.io/gittip/netroy.svg)](https://www.gittip.com/netroy/)
 
 [![Coverage Status](https://coveralls.io/repos/netroy/image-size/badge.png?branch=master)](https://coveralls.io/r/netroy/image-size?branch=master)
-[![Technical debt analysis](https://www.sidekickjs.com/r/netroy/image-size/status_badge.svg)](https://www.sidekickjs.com/r/netroy/image-size)
 [![Code Climate](https://codeclimate.com/github/netroy/image-size.png)](https://codeclimate.com/github/netroy/image-size)
 [![Dependency Status](https://gemnasium.com/netroy/image-size.png)](https://gemnasium.com/netroy/image-size)
 

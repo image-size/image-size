@@ -1,5 +1,5 @@
 {
-  "name": "image-size",
+  "name": "image-size-big-max-buffer",
   "version": "0.3.5",
   "description": "get dimensions of any image file",
   "main": "lib/index.js",
@@ -14,7 +14,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:netroy/image-size.git"
+    "url": "git@github.com:oliverfoster/image-size-big-max-buffer.git"
   },
   "keywords": [
     "image",

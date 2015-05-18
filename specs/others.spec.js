@@ -27,27 +27,6 @@ describe('Invalid invocation', function () {
     });
   });
 
-  describe('passing buffer for tiff', function () {
-
-    var buffer;
-    beforeEach(function () {
-      var bufferSize = 2048;
-      var file = 'specs/images/valid/tiff/little-endian.tiff';
-
-      buffer = new Buffer(bufferSize);
-      var filepath = path.resolve(file);
-      var descriptor = fs.openSync(filepath, 'r');
-      fs.readSync(descriptor, buffer, 0, bufferSize, 0);
-    });
-
-    it('should throw', function () {
-      expect(imageSize.bind(null, buffer)).to.throwException(function (e) {
-        expect(e).to.be.a(TypeError);
-        expect(e.message).to.contain('doesn\'t support buffer');
-      });
-    });
-  });
-
 });
 
 describe('Callback function', function () {

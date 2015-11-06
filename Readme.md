@@ -6,19 +6,19 @@
 [![Code Climate](https://codeclimate.com/github/netroy/image-size.png)](https://codeclimate.com/github/netroy/image-size)
 [![Dependency Status](https://gemnasium.com/netroy/image-size.png)](https://gemnasium.com/netroy/image-size)
 
-#### Installation
+#### Programmatic Usage
+```sh
+npm install image-size --save
+```
 
-`npm install image-size`
-
-#### Usage
-
+##### Synchronous
 ```javascript
 var sizeOf = require('image-size');
 var dimensions = sizeOf('images/funny-cats.png');
 console.log(dimensions.width, dimensions.height);
 ```
 
-##### Async version
+##### Asynchronous
 ```javascript
 var sizeOf = require('image-size');
 sizeOf('images/funny-cats.png', function (err, dimensions) {
@@ -26,7 +26,7 @@ sizeOf('images/funny-cats.png', function (err, dimensions) {
 });
 ```
 
-##### Using a url
+##### Using a URL
 ```javascript
 var url = require('url');
 var http = require('http');
@@ -46,8 +46,15 @@ http.get(options, function (response) {
   });
 });
 ```
+
 You can optionally check the buffer lengths & stop downloading the image after a few kilobytes.
 **You don't need to download the entire image**
+
+#### Command-Line Usage (CLI)
+```sh
+npm install image-size --global
+image-size image1 [image2] [image3] ...
+```
 
 #### Supported formats
 * BMP

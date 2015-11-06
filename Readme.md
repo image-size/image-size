@@ -6,7 +6,7 @@
 [![Code Climate](https://codeclimate.com/github/netroy/image-size.png)](https://codeclimate.com/github/netroy/image-size)
 [![Dependency Status](https://gemnasium.com/netroy/image-size.png)](https://gemnasium.com/netroy/image-size)
 
-#### Instalation
+#### Installation
 
 `npm install image-size`
 

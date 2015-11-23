@@ -3,7 +3,7 @@
 [![Coverage Status](https://img.shields.io/coveralls/image-size/image-size/master.svg)](https://coveralls.io/github/image-size/image-size?branch=master)
 [![devDependency Status](https://david-dm.org/image-size/image-size/dev-status.svg)](https://david-dm.org/image-size/image-size#info=devDependencies)
 
-#### Instalation
+#### Installation
 
 `npm install image-size`
 

@@ -3,6 +3,10 @@
   "version": "0.3.5",
   "description": "get dimensions of any image file",
   "main": "lib/index.js",
+  "files": [
+    "bin",
+    "lib"
+  ],
   "engines": {
     "node": ">=0.10.0"
   },
@@ -14,10 +18,7 @@
     "test": "mocha specs",
     "coverage": "istanbul cover _mocha specs"
   },
-  "repository": {
-    "type": "git",
-    "url": "git@github.com:netroy/image-size.git"
-  },
+  "repository": "image-size/image-size",
   "keywords": [
     "image",
     "size",
@@ -36,9 +37,6 @@
   ],
   "author": "netroy <aditya@netroy.in> (http://netroy.in/)",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/netroy/image-size/issues"
-  },
   "devDependencies": {
     "escomplex-js": "^1.2.0",
     "expect.js": "^0.3.1",

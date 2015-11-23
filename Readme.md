@@ -1,7 +1,8 @@
 # image-size
 
+[![NPM Version](https://img.shields.io/npm/v/image-size.svg)](https://www.npmjs.com/package/image-size)
 [![Build Status](https://travis-ci.org/image-size/image-size.svg?branch=master)](https://travis-ci.org/image-size/image-size)
-[![NPM Downloads](https://img.shields.io/npm/dm/image-size.svg)](https://www.npmjs.com/package/image-size)
+[![NPM Downloads](https://img.shields.io/npm/dm/image-size.svg)](http://npm-stat.com/charts.html?package=image-size&author=&from=&to=)
 [![Coverage Status](https://img.shields.io/coveralls/image-size/image-size/master.svg)](https://coveralls.io/github/image-size/image-size?branch=master)
 [![devDependency Status](https://david-dm.org/image-size/image-size/dev-status.svg)](https://david-dm.org/image-size/image-size#info=devDependencies)
 

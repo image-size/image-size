@@ -1,18 +1,12 @@
-language: node_js
-node_js:
-  - "0.11"
-  - "0.10"
-
+sudo: false
 git:
   depth: 1
-
-install:
-  - npm install jscoverage coveralls mocha-lcov-reporter
-  - npm install --loglevel error
-
+language: node_js
+node_js:
+  - stable
+  - '0'
+  - '0.10'
 before_script:
+  - npm install jscoverage coveralls mocha-lcov-reporter
   - ./node_modules/jscoverage/bin/jscoverage --no-highlight lib lib-cov
   - TEST_COV=1 make test REPORTER=mocha-lcov-reporter | ./node_modules/coveralls/bin/coveralls.js || true
-
-script:
-  - npm test

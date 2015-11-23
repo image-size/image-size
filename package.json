@@ -7,7 +7,7 @@
     "node": ">=0.10.0"
   },
   "bin": {
-    "image-size": "./bin/image-size"
+    "image-size": "bin/image-size.js"
   },
   "scripts": {
     "pretest": "jshint",

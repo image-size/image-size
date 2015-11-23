@@ -1,10 +1,7 @@
-[![Build Status](https://travis-ci.org/netroy/image-size.png?branch=master)](https://travis-ci.org/netroy/image-size)
-[![NPM Downloads](http://img.shields.io/npm/dm/image-size.svg)](https://npmjs.org/package/image-size)
-[![Gittip](http://img.shields.io/gittip/netroy.svg)](https://www.gittip.com/netroy/)
-
-[![Coverage Status](https://coveralls.io/repos/netroy/image-size/badge.png?branch=master)](https://coveralls.io/r/netroy/image-size?branch=master)
-[![Code Climate](https://codeclimate.com/github/netroy/image-size.png)](https://codeclimate.com/github/netroy/image-size)
-[![Dependency Status](https://gemnasium.com/netroy/image-size.png)](https://gemnasium.com/netroy/image-size)
+[![Build Status](https://travis-ci.org/image-size/image-size.svg?branch=master)](https://travis-ci.org/image-size/image-size)
+[![NPM Downloads](https://img.shields.io/npm/dm/image-size.svg)](https://www.npmjs.com/package/image-size)
+[![Coverage Status](https://img.shields.io/coveralls/image-size/image-size/master.svg)](https://coveralls.io/github/image-size/image-size?branch=master)
+[![devDependency Status](https://david-dm.org/image-size/image-size/dev-status.svg)](https://david-dm.org/image-size/image-size#info=devDependencies)
 
 #### Instalation
 

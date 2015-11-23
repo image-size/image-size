@@ -1,9 +1,10 @@
+'use strict';
+
 var expect = require('expect.js');
 var sinon = require('sinon');
 var fs = require('fs');
 
-var libpath = process.env.TEST_COV ? '../lib-cov/' : '../lib/';
-var imageSize = require(libpath);
+var imageSize = require('..');
 
 describe('after done reading from files', function () {
 

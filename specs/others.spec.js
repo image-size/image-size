@@ -1,10 +1,11 @@
+'use strict';
+
 var expect = require('expect.js');
 var glob = require('glob');
 var path = require('path');
 var fs = require('fs');
 
-var libpath = process.env.TEST_COV ? '../lib-cov/' : '../lib/';
-var imageSize = require(libpath);
+var imageSize = require('..');
 
 // If something other than a buffer or filepath is passed
 describe('Invalid invocation', function () {

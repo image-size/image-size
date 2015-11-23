@@ -1,3 +1,5 @@
+'use strict';
+
 var esj = require('escomplex-js');
 var expect = require('expect.js');
 var glob = require('glob');

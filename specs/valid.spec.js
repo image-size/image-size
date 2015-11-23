@@ -1,10 +1,11 @@
+'use strict';
+
 var expect = require('expect.js');
 var glob = require('glob');
 var path = require('path');
 
-var libpath = process.env.TEST_COV ? '../lib-cov/' : '../lib/';
-var imageSize = require(libpath);
-var detector = require(libpath + 'detector');
+var imageSize = require('..');
+var detector = require('../lib/detector');
 
 // Helper method for tests
 var fs = require('fs');

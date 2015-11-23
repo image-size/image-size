@@ -1,8 +1,9 @@
+'use strict';
+
 var expect = require('expect.js');
 var glob = require('glob');
 
-var libpath = process.env.TEST_COV ? '../lib-cov/' : '../lib/';
-var imageSize = require(libpath);
+var imageSize = require('..');
 
 // Test all unsupported files
 describe('Unsupported Images', function () {

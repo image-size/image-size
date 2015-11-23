@@ -6,7 +6,7 @@ node_js:
   - stable
   - '0'
   - '0.10'
-before_script:
-  - npm install jscoverage coveralls mocha-lcov-reporter
-  - ./node_modules/jscoverage/bin/jscoverage --no-highlight lib lib-cov
-  - TEST_COV=1 make test REPORTER=mocha-lcov-reporter | ./node_modules/coveralls/bin/coveralls.js || true
+after_script:
+  - npm install istanbul-coveralls@1
+  - npm run-script coverage
+  - node node_modules/.bin/istanbul-coveralls

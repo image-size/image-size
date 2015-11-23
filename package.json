@@ -10,7 +10,9 @@
     "image-size": "./bin/image-size"
   },
   "scripts": {
-    "test": "make"
+    "pretest": "jshint",
+    "test": "mocha specs",
+    "coverage": "istanbul cover _mocha specs"
   },
   "repository": {
     "type": "git",
@@ -41,6 +43,7 @@
     "escomplex-js": "^1.2.0",
     "expect.js": "^0.3.1",
     "glob": "^6.0.1",
+    "istanbul": "^0.4.0",
     "jshint": "^2.8.0",
     "mocha": "^2.3.4",
     "sinon": "^1.17.2"

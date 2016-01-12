@@ -45,6 +45,7 @@ sizeOf('images/funny-cats.png', function (err, dimensions) {
   console.log(dimensions.width, dimensions.height);
 });
 ```
+NOTE: The asynchronous version doesn't work if the input is a Buffer. Use synchronous version instead.
 
 ### Using a URL
 

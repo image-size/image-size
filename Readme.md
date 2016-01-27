@@ -18,6 +18,7 @@ A [Node](https://nodejs.org/en/) module to get dimensions of any image file
 * TIFF
 * WebP
 * SVG
+* DDS
 
 ### Upcoming
 

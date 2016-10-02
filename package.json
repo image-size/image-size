@@ -1,6 +1,6 @@
 {
   "name": "image-size",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "description": "get dimensions of any image file",
   "main": "lib/index.js",
   "files": [
@@ -33,6 +33,7 @@
     "psd",
     "tiff",
     "webp",
+    "wsq",
     "svg"
   ],
   "author": "netroy <aditya@netroy.in> (http://netroy.in/)",

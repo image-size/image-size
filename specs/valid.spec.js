@@ -27,6 +27,14 @@ var sizes = {
   'specs/images/valid/jpg/very-large.jpg': {
     'width': 4800,
     'height': 3600
+  },
+  'specs/images/valid/wsq/cmp00001.wsq': {
+    'width': 589,
+    'height': 605
+  },
+  'specs/images/valid/wsq/fp.wsq': {
+    'width': 320,
+    'height': 480
   }
 };
 

@@ -5,7 +5,6 @@ language: node_js
 node_js:
   - stable
   - '0'
-  - '0.10'
 after_script:
   - npm install istanbul-coveralls@1
   - npm run-script coverage

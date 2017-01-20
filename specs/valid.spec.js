@@ -27,6 +27,10 @@ var sizes = {
   'specs/images/valid/jpg/very-large.jpg': {
     'width': 4800,
     'height': 3600
+  },
+  'specs/images/valid/png/sample_fried.png': {
+    'width': 128,
+    'height': 68
   }
 };
 

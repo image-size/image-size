@@ -53,8 +53,8 @@ describe('Valid images', function () {
         fs.readSync(descriptor, buffer, 0, bufferSize, 0);
         type = detector(buffer);
 
-        // tiff cannot support buffers, unless the buffer contains the entire file
-        if (type !== 'tiff') {
+        // tiff and pdf cannot support buffers, unless the buffer contains the entire file
+        if (type !== 'tiff' && type !== 'pdf') {
           bufferDimensions = imageSize(buffer);
         }
 
@@ -69,7 +69,7 @@ describe('Valid images', function () {
         expect(asyncDimensions.width).to.be(expected.width);
         expect(asyncDimensions.height).to.be(expected.height);
 
-        if (type !== 'tiff') {
+        if (type !== 'tiff' && type !== 'pdf') {
           expect(bufferDimensions.width).to.be(expected.width);
           expect(bufferDimensions.height).to.be(expected.height);
         }

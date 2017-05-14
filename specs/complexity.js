@@ -8,7 +8,7 @@ var path = require('path');
 var fs = require('fs');
 
 var options = {
-  'max_complexity': 6,
+  'max_complexity': 8,
   'max_cyclomatic_density': 110,
   'max_dependencies': 10,
   'maintainability': 100

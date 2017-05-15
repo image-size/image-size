@@ -4,8 +4,9 @@ git:
 language: node_js
 cache: yarn
 node_js:
-  - stable
-  - '0'
+  - 4
+  - 6
+  - 7
 after_script:
   - npm install istanbul-coveralls@1
   - npm run-script coverage

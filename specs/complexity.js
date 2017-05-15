@@ -9,9 +9,9 @@ var fs = require('fs');
 
 var options = {
   'max_complexity': 6,
-  'max_cyclomatic_density': 110,
-  'max_dependencies': 10,
-  'maintainability': 100
+  'max_cyclomatic_density': 101,
+  'max_dependencies': 6,
+  'maintainability': 110
 };
 
 describe('Code complexity', function () {
@@ -20,7 +20,7 @@ describe('Code complexity', function () {
   // loop through them
   codeFiles.forEach(function (file) {
 
-    describe(file, function () {
+    it(file, function () {
       // get the absolute path
       file = path.resolve(file);
       // read the file
@@ -33,26 +33,20 @@ describe('Code complexity', function () {
       // TO-DO: analysis.aggregate.halstead
 
       // Complexity
-      describe('functions', function () {
-        var fns = analysis.functions || [];
-        fns.forEach(function (fn) {
-          it(fn.name, function () {
-            // TO-DO: add checks on fn.halstead
-            expect(fn.cyclomatic).to.be.lessThan(options.max_complexity);
-            expect(fn.cyclomaticDensity).to.be.lessThan(options.max_cyclomatic_density);
-          });
+      var fns = analysis.functions || [];
+      fns.forEach(function (fn) {
+        it(fn.name, function () {
+          // TO-DO: add checks on fn.halstead
+          expect(fn.cyclomatic).to.be.lessThan(options.max_complexity);
+          expect(fn.cyclomaticDensity).to.be.lessThan(options.max_cyclomatic_density);
         });
       });
 
       // prevent too many dependencies
-      it('dependencies', function () {
-        expect(analysis.dependencies.length).to.be.lessThan(options.max_dependencies);
-      });
+      expect(analysis.dependencies.length).to.be.lessThan(options.max_dependencies);
 
       // keep functions maintainable
-      it('maintainability', function () {
-        expect(analysis.maintainability).to.be.greaterThan(options.maintainability);
-      });
+      expect(analysis.maintainability).to.be.greaterThan(options.maintainability);
     });
   });
 });

@@ -2,6 +2,7 @@ sudo: false
 git:
   depth: 1
 language: node_js
+cache: yarn
 node_js:
   - stable
   - '0'

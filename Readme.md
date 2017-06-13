@@ -11,7 +11,9 @@ A [Node](https://nodejs.org/en/) module to get dimensions of any image file
 ## Supported formats
 
 * BMP
+* CUR
 * GIF
+* ICO
 * JPEG
 * PNG
 * PSD
@@ -47,6 +49,20 @@ sizeOf('images/funny-cats.png', function (err, dimensions) {
 });
 ```
 NOTE: The asynchronous version doesn't work if the input is a Buffer. Use synchronous version instead.
+
+### Multi-size
+
+If the target file is an icon (.ico) or a cursor (.cur), the `width` and `height` will be the ones of the first found image.
+
+An additional `images` array is available and returns the dimensions of all the available images
+
+```javascript
+var sizeOf = require('image-size');
+var images = sizeOf('images/multi-size.ico').images;
+for (const dimensions of images) {
+  console.log(dimensions.width, dimensions.height);
+}
+```
 
 ### Using a URL
 

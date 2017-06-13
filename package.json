@@ -33,7 +33,9 @@
     "psd",
     "tiff",
     "webp",
-    "svg"
+    "svg",
+    "ico",
+    "cur"
   ],
   "author": "netroy <aditya@netroy.in> (http://netroy.in/)",
   "license": "MIT",

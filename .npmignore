@@ -1,0 +1,9 @@
+.DS_Store
+coverage.html
+coverage/
+lib-cov
+npm-debug.log
+reports
+specs/
+.jshintrc
+.travis.yml

@@ -8,7 +8,7 @@
     "lib"
   ],
   "engines": {
-    "node": ">=0.12.0"
+    "node": ">=4.0"
   },
   "bin": {
     "image-size": "bin/image-size.js"

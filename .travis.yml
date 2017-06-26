@@ -4,7 +4,6 @@ git:
 language: node_js
 cache: yarn
 node_js:
-  - 0.12
   - 4
   - 6
   - 8

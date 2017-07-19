@@ -50,6 +50,27 @@ sizeOf('images/funny-cats.png', function (err, dimensions) {
 ```
 NOTE: The asynchronous version doesn't work if the input is a Buffer. Use synchronous version instead.
 
+### Using promises (node 8.x)
+```javascript
+var { promisify } = require('util');
+var sizeOf = promisify(require('image-size'));
+sizeOf('images/funny-cats.png')
+  .then(dimensions => { console.log(dimensions.width, dimensions.height); })
+  .catch(err => console.error(err));
+```
+
+### Async/Await (Typescript & ES7)
+```javascript
+var { promisify } = require('util');
+var sizeOf = promisify(require('image-size'));
+try {
+  const dimensions = await sizeOf('images/funny-cats.png');
+  console.log(dimensions.width, dimensions.height);
+} catch (err) {
+  console.error(err);
+}
+```
+
 ### Multi-size
 
 If the target file is an icon (.ico) or a cursor (.cur), the `width` and `height` will be the ones of the first found image.

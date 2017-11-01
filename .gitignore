@@ -1,7 +1,5 @@
 .DS_Store
-coverage.html
 coverage/
-lib-cov
 node_modules
 npm-debug.log
-reports
+.nyc_output

@@ -15,8 +15,8 @@
   },
   "scripts": {
     "pretest": "jshint",
-    "test": "mocha specs",
-    "coverage": "istanbul cover _mocha specs"
+    "test": "nyc mocha specs",
+    "coverage": "nyc report --reporter=text-lcov | coveralls"
   },
   "repository": "image-size/image-size",
   "keywords": [
@@ -40,12 +40,13 @@
   "author": "netroy <aditya@netroy.in> (http://netroy.in/)",
   "license": "MIT",
   "devDependencies": {
+    "coveralls": "^3.0.0",
     "escomplex-js": "^1.2.0",
     "expect.js": "^0.3.1",
     "glob": "^7.1.1",
-    "istanbul": "^1.1.0-alpha.1",
     "jshint": "^2.9.4",
-    "mocha": "^3.4.1",
-    "sinon": "^2.2.0"
+    "mocha": "^4.0.1",
+    "nyc": "^11.2.1",
+    "sinon": "^4.0.2"
   }
 }

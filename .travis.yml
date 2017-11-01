@@ -7,7 +7,4 @@ node_js:
   - 4
   - 6
   - 8
-after_script:
-  - npm install istanbul-coveralls@1
-  - npm run-script coverage
-  - node node_modules/.bin/istanbul-coveralls
+after_success: npm run coverage

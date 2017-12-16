@@ -123,7 +123,7 @@ describe('Valid images', function () {
             var expectedItem = expected.images[index];
             expect(item.width).to.be(expectedItem.width);
             expect(item.height).to.be(expectedItem.height);
-          })
+          });
         }
 
         if (type !== 'tiff') {
@@ -134,7 +134,7 @@ describe('Valid images', function () {
               var expectedItem = expected.images[index];
               expect(item.width).to.be(expectedItem.width);
               expect(item.height).to.be(expectedItem.height);
-            })
+            });
           }
         }
       });

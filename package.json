@@ -14,7 +14,7 @@
     "image-size": "bin/image-size.js"
   },
   "scripts": {
-    "pretest": "jshint",
+    "pretest": "jshint lib specs",
     "test": "nyc mocha specs",
     "coverage": "nyc report --reporter=text-lcov | coveralls"
   },

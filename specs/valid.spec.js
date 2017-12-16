@@ -1,19 +1,12 @@
 'use strict';
 
+var fs = require('fs');
 var expect = require('expect.js');
 var glob = require('glob');
 var path = require('path');
 
 var imageSize = require('..');
 var detector = require('../lib/detector');
-
-// Helper method for tests
-var fs = require('fs');
-function fileToBuffer (file, size) {
-  var buffer = new Buffer(size);
-  fs.readSync(fs.openSync(file, 'r'), buffer, 0, size, 0);
-  return buffer;
-}
 
 var sizes = {
   'default': {

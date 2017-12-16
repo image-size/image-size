@@ -14,7 +14,7 @@
     "image-size": "bin/image-size.js"
   },
   "scripts": {
-    "pretest": "jshint lib specs",
+    "pretest": "eslint lib specs",
     "test": "nyc mocha specs",
     "coverage": "nyc report --reporter=text-lcov | coveralls"
   },
@@ -41,10 +41,9 @@
   "license": "MIT",
   "devDependencies": {
     "coveralls": "^3.0.0",
-    "escomplex-js": "^1.2.0",
+    "eslint": "^4.13.1",
     "expect.js": "^0.3.1",
     "glob": "^7.1.1",
-    "jshint": "^2.9.4",
     "mocha": "^4.0.1",
     "nyc": "^11.2.1",
     "sinon": "^4.0.2"

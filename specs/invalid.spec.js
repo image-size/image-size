@@ -23,7 +23,7 @@ describe('Invalid Images', function () {
       });
 
       it('should callback with error when called asynchronously', function(done) {
-        calculate(function (e, size) {
+        calculate(function (e) {
           expect(e).to.be.a(TypeError);
           expect(e.message).to.match(/^invalid \w+$/);
           done();
@@ -32,22 +32,22 @@ describe('Invalid Images', function () {
     });
   });
 
-   describe('non-existent file', function() {
+  describe('non-existent file', function() {
 
-      var calculate = imageSize.bind(null, 'fakefile.jpg');
+    var calculate = imageSize.bind(null, 'fakefile.jpg');
 
-      it('should throw when called synchronously', function() {
-        expect(calculate).to.throwException(function (e) {
-          expect(e).to.be.a(Error);
-          expect(e.message).to.match(/^ENOENT.*$/);
-        });
-      });
-
-      it('should callback with error when called asynchronously', function(done) {
-        calculate(function (e, size) {
-          expect(e.message).to.match(/^ENOENT.*$/);
-          done();
-        });
+    it('should throw when called synchronously', function() {
+      expect(calculate).to.throwException(function (e) {
+        expect(e).to.be.a(Error);
+        expect(e.message).to.match(/^ENOENT.*$/);
       });
     });
+
+    it('should callback with error when called asynchronously', function(done) {
+      calculate(function (e) {
+        expect(e.message).to.match(/^ENOENT.*$/);
+        done();
+      });
+    });
+  });
 });

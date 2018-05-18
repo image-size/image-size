@@ -4,7 +4,6 @@ git:
 language: node_js
 cache: yarn
 node_js:
-  - 4
   - 6
   - 8
 after_success: npm run coverage

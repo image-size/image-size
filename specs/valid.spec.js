@@ -28,6 +28,21 @@ var sizes = {
   'specs/images/valid/ico/sample-256-compressed.ico': {
     'width': 256, 'height': 256
   },
+  'specs/images/valid/icns/sample.icns': {
+    'width': 16,
+    'height': 16,
+    'images': [
+      { 'width': 16, 'height': 16, 'type': 'is32' },
+      { 'width': 16, 'height': 16, 'type': 's8mk' },
+      { 'width': 32, 'height': 32, 'type': 'il32' },
+      { 'width': 32, 'height': 32, 'type': 'l8mk' },
+      { 'width': 48, 'height': 48, 'type': 'ih32' },
+      { 'width': 48, 'height': 48, 'type': 'h8mk' },
+      { 'width': 128, 'height': 128, 'type': 'it32' },
+      { 'width': 128, 'height': 128, 'type': 't8mk' }
+    ],
+    'type': 'icns'
+  },
   'specs/images/valid/ico/multi-size.ico': {
     'width': 256,
     'height': 256,
@@ -116,6 +131,9 @@ describe('Valid images', function () {
             var expectedItem = expected.images[index];
             expect(item.width).to.be(expectedItem.width);
             expect(item.height).to.be(expectedItem.height);
+            if (expectedItem.type) {
+              expect(item.type).to.be(expectedItem.type);
+            }
           });
         }
 

@@ -13,6 +13,7 @@ A [Node](https://nodejs.org/en/) module to get dimensions of any image file
 * BMP
 * CUR
 * GIF
+* ICNS
 * ICO
 * JPEG
 * PNG

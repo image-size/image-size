@@ -18,21 +18,31 @@ var red = ['\x1B[31m', '\x1B[39m'];
 var grey = ['\x1B[90m', '\x1B[39m'];
 var green = ['\x1B[32m', '\x1B[39m'];
 
+function colorize(text, color) {
+  return color[0] + text + color[1]
+}
+
 files.forEach(function (image) {
   try {
     if (fs.existsSync(path.resolve(image))) {
       var size = imageSize(image);
+        var greyX = colorize('x', grey);
+        var greyImage = colorize(image, grey);
       (size.images || [size]).forEach(function (size) {
-        var label = green[0] + size.width + green[1] +
-            grey[0] + 'x' + grey[1] +
-            green[0] + size.height + green[1];
-        console.info(label, '-', grey[0] + image + grey[1]);
+        var greyType = '';
+        if (size.type) {
+            greyType = colorize(' (' + size.type + ')', grey);
+        }
+        console.info(
+            colorize(size.width, green) + greyX + colorize(size.height, green)
+            + ' - ' + greyImage + greyType
+        );
       });
     } else {
       console.error('file doesn\'t exist - ', image);
     }
   } catch (e) {
     // console.error(e.stack);
-    console.error(red[0] + e.message + red[1], '-', image);
+    console.error(colorize(e.message, red), '-', image);
   }
 });

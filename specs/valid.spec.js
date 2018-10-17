@@ -81,6 +81,11 @@ var sizes = {
     'width': 4800,
     'height': 3600
   },
+  'specs/images/valid/jpg/1x2-flipped.jpg': {
+    'width': 1,
+    'height': 2,
+    'orientation': 8
+  },
   'specs/images/valid/png/sample_fried.png': {
     'width': 128,
     'height': 68
@@ -105,7 +110,7 @@ describe('Valid images', function () {
 
       beforeEach(function (done) {
 
-        var buffer = new Buffer(bufferSize);
+        var buffer = new Buffer.alloc(bufferSize);
         var filepath = path.resolve(file);
         var descriptor = fs.openSync(filepath, 'r');
         fs.readSync(descriptor, buffer, 0, bufferSize, 0);
@@ -135,6 +140,10 @@ describe('Valid images', function () {
               expect(item.type).to.be(expectedItem.type);
             }
           });
+        }
+
+        if (expected.orientation) {
+          expect(asyncDimensions.orientation).to.be(expected.orientation);
         }
 
         if (type !== 'tiff') {

@@ -8,7 +8,7 @@ var imageSize = require('..');
 
 describe('after done reading from files', function () {
   function readFromClosed (descriptor) {
-    fs.readSync(descriptor, new Buffer.alloc(1), 0, 1, 0);
+    fs.readSync(descriptor, Buffer.alloc(1), 0, 1, 0);
   }
 
   describe('should close the file descriptor', function () {

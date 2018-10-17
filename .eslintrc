@@ -9,7 +9,7 @@
     "linebreak-style": ["error", "unix"],
     "quotes": ["error", "single"],
     "semi": ["error", "always"],
-    "complexity": ["error", 5],
-    "max-statements": ["error", 15]
+    "complexity": ["error", 7],
+    "max-statements": ["error", 23]
   }
 }

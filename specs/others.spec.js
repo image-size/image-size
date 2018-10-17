@@ -34,7 +34,7 @@ describe('Invalid invocation', function () {
       var bufferSize = 2048;
       var file = 'specs/images/valid/tiff/little-endian.tiff';
 
-      buffer = new Buffer.alloc(bufferSize);
+      buffer = Buffer.alloc(bufferSize);
       var filepath = path.resolve(file);
       var descriptor = fs.openSync(filepath, 'r');
       fs.readSync(descriptor, buffer, 0, bufferSize, 0);

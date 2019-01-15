@@ -51,6 +51,16 @@ sizeOf('images/funny-cats.png', function (err, dimensions) {
 ```
 NOTE: The asynchronous version doesn't work if the input is a Buffer. Use synchronous version instead.
 
+### Base64 data URI Images
+
+Base64 image strings providing an easy way to include data in-line are also supported.
+
+```javascript
+var sizeOf = require('image-size');
+var dimensions = sizeOf('data:image/gif;base64,R0lGODdhAgAJAJEAAAAAAIyMjP///wAAACH5BAkAAAMALAAAAAACAAkAAAIEjI95BQA7');
+console.log(dimensions.width, dimensions.height);
+```
+
 ### Using promises (node 8.x)
 ```javascript
 var { promisify } = require('util');

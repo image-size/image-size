@@ -1,0 +1,48 @@
+version: 2.1
+
+commands:
+  build:
+    steps:
+      - run: node --version && npm --version
+      - checkout
+      - restore_cache:
+          keys:
+            - npm-{{ checksum "package-lock.json" }}
+            - npm-cache
+      - run: npm install
+      - run: npm test
+      - save_cache:
+          key: npm-{{ checksum "package-lock.json" }}
+          paths:
+            - "~/.npm/"
+
+jobs:
+  node-6:
+    docker:
+      - image: node:6
+    steps:
+      - build
+  node-8:
+    docker:
+      - image: node:8
+    steps:
+      - build
+  node-10:
+    docker:
+      - image: node:10
+    steps:
+      - build
+  node-11:
+    docker:
+      - image: node:11
+    steps:
+      - build
+
+workflows:
+  version: 2
+  node-multi-build:
+    jobs:
+      - node-6
+      - node-8
+      - node-10
+      - node-11

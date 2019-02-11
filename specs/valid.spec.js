@@ -81,7 +81,12 @@ var sizes = {
     'width': 4800,
     'height': 3600
   },
-  'specs/images/valid/jpg/1x2-flipped.jpg': {
+  'specs/images/valid/jpg/1x2-flipped-big-endian.jpg': {
+    'width': 1,
+    'height': 2,
+    'orientation': 8
+  },
+  'specs/images/valid/jpg/1x2-flipped-little-endian.jpg': {
     'width': 1,
     'height': 2,
     'orientation': 8

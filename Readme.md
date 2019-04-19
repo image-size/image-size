@@ -62,14 +62,20 @@ sizeOf('images/funny-cats.png')
 
 ### Async/Await (Typescript & ES7)
 ```javascript
-var { promisify } = require('util');
-var sizeOf = promisify(require('image-size'));
-try {
-  const dimensions = await sizeOf('images/funny-cats.png');
-  console.log(dimensions.width, dimensions.height);
-} catch (err) {
-  console.error(err);
+const { promisify } = require('util');
+const sizeOf = promisify(require('image-size'));
+
+const getDimensions = async () => {
+    try {
+        const dimensions = await sizeOf('images/funny-cats.png');
+        return dimensions;
+    } catch (err) {
+        console.error(err);
+    }
 }
+
+getDimensions().then(c => console.log(c));
+
 ```
 
 ### Multi-size

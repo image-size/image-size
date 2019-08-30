@@ -42,7 +42,7 @@
   "license": "MIT",
   "devDependencies": {
     "coveralls": "3.0.6",
-    "eslint": "6.2.2",
+    "eslint": "6.3.0",
     "expect.js": "0.3.1",
     "glob": "7.1.4",
     "mocha": "6.2.0",

@@ -93,12 +93,12 @@ function syncFileToBuffer(filepath: string): Buffer {
   return buffer
 }
 
-/**
- * @param {Buffer|string} input - buffer or relative/absolute path of the image file
- * @param {Function=} callback - optional function for async detection
- */
 export function imageSize(input: Buffer): Dimensions
 export function imageSize(input: string, callback: CallbackFn): void
+/**
+ * @param {Buffer|string} input - buffer or relative/absolute path of the image file
+ * @param {Function=} [callback] - optional function for async detection
+ */
 export function imageSize(input: any, callback?: any): any {
   // Handle buffer input
   if (Buffer.isBuffer(input)) {

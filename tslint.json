@@ -1,0 +1,15 @@
+{
+  "defaultSeverity": "error",
+  "extends": [
+    "tslint:recommended"
+  ],
+  "rules": {
+    "no-bitwise": false,
+    "no-trailing-whitespace": true,
+    "object-literal-key-quotes": [true, "as-needed"],
+    "ordered-imports": false,
+    "quotemark": [true, "single"],
+    "semicolon": [true, "never"],
+    "trailing-comma": false
+  }
+}

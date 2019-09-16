@@ -1,22 +1,21 @@
 #!/usr/bin/env node
 'use strict';
 
-var fs = require('fs');
-var path = require('path');
+const fs = require('fs');
+const path = require('path');
+const { imageSize } = require('..');
 
-var imageSize = require('..');
-
-var files = process.argv.slice(2);
+const files = process.argv.slice(2);
 
 if (!files.length) {
   console.error('Usage: image-size image1 [image2] [image3] ...');
   process.exit(-1);
 }
 
-var red = ['\x1B[31m', '\x1B[39m'];
-// var bold = ['\x1B[1m',  '\x1B[22m'];
-var grey = ['\x1B[90m', '\x1B[39m'];
-var green = ['\x1B[32m', '\x1B[39m'];
+const red = ['\x1B[31m', '\x1B[39m'];
+// const bold = ['\x1B[1m',  '\x1B[22m'];
+const grey = ['\x1B[90m', '\x1B[39m'];
+const green = ['\x1B[32m', '\x1B[39m'];
 
 function colorize(text, color) {
   return color[0] + text + color[1]
@@ -25,11 +24,11 @@ function colorize(text, color) {
 files.forEach(function (image) {
   try {
     if (fs.existsSync(path.resolve(image))) {
-      var size = imageSize(image);
-        var greyX = colorize('x', grey);
-        var greyImage = colorize(image, grey);
+      let size = imageSize(image);
+        let greyX = colorize('x', grey);
+        let greyImage = colorize(image, grey);
       (size.images || [size]).forEach(function (size) {
-        var greyType = '';
+        let greyType = '';
         if (size.type) {
             greyType = colorize(' (' + size.type + ')', grey);
         }

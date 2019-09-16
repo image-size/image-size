@@ -5,8 +5,8 @@ var expect = require('expect.js');
 var glob = require('glob');
 var path = require('path');
 
-var imageSize = require('..');
-var detector = require('../lib/detector');
+var imageSize = require('..').imageSize;
+var detector = require('../dist/detector').detector;
 
 var sizes = {
   'default': {

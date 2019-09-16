@@ -3,3 +3,4 @@ coverage/
 node_modules
 npm-debug.log
 .nyc_output
+dist/

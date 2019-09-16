@@ -4,7 +4,8 @@ var expect = require('expect.js');
 var path = require('path');
 var fs = require('fs');
 
-var imageSize = require('..');
+var imageSize = require('..').imageSize;
+var types = require('..').types;
 
 // If something other than a buffer or filepath is passed
 describe('Invalid invocation', function () {
@@ -71,6 +72,6 @@ describe('Callback function', function () {
 
 describe('.types property', function () {
   it('should expose supported file types', function() {
-    expect(imageSize.types).to.eql(['bmp', 'cur', 'dds', 'gif', 'icns', 'ico', 'jpg', 'png', 'psd', 'svg', 'tiff', 'webp']);
+    expect(types).to.eql(['bmp', 'cur', 'dds', 'gif', 'icns', 'ico', 'jpg', 'png', 'psd', 'svg', 'tiff', 'webp']);
   });
 });

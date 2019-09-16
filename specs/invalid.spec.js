@@ -3,7 +3,7 @@
 var expect = require('expect.js');
 var glob = require('glob');
 
-var imageSize = require('..');
+var imageSize = require('..').imageSize;
 
 // Test all invalid files
 describe('Invalid Images', function () {
@@ -18,14 +18,14 @@ describe('Invalid Images', function () {
       it('should throw when called synchronously', function() {
         expect(calculate).to.throwException(function (e) {
           expect(e).to.be.a(TypeError);
-          expect(e.message).to.match(/^invalid \w+$/);
+          expect(e.message).to.match(/^Invalid \w+$/);
         });
       });
 
       it('should callback with error when called asynchronously', function(done) {
         calculate(function (e) {
           expect(e).to.be.a(TypeError);
-          expect(e.message).to.match(/^invalid \w+$/);
+          expect(e.message).to.match(/^Invalid \w+$/);
           done();
         });
       });

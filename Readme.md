@@ -29,7 +29,7 @@ A [Node](https://nodejs.org/en/) module to get dimensions of any image file
 
 ## Programmatic Usage
 
-```
+```shell
 npm install image-size --save
 ```
 
@@ -49,9 +49,11 @@ sizeOf('images/funny-cats.png', function (err, dimensions) {
   console.log(dimensions.width, dimensions.height);
 });
 ```
+
 NOTE: The asynchronous version doesn't work if the input is a Buffer. Use synchronous version instead.
 
 ### Using promises (node 8.x)
+
 ```javascript
 var { promisify } = require('util');
 var sizeOf = promisify(require('image-size'));
@@ -61,15 +63,18 @@ sizeOf('images/funny-cats.png')
 ```
 
 ### Async/Await (Typescript & ES7)
+
 ```javascript
 var { promisify } = require('util');
 var sizeOf = promisify(require('image-size'));
-try {
-  const dimensions = await sizeOf('images/funny-cats.png');
-  console.log(dimensions.width, dimensions.height);
-} catch (err) {
-  console.error(err);
-}
+(async () => {
+  try {
+    const dimensions = await sizeOf('images/funny-cats.png');
+    console.log(dimensions.width, dimensions.height);
+  } catch (err) {
+    console.error(err);
+  }
+})().then(c => console.log(c));
 ```
 
 ### Multi-size
@@ -113,7 +118,7 @@ You can optionally check the buffer lengths & stop downloading the image after a
 
 ## Command-Line Usage (CLI)
 
-```
+```shell
 npm install image-size --global
 image-size image1 [image2] [image3] ...
 ```

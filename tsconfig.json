@@ -6,7 +6,7 @@
     "declaration": true,
     "outDir": "./dist",
     "rootDir": "./lib",
-    "removeComments": true,
+    "removeComments": false,
     "strict": true,
     "alwaysStrict": true,
     "moduleResolution": "node"

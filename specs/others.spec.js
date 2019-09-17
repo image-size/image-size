@@ -1,6 +1,6 @@
 'use strict';
 
-var expect = require('expect.js');
+var expect = require('chai').expect;
 var path = require('path');
 var fs = require('fs');
 
@@ -12,19 +12,13 @@ describe('Invalid invocation', function () {
 
   describe('invalid type', function () {
     it('should throw', function() {
-      expect(imageSize.bind(null, {})).to.throwException(function (e) {
-        expect(e).to.be.a(TypeError);
-        expect(e.message).to.be('invalid invocation');
-      });
+      expect(imageSize.bind(null, {})).to.throw(TypeError, 'invalid invocation');
     });
   });
 
   describe('non existant file', function () {
     it('should throw', function() {
-      expect(imageSize.bind(null, '/monkey/man/yo')).to.throwException(function (e) {
-        // expect(e.errno).to.be(34);
-        expect(e.code).to.be('ENOENT');
-      });
+      expect(imageSize.bind(null, '/monkey/man/yo')).to.throw(Error).with.property('code', 'ENOENT');
     });
   });
 
@@ -42,10 +36,7 @@ describe('Invalid invocation', function () {
     });
 
     it('should throw', function () {
-      expect(imageSize.bind(null, buffer)).to.throwException(function (e) {
-        expect(e).to.be.a(TypeError);
-        expect(e.message).to.contain('doesn\'t support buffer');
-      });
+      expect(imageSize.bind(null, buffer)).to.throw(TypeError, 'Tiff doesn\'t support buffer');
     });
   });
 
@@ -58,7 +49,7 @@ describe('Callback function', function () {
     var origException = process.listeners('uncaughtException').pop();
     process.removeListener('uncaughtException', origException);
     process.once('uncaughtException', function (err) {
-      expect(err).to.be(tmpError);
+      expect(err).to.equal(tmpError);
     });
 
     imageSize('specs/images/valid/jpg/sample.jpg', function() {

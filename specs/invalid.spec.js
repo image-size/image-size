@@ -1,6 +1,6 @@
 'use strict';
 
-var expect = require('expect.js');
+var expect = require('chai').expect;
 var glob = require('glob');
 
 var imageSize = require('..');
@@ -16,15 +16,12 @@ describe('Invalid Images', function () {
       var calculate = imageSize.bind(null, file);
 
       it('should throw when called synchronously', function() {
-        expect(calculate).to.throwException(function (e) {
-          expect(e).to.be.a(TypeError);
-          expect(e.message).to.match(/^Invalid \w+$/);
-        });
+        expect(calculate).to.throw(TypeError, 'Invalid');
       });
 
       it('should callback with error when called asynchronously', function(done) {
         calculate(function (e) {
-          expect(e).to.be.a(TypeError);
+          expect(e).to.be.instanceOf(TypeError);
           expect(e.message).to.match(/^Invalid \w+$/);
           done();
         });
@@ -37,10 +34,7 @@ describe('Invalid Images', function () {
     var calculate = imageSize.bind(null, 'fakefile.jpg');
 
     it('should throw when called synchronously', function() {
-      expect(calculate).to.throwException(function (e) {
-        expect(e).to.be.a(Error);
-        expect(e.message).to.match(/^ENOENT.*$/);
-      });
+      expect(calculate).to.throw(Error, 'ENOENT');
     });
 
     it('should callback with error when called asynchronously', function(done) {

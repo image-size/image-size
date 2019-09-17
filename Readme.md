@@ -52,6 +52,14 @@ sizeOf('images/funny-cats.png', function (err, dimensions) {
 
 NOTE: The asynchronous version doesn't work if the input is a Buffer. Use synchronous version instead.
 
+Also, the asynchronous functions have a default concurreny limit of **100**
+To change this limit, you can call the `setConcurrency` function like this:
+
+```javascript
+var sizeOf = require('image-size');
+sizeOf.setConcurrency(123456)
+```
+
 ### Using promises (node 8.x)
 
 ```javascript

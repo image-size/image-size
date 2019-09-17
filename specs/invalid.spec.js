@@ -3,7 +3,7 @@
 var expect = require('expect.js');
 var glob = require('glob');
 
-var imageSize = require('..').imageSize;
+var imageSize = require('..');
 
 // Test all invalid files
 describe('Invalid Images', function () {

@@ -4,7 +4,7 @@ var expect = require('expect.js');
 var path = require('path');
 var fs = require('fs');
 
-var imageSize = require('..').imageSize;
+var imageSize = require('..');
 var types = require('..').types;
 
 // If something other than a buffer or filepath is passed

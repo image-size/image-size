@@ -12,20 +12,18 @@ A [Node](https://nodejs.org/en/) module to get dimensions of any image file
 
 * BMP
 * CUR
+* DDS
 * GIF
 * ICNS
 * ICO
 * JPEG
+* KTX
 * PNG
+* PNM (PAM, PBM, PFM, PGM, PPM)
 * PSD
+* SVG
 * TIFF
 * WebP
-* SVG
-* DDS
-
-### Upcoming
-
-* SWF
 
 ## Programmatic Usage
 

@@ -1,7 +1,7 @@
 'use strict';
 
 var fs = require('fs');
-var expect = require('expect.js');
+var expect = require('chai').expect;
 var glob = require('glob');
 var path = require('path');
 
@@ -134,31 +134,31 @@ describe('Valid images', function () {
 
       it('should return correct size for ' + file, function() {
         var expected = sizes[file] || sizes.default;
-        expect(asyncDimensions.width).to.be(expected.width);
-        expect(asyncDimensions.height).to.be(expected.height);
+        expect(asyncDimensions.width).to.equal(expected.width);
+        expect(asyncDimensions.height).to.equal(expected.height);
         if (asyncDimensions.images) {
           asyncDimensions.images.forEach(function (item, index) {
             var expectedItem = expected.images[index];
-            expect(item.width).to.be(expectedItem.width);
-            expect(item.height).to.be(expectedItem.height);
+            expect(item.width).to.equal(expectedItem.width);
+            expect(item.height).to.equal(expectedItem.height);
             if (expectedItem.type) {
-              expect(item.type).to.be(expectedItem.type);
+              expect(item.type).to.equal(expectedItem.type);
             }
           });
         }
 
         if (expected.orientation) {
-          expect(asyncDimensions.orientation).to.be(expected.orientation);
+          expect(asyncDimensions.orientation).to.equal(expected.orientation);
         }
 
         if (type !== 'tiff') {
-          expect(bufferDimensions.width).to.be(expected.width);
-          expect(bufferDimensions.height).to.be(expected.height);
+          expect(bufferDimensions.width).to.equal(expected.width);
+          expect(bufferDimensions.height).to.equal(expected.height);
           if (bufferDimensions.images) {
             bufferDimensions.images.forEach(function (item, index) {
               var expectedItem = expected.images[index];
-              expect(item.width).to.be(expectedItem.width);
-              expect(item.height).to.be(expectedItem.height);
+              expect(item.width).to.equal(expectedItem.width);
+              expect(item.height).to.equal(expectedItem.height);
             });
           }
         }

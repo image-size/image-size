@@ -1,6 +1,6 @@
 'use strict';
 
-var expect = require('expect.js');
+var expect = require('chai').expect;
 var sinon = require('sinon');
 var fs = require('fs');
 
@@ -24,14 +24,10 @@ describe('after done reading from files', function () {
 
     it('async', function (done) {
       imageSize('specs/images/valid/jpg/large.jpg', function () {
-        expect(spy.calledOnce).to.be.ok();
+        expect(spy.calledOnce).to.be.true;
         var fsPromise = spy.returnValues[0];
         fsPromise.then(function (handle) {
-          expect(readFromClosed.bind(null, handle.fd)).to.throwException(function (e) {
-            expect(e.code).to.equal('EBADF');
-            expect(e).to.be.an(Error);
-            expect(e.message).to.match(/bad file descriptor/);
-          });
+          expect(readFromClosed.bind(null, handle.fd)).to.throw(Error, 'bad file descriptor').with.property('code', 'EBADF');
           done();
         });
       });
@@ -47,11 +43,7 @@ describe('after done reading from files', function () {
 
       imageSize('specs/images/valid/jpg/large.jpg');
 
-      expect(readFromClosed.bind(null, descriptor)).to.throwException(function (e) {
-        expect(e.code).to.equal('EBADF');
-        expect(e).to.be.an(Error);
-        expect(e.message).to.match(/bad file descriptor/);
-      });
+      expect(readFromClosed.bind(null, descriptor)).to.throw(Error, 'bad file descriptor').with.property('code', 'EBADF');
 
       fs.openSync = oldOpen;
     });

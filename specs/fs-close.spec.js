@@ -4,7 +4,7 @@ var expect = require('expect.js');
 var sinon = require('sinon');
 var fs = require('fs');
 
-var imageSize = require('..').imageSize;
+var imageSize = require('..');
 
 describe('after done reading from files', function () {
   function readFromClosed (descriptor) {

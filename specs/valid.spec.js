@@ -5,7 +5,7 @@ var expect = require('expect.js');
 var glob = require('glob');
 var path = require('path');
 
-var imageSize = require('..').imageSize;
+var imageSize = require('..');
 var detector = require('../dist/detector').detector;
 
 var sizes = {

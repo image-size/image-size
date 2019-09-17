@@ -18,7 +18,7 @@ const MaxBufferSize = 512 * 1024
  * @param {String} filepath
  * @returns {Object}
  */
-function lookup(buffer: Buffer, filepath?: string) {
+function lookup(buffer: Buffer, filepath?: string): Dimensions {
   // detect the file type.. don't rely on the extension
   const type = detector(buffer)
   if (!type) { return null }
@@ -92,6 +92,8 @@ function syncFileToBuffer(filepath: string): Buffer {
   fs.closeSync(descriptor)
   return buffer
 }
+
+module.exports = exports = imageSize // backwards compatibility
 
 export function imageSize(input: Buffer): Dimensions
 export function imageSize(input: string, callback: CallbackFn): void

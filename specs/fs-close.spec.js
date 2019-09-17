@@ -12,28 +12,28 @@ describe('after done reading from files', function () {
   }
 
   describe('should close the file descriptor', function () {
+    var spy;
+
+    beforeEach(function () {
+      spy = sinon.spy(fs.promises, 'open');
+    });
+
+    afterEach(function () {
+      sinon.restore();
+    });
 
     it('async', function (done) {
-
-      var descriptor;
-      var oldOpen = fs.open;
-      fs.open = sinon.spy(function (path, mode, callback) {
-        oldOpen.call(fs, path, mode, function (err, d) {
-          descriptor = d;
-          callback(err, d);
-        });
-      });
-
       imageSize('specs/images/valid/jpg/large.jpg', function () {
-
-        expect(readFromClosed.bind(null, descriptor)).to.throwException(function (e) {
-          expect(e.code).to.equal('EBADF');
-          expect(e).to.be.an(Error);
-          expect(e.message).to.match(/bad file descriptor/);
+        expect(spy.calledOnce).to.be.ok();
+        var fsPromise = spy.returnValues[0];
+        fsPromise.then(function (handle) {
+          expect(readFromClosed.bind(null, handle.fd)).to.throwException(function (e) {
+            expect(e.code).to.equal('EBADF');
+            expect(e).to.be.an(Error);
+            expect(e.message).to.match(/bad file descriptor/);
+          });
+          done();
         });
-
-        fs.open = oldOpen;
-        done();
       });
     });
 

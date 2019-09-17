@@ -41,42 +41,20 @@ function lookup(buffer: Buffer, filepath?: string): Dimensions {
 
 /**
  * Reads a file into a buffer.
- *
- * The callback will be called after the process has completed. The
- * callback's first argument will be an error (or null). The second argument
- * will be the Buffer, if the operation was successful.
- *
  * @param {String} filepath
- * @param {Function} callback
+ * @returns {Promise<Buffer>}
  */
-function asyncFileToBuffer(filepath: string, callback: CallbackFn): void {
-  // open the file in read only mode
-  fs.open(filepath, 'r', (err1, descriptor) => {
-    if (err1) {
-      return callback(err1)
-    }
-    fs.fstat(descriptor, (err2, stats) => {
-      if (err2) {
-        return callback(err2)
-      }
-      const size = stats.size
-      if (size <= 0) {
-        return callback(new Error('File size is not greater than 0 —— ' + filepath))
-      }
-      const bufferSize = Math.min(size, MaxBufferSize)
-      const buffer = Buffer.alloc(bufferSize)
-      // read first buffer block from the file, asynchronously
-      fs.read(descriptor, buffer, 0, bufferSize, 0, (err3) => {
-        if (err3) {
-          return callback(err3)
-        }
-        // close the file, we are done
-        fs.close(descriptor, (err4) => {
-          callback(err4, buffer)
-        })
-      })
-    })
-  })
+async function asyncFileToBuffer(filepath: string) {
+  const handle = await fs.promises.open(filepath, 'r')
+  const { size } = await handle.stat()
+  if (size <= 0) {
+    throw new Error('Empty file')
+  }
+  const bufferSize = Math.min(size, MaxBufferSize)
+  const buffer = Buffer.alloc(bufferSize)
+  await handle.read(buffer, 0, bufferSize, 0)
+  await handle.close()
+  return buffer
 }
 
 /**
@@ -85,7 +63,7 @@ function asyncFileToBuffer(filepath: string, callback: CallbackFn): void {
  * @param {String} filepath
  * @returns {Buffer}
  */
-function syncFileToBuffer(filepath: string): Buffer {
+function syncFileToBuffer(filepath: string) {
   // read from the file, synchronously
   const descriptor = fs.openSync(filepath, 'r')
   const size = fs.fstatSync(descriptor).size
@@ -117,25 +95,10 @@ export function imageSize(input: any, callback?: any): any {
 
   // resolve the file path
   const filepath = path.resolve(input)
-
   if (typeof callback === 'function') {
-    queue.push((done) => {
-      asyncFileToBuffer(filepath, (err, buffer) => {
-        if (err || !buffer) {
-          return callback(err)
-        }
-        let dimensions: Dimensions = null
-        try {
-          dimensions = lookup(buffer, filepath)
-        } catch (e) {
-          err = e
-        }
-        callback(err, dimensions)
-        if (typeof done === 'function') {
-          done(undefined, {})
-        }
-      })
-    })
+    queue.push(() => asyncFileToBuffer(filepath)
+      .then((buffer) => process.nextTick(callback, null, lookup(buffer, filepath)))
+      .catch(callback))
   } else {
     const buffer = syncFileToBuffer(filepath)
     return lookup(buffer, filepath)

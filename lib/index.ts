@@ -25,10 +25,9 @@ const queue = new Queue({ concurrency: 100, autostart: true })
 function lookup(buffer: Buffer, filepath?: string): Dimensions {
   // detect the file type.. don't rely on the extension
   const type = detector(buffer)
-  if (!type) { return null }
 
   // find an appropriate handler for this file type
-  if (type in typeHandlers) {
+  if (type && type in typeHandlers) {
     const size = typeHandlers[type].calculate(buffer, filepath)
     if (size !== undefined) {
       size.type = type

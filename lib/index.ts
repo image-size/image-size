@@ -1,5 +1,6 @@
 import * as fs from 'fs'
 import * as path from 'path'
+import Queue from 'queue'
 import { typeHandlers } from './types'
 import { detector } from './detector'
 import { ISizes, ISize } from './types/interface'
@@ -10,6 +11,9 @@ type Dimensions = ISize | ISizes | null | undefined
 // Maximum buffer size, with a default of 512 kilobytes.
 // TO-DO: make this adaptive based on the initial signature of the image
 const MaxBufferSize = 512 * 1024
+
+// This queue is for async `fs` operations, to avoid reaching file-descriptor limits
+const queue = new Queue({ concurrency: 100, autostart: true })
 
 /**
  * Return size information based on a buffer
@@ -116,17 +120,22 @@ export function imageSize(input: any, callback?: any): any {
   const filepath = path.resolve(input)
 
   if (typeof callback === 'function') {
-    asyncFileToBuffer(filepath, (err, buffer) => {
-      if (err || !buffer) {
-        return callback(err)
-      }
-      let dimensions: Dimensions = null
-      try {
-        dimensions = lookup(buffer, filepath)
-      } catch (e) {
-        err = e
-      }
-      callback(err, dimensions)
+    queue.push((done) => {
+      asyncFileToBuffer(filepath, (err, buffer) => {
+        if (err || !buffer) {
+          return callback(err)
+        }
+        let dimensions: Dimensions = null
+        try {
+          dimensions = lookup(buffer, filepath)
+        } catch (e) {
+          err = e
+        }
+        callback(err, dimensions)
+        if (typeof done === 'function') {
+          done(undefined, {})
+        }
+      })
     })
   } else {
     const buffer = syncFileToBuffer(filepath)
@@ -134,4 +143,5 @@ export function imageSize(input: any, callback?: any): any {
   }
 }
 
+export const setConcurrency = (c: number) => { queue.concurrency = c }
 export const types = Object.keys(typeHandlers)

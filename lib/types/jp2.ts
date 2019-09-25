@@ -1,4 +1,4 @@
-import { IImage } from './interface'
+import { IImage, ISize } from './interface'
 
 const BoxTypes = {
   ftyp: '66747970',
@@ -6,10 +6,10 @@ const BoxTypes = {
   jp2h: '6a703268',
   jp__: '6a502020',
   rreq: '72726571',
-  xml_: '786d6c20',
+  xml_: '786d6c20'
 }
 
-const calculateRREQLength = (box: Buffer) => {
+const calculateRREQLength = (box: Buffer): number => {
   const unit = box.readUInt8(0)
   let offset = 1 + (2 * unit)
   const numStdFlags = box.readUInt16BE(offset)
@@ -20,7 +20,7 @@ const calculateRREQLength = (box: Buffer) => {
   return offset + 2 + featuresLength
 }
 
-const parseIHDR = (box: Buffer) => {
+const parseIHDR = (box: Buffer): ISize => {
   return {
     height: box.readUInt32BE(4),
     width: box.readUInt32BE(8),
@@ -52,7 +52,6 @@ export const JP2: IImage = {
         const MAGIC = 4
         offset = offset + 4 + MAGIC + calculateRREQLength(buffer.slice(offset + 4))
         return parseIHDR(buffer.slice(offset + 8, offset + 24))
-        break
       case BoxTypes.jp2h :
         return parseIHDR(buffer.slice(offset + 8, offset + 24))
       case BoxTypes.xml_:

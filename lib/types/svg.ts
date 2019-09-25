@@ -60,11 +60,7 @@ function calculateByDimensions(attrs: IAttributes): ISize {
   }
 }
 
-function calculateByViewbox(attrs: IAttributes): ISize | undefined {
-  const viewbox = attrs && attrs.viewbox
-  if (!viewbox) {
-    return
-  }
+function calculateByViewbox(attrs: IAttributes, viewbox: IAttributes): ISize {
   const ratio = (viewbox.width as number) / (viewbox.height as number)
   if (attrs.width) {
     return {
@@ -98,7 +94,7 @@ export const SVG: IImage = {
         return calculateByDimensions(attrs)
       }
       if (attrs.viewbox) {
-        return calculateByViewbox(attrs)
+        return calculateByViewbox(attrs, attrs.viewbox)
       }
     }
     throw new TypeError('Invalid SVG')

@@ -1,4 +1,4 @@
-import { IImage, ISize } from './interface'
+import { IImage, ISize, ISizeCalculationResult } from './interface'
 
 /**
  * ICNS Header
@@ -97,17 +97,18 @@ export const ICNS: IImage = {
       return imageSize
     }
 
-    const result = {
-      height: imageSize.height,
-      images: [imageSize],
-      width: imageSize.width
-    }
-
+    const imgs: ISize[] = [imageSize]
     while (imageOffset < fileLength && imageOffset < bufferLength) {
       imageHeader = readImageHeader(buffer, imageOffset)
       imageSize = getImageSize(imageHeader[0])
       imageOffset += imageHeader[1]
-      result.images.push(imageSize)
+      imgs.push(imageSize)
+    }
+
+    const result: ISizeCalculationResult = {
+      height: imageSize.height,
+      images: imgs,
+      width: imageSize.width
     }
 
     return result

@@ -1,4 +1,4 @@
-import { IImage, ISize } from './interface'
+import { IImage, ISize, ISizeCalculationResult } from './interface'
 
 const TYPE_ICON = 1
 
@@ -31,7 +31,7 @@ const SIZE_HEADER = 2 + 2 + 2 // 6
  */
 const SIZE_IMAGE_ENTRY = 1 + 1 + 1 + 1 + 2 + 2 + 4 + 4 // 16
 
-function getSizeFromOffset(buffer: Buffer, offset: number) {
+function getSizeFromOffset(buffer: Buffer, offset: number): number {
   const value = buffer.readUInt8(offset)
   return value === 0 ? 256 : value
 }
@@ -60,14 +60,15 @@ export const ICO: IImage = {
       return imageSize
     }
 
-    const result = {
-      height: imageSize.height,
-      images: [imageSize],
-      width: imageSize.width
+    const imgs: ISize[] = [imageSize]
+    for (let imageIndex = 1; imageIndex < nbImages; imageIndex += 1) {
+      imgs.push(getImageSize(buffer, imageIndex))
     }
 
-    for (let imageIndex = 1; imageIndex < nbImages; imageIndex += 1) {
-      result.images.push(getImageSize(buffer, imageIndex))
+    const result: ISizeCalculationResult = {
+      height: imageSize.height,
+      images: imgs,
+      width: imageSize.width
     }
 
     return result

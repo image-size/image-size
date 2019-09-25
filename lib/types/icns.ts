@@ -97,18 +97,17 @@ export const ICNS: IImage = {
       return imageSize
     }
 
-    const imgs: ISize[] = [imageSize]
+    const result = {
+      height: imageSize.height,
+      images: [imageSize],
+      width: imageSize.width
+    }
+
     while (imageOffset < fileLength && imageOffset < bufferLength) {
       imageHeader = readImageHeader(buffer, imageOffset)
       imageSize = getImageSize(imageHeader[0])
       imageOffset += imageHeader[1]
-      imgs.push(imageSize)
-    }
-
-    const result: ISizeCalculationResult = {
-      height: imageSize.height,
-      images: imgs,
-      width: imageSize.width
+      result.images.push(imageSize)
     }
 
     return result

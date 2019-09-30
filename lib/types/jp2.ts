@@ -54,10 +54,8 @@ export const JP2: IImage = {
         return parseIHDR(buffer.slice(offset + 8, offset + 24))
       case BoxTypes.jp2h :
         return parseIHDR(buffer.slice(offset + 8, offset + 24))
-      case BoxTypes.xml_:
-        throw new TypeError('JP2 images with xml headers aren\'t supported yet')
       default:
-        throw new TypeError('Invalid header found: ' + nextBoxType)
+        throw new TypeError('Unsupported header found: ' + buffer.toString('ascii', offset, offset + 4))
     }
   }
 }

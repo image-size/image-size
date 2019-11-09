@@ -94,6 +94,14 @@ var sizes = {
   'specs/images/valid/png/sample_fried.png': {
     'width': 128,
     'height': 68
+  },
+  'specs/images/valid/wsq/cmp00001.wsq': {
+    'width': 589,
+    'height': 605
+  },
+  'specs/images/valid/wsq/fp.wsq': {
+    'width': 320,
+    'height': 480
   }
 };
 

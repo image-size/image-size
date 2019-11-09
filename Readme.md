@@ -24,6 +24,12 @@ A [Node](https://nodejs.org/en/) module to get dimensions of any image file
 * SVG
 * TIFF
 * WebP
+* WSQ
+* SVG
+
+### Upcoming
+
+* SWF
 
 ## Programmatic Usage
 

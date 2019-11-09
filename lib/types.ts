@@ -16,6 +16,7 @@ import { PSD } from './types/psd'
 import { SVG } from './types/svg'
 import { TIFF } from './types/tiff'
 import { WEBP } from './types/webp'
+import { WSQ } from './types/wsq'
 
 export const typeHandlers: {[key: string]: IImage} = {
   bmp: BMP,
@@ -34,4 +35,5 @@ export const typeHandlers: {[key: string]: IImage} = {
   svg: SVG,
   tiff: TIFF,
   webp: WEBP,
+  wsq: WSQ,
 }

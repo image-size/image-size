@@ -129,6 +129,14 @@ npm install image-size --global
 image-size image1 [image2] [image3] ...
 ```
 
+## Hosted API
+
+ We also provide a hosted API for image-size which may simplify your use case.
+
+ <a href="https://image-size.saasify.sh">
+ 	<img src="https://badges.saasify.sh?text=View%20Hosted%20API" height="40"/>
+ </a>
+
 ## Credits
 
 not a direct port, but an attempt to have something like

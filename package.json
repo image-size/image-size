@@ -47,7 +47,7 @@
   "devDependencies": {
     "@types/node": "12.12.11",
     "chai": "4.2.0",
-    "coveralls": "3.0.7",
+    "coveralls": "3.0.9",
     "eslint": "6.7.1",
     "glob": "7.1.6",
     "mocha": "6.2.2",

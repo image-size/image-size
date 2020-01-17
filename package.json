@@ -45,7 +45,7 @@
   "author": "netroy <aditya@netroy.in> (http://netroy.in/)",
   "license": "MIT",
   "devDependencies": {
-    "@types/node": "12.12.24",
+    "@types/node": "12.12.25",
     "chai": "4.2.0",
     "coveralls": "3.0.9",
     "eslint": "6.8.0",

@@ -22,7 +22,6 @@
     "build": "tsc",
     "prepack": "npm run clean && npm run build"
   },
-  "repository": "image-size/image-size",
   "keywords": [
     "image",
     "size",
@@ -42,6 +41,7 @@
     "ico",
     "cur"
   ],
+  "repository": "image-size/image-size",
   "author": "netroy <aditya@netroy.in> (http://netroy.in/)",
   "license": "MIT",
   "devDependencies": {
@@ -53,7 +53,7 @@
     "mocha": "7.0.1",
     "nyc": "15.0.0",
     "sinon": "8.1.1",
-    "tslint": "5.20.1",
+    "tslint": "6.0.0",
     "typescript": "3.7.5"
   },
   "dependencies": {

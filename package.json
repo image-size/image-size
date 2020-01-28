@@ -18,7 +18,8 @@
     "pretest": "tslint -p . && tsc && eslint specs",
     "test": "nyc mocha specs",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
-    "clean": "rm -rf dist",
+    "clean": "rm -rf dist docs",
+    "docs": "typedoc",
     "build": "tsc",
     "prepack": "npm run clean && npm run build"
   },
@@ -41,7 +42,7 @@
     "ico",
     "cur"
   ],
-  "repository": "image-size/image-size",
+  "repository": "git://github.com/image-size/image-size.git",
   "author": "netroy <aditya@netroy.in> (http://netroy.in/)",
   "license": "MIT",
   "devDependencies": {
@@ -54,6 +55,7 @@
     "nyc": "15.0.0",
     "sinon": "8.1.1",
     "tslint": "6.0.0",
+    "typedoc": "0.16.9",
     "typescript": "3.7.5"
   },
   "dependencies": {

@@ -1,8 +1,0 @@
-title: image-size
-description: Node module for detecting image dimensions
-google_analytics: UA-42226860-1
-show_downloads: true
-theme: jekyll-theme-minimal
-
-gems:
-  - jekyll-mentions

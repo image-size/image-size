@@ -9,7 +9,7 @@
     "bin/image-size.js"
   ],
   "engines": {
-    "node": ">=6.9.0"
+    "node": ">=10.18.0"
   },
   "bin": {
     "image-size": "bin/image-size.js"

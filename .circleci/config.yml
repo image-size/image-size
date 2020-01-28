@@ -17,11 +17,6 @@ commands:
             - "~/.npm/"
 
 jobs:
-  node-8:
-    docker:
-      - image: node:8
-    steps:
-      - build
   node-10:
     docker:
       - image: node:10
@@ -32,10 +27,15 @@ jobs:
       - image: node:12
     steps:
       - build
+  node-13:
+    docker:
+      - image: node:13
+    steps:
+      - build
 workflows:
   version: 2
   node-multi-build:
     jobs:
-      - node-8
       - node-10
       - node-12
+      - node-13

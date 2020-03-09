@@ -15,6 +15,7 @@ import { PSD } from './types/psd'
 import { SVG } from './types/svg'
 import { TIFF } from './types/tiff'
 import { WEBP } from './types/webp'
+import { WMF } from './types/wmf'
 
 export const typeHandlers = {
   bmp: BMP,
@@ -33,6 +34,7 @@ export const typeHandlers = {
   svg: SVG,
   tiff: TIFF,
   webp: WEBP,
+  wmf: WMF,
 }
 
 export type imageType = keyof typeof typeHandlers

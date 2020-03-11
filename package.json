@@ -54,7 +54,7 @@
     "mocha": "7.0.1",
     "nyc": "15.0.0",
     "sinon": "8.1.1",
-    "tslint": "6.0.0",
+    "tslint": "6.1.0",
     "typedoc": "0.16.9",
     "typescript": "3.7.5"
   },

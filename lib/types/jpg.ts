@@ -28,22 +28,6 @@ function extractSize(buffer: Buffer, index: number): ISize {
   }
 }
 
-function validateExifBlock(buffer: Buffer, index: number) {
-  // Skip APP1 Data Size
-  const exifBlock = buffer.slice(APP1_DATA_SIZE_BYTES, index)
-
-  // Consider byte alignment
-  const byteAlign = exifBlock.toString('hex', EXIF_HEADER_BYTES, EXIF_HEADER_BYTES + TIFF_BYTE_ALIGN_BYTES)
-
-  // Ignore Empty EXIF. Validate byte alignment
-  const isBigEndian = byteAlign === BIG_ENDIAN_BYTE_ALIGN
-  const isLittleEndian = byteAlign === LITTLE_ENDIAN_BYTE_ALIGN
-
-  if (isBigEndian || isLittleEndian) {
-    return extractOrientation(exifBlock, isBigEndian)
-  }
-}
-
 function extractOrientation(exifBlock: Buffer, isBigEndian: boolean) {
   // TODO: assert that this contains 0x002A
   // let STATIC_MOTOROLA_TIFF_HEADER_BYTES = 2
@@ -86,6 +70,22 @@ function extractOrientation(exifBlock: Buffer, isBigEndian: boolean) {
 
       return readUInt(block, 16, 8, isBigEndian)
     }
+  }
+}
+
+function validateExifBlock(buffer: Buffer, index: number) {
+  // Skip APP1 Data Size
+  const exifBlock = buffer.slice(APP1_DATA_SIZE_BYTES, index)
+
+  // Consider byte alignment
+  const byteAlign = exifBlock.toString('hex', EXIF_HEADER_BYTES, EXIF_HEADER_BYTES + TIFF_BYTE_ALIGN_BYTES)
+
+  // Ignore Empty EXIF. Validate byte alignment
+  const isBigEndian = byteAlign === BIG_ENDIAN_BYTE_ALIGN
+  const isLittleEndian = byteAlign === LITTLE_ENDIAN_BYTE_ALIGN
+
+  if (isBigEndian || isLittleEndian) {
+    return extractOrientation(exifBlock, isBigEndian)
   }
 }
 

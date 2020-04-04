@@ -1,6 +1,5 @@
 import { expect } from 'chai'
 import * as sinon from 'sinon'
-import { SinonSpy } from 'sinon'
 import * as fs from 'fs'
 import { imageSize } from '../lib'
 
@@ -11,7 +10,6 @@ describe('after done reading from files', () => {
     it('async', done => {
       const spy = sinon.spy(fs.promises, 'open')
       imageSize('specs/images/valid/jpg/large.jpg', () => {
-        // tslint:disable-next-line:no-unused-expression
         expect(spy.calledOnce).to.be.true
         const fsPromise = spy.returnValues[0]
         fsPromise.then((handle) => {
@@ -23,7 +21,6 @@ describe('after done reading from files', () => {
     })
 
     // TODO: revisit this spec. how to ensure that we never leave descriptors open
-    const openSync = fs.openSync
     it('sync', () => {
       const spy = sinon.spy(fs, 'openSync')
       imageSize('specs/images/valid/jpg/large.jpg')

@@ -4,7 +4,6 @@ import Queue from 'queue'
 import { typeHandlers } from './types'
 import { detector } from './detector'
 import { ISizeCalculationResult } from './types/interface'
-import './fs.promises'
 
 type CallbackFn = (e: Error | null, r?: ISizeCalculationResult) => void
 

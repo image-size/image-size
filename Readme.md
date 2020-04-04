@@ -58,7 +58,7 @@ var sizeOf = require('image-size');
 sizeOf.setConcurrency(123456)
 ```
 
-### Using promises (node 8.x)
+### Using promises (nodejs 10.x+)
 
 ```javascript
 var { promisify } = require('util');

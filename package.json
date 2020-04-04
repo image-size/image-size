@@ -46,17 +46,18 @@
   "author": "netroy <aditya@netroy.in> (http://netroy.in/)",
   "license": "MIT",
   "devDependencies": {
-    "@types/node": "12.12.26",
+    "@types/node": "13.11.0",
     "chai": "4.2.0",
     "coveralls": "3.0.11",
     "eslint": "6.8.0",
     "glob": "7.1.6",
-    "mocha": "7.0.1",
-    "nyc": "15.0.0",
-    "sinon": "8.1.1",
-    "tslint": "6.1.0",
-    "typedoc": "0.16.9",
-    "typescript": "3.7.5"
+    "mocha": "7.1.1",
+    "nyc": "15.0.1",
+    "sinon": "9.0.1",
+    "ts-node": "8.8.1",
+    "tslint": "6.1.1",
+    "typedoc": "0.17.3",
+    "typescript": "3.8.3"
   },
   "dependencies": {
     "queue": "6.0.1"

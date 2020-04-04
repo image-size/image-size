@@ -6,6 +6,5 @@ export function readUInt(buffer: Buffer, bits: Bits, offset: number, isBigEndian
   offset = offset || 0
   const endian = isBigEndian ? 'BE' : 'LE'
   const methodName: MethodName = ('readUInt' + bits + endian) as MethodName
-  const method: any = buffer[methodName]
-  return method.call(buffer, offset)
+  return buffer[methodName].call(buffer, offset)
 }

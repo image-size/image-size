@@ -47,15 +47,16 @@ export const JP2: IImage = {
     let offset = signatureLength + 4 + ftypBoxLength
     const nextBoxType = buffer.toString('hex', offset, offset + 4)
     switch (nextBoxType) {
-      case BoxTypes.rreq:
-        // WHAT ARE THESE 4 BYTES?????
-        const MAGIC = 4
-        offset = offset + 4 + MAGIC + calculateRREQLength(buffer.slice(offset + 4))
-        return parseIHDR(buffer.slice(offset + 8, offset + 24))
-      case BoxTypes.jp2h :
-        return parseIHDR(buffer.slice(offset + 8, offset + 24))
-      default:
-        throw new TypeError('Unsupported header found: ' + buffer.toString('ascii', offset, offset + 4))
+    case BoxTypes.rreq:
+      // WHAT ARE THESE 4 BYTES?????
+      // eslint-disable-next-line no-case-declarations
+      const MAGIC = 4
+      offset = offset + 4 + MAGIC + calculateRREQLength(buffer.slice(offset + 4))
+      return parseIHDR(buffer.slice(offset + 8, offset + 24))
+    case BoxTypes.jp2h :
+      return parseIHDR(buffer.slice(offset + 8, offset + 24))
+    default:
+      throw new TypeError('Unsupported header found: ' + buffer.toString('ascii', offset, offset + 4))
     }
   }
 }

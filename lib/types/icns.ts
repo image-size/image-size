@@ -1,4 +1,4 @@
-import { IImage, ISize, ISizeCalculationResult } from './interface'
+import { IImage, ISize } from './interface'
 
 /**
  * ICNS Header
@@ -21,7 +21,6 @@ const FILE_LENGTH_OFFSET = 4 // MSB => BIG ENDIAN
  */
 const ENTRY_LENGTH_OFFSET = 4 // MSB => BIG ENDIAN
 
-/* tslint:disable:object-literal-sort-keys */
 const ICON_TYPE_SIZE: {[key: string]: number} = {
   ICON: 32,
   'ICN#': 32,
@@ -64,7 +63,6 @@ const ICON_TYPE_SIZE: {[key: string]: number} = {
   // . => 1024 x 1024
   ic10: 1024,
 }
-/* tslint:enable:object-literal-sort-keys */
 
 function readImageHeader(buffer: Buffer, imageOffset: number): [string, number] {
   const imageLengthOffset = imageOffset + ENTRY_LENGTH_OFFSET

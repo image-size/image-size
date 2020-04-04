@@ -17,7 +17,7 @@ import { SVG } from './types/svg'
 import { TIFF } from './types/tiff'
 import { WEBP } from './types/webp'
 
-export const typeHandlers: {[key: string]: IImage} = {
+export const typeHandlers: { [key: string]: IImage} = {
   bmp: BMP,
   cur: CUR,
   dds: DDS,

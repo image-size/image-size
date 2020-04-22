@@ -124,9 +124,29 @@ You can optionally check the buffer lengths & stop downloading the image after a
 
 ## Command-Line Usage (CLI)
 
+### Installing globally
+
 ```shell
-npm install image-size --global
+npm install [--json] image-size --global
 image-size image1 [image2] [image3] ...
+```
+
+### Run without installing
+
+```shell
+npx image-size [--json] image1 [image2] [image3] ...
+```
+
+### Flags
+
+- `--json` - sets the output type to `JSON`
+
+### Wildcard Expansion
+
+Wildcards can be used to target multiple files if your terminal supports Wildcard Expansion.
+
+```shell
+image-size [--json] *.png
 ```
 
 ## Hosted API

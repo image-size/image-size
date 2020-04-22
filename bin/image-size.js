@@ -5,10 +5,12 @@ const fs = require('fs')
 const path = require('path')
 const { imageSize } = require('..')
 
-const files = process.argv.slice(2)
+const args = process.argv.slice(2)
+const isJson = args[0] === '--json'
+const files = args ? args.slice(1) : args
 
 if (!files.length) {
-  console.error('Usage: image-size image1 [image2] [image3] ...')
+  console.error('Usage: image-size [--json] image1 [image2] [image3] ...')
   process.exit(-1)
 }
 
@@ -21,6 +23,8 @@ function colorize(text, color) {
   return color[0] + text + color[1]
 }
 
+const json = {}
+
 files.forEach(function (image) {
   try {
     if (fs.existsSync(path.resolve(image))) {
@@ -28,6 +32,12 @@ files.forEach(function (image) {
       const greyImage = colorize(image, grey)
       const size = imageSize(image)
       const sizes = size.images || [size]
+
+      if (isJson) {
+        json[image] = size.images ? { sizes } : size
+        return
+      }
+
       sizes.forEach(size => {
         let greyType = ''
         if (size.type) {
@@ -38,11 +48,21 @@ files.forEach(function (image) {
             + ' - ' + greyImage + greyType
         )
       })
+    } else if (isJson) {
+      json[image] = { error: 'file doesn\'t exist' }
     } else {
       console.error('file doesn\'t exist - ', image)
     }
   } catch (e) {
     // console.error(e.stack)
+    if (isJson) {
+      json[image] = { error: JSON.stringify(e.message) }
+      return
+    }
     console.error(colorize(e.message, red), '-', image)
   }
 })
+
+if (isJson) {
+  console.log(JSON.stringify(json, null, 2))
+}

@@ -20,6 +20,7 @@ function readIFD(buffer: Buffer, filepath: string, isBigEndian: boolean) {
   const endBuffer = Buffer.alloc(bufferSize)
   const descriptor = fs.openSync(filepath, 'r')
   fs.readSync(descriptor, endBuffer, 0, bufferSize, ifdOffset)
+  fs.closeSync(descriptor);
 
   return endBuffer.slice(2)
 }

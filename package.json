@@ -62,7 +62,7 @@
     "sinon": "9.0.2",
     "ts-node": "8.10.1",
     "typedoc": "0.17.7",
-    "typescript": "3.9.3"
+    "typescript": "3.9.7"
   },
   "dependencies": {
     "queue": "6.0.1"

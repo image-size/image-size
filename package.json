@@ -50,7 +50,7 @@
     "@types/glob": "7.1.1",
     "@types/mocha": "7.0.2",
     "@types/node": "13.13.9",
-    "@types/sinon": "9.0.4",
+    "@types/sinon": "9.0.5",
     "@typescript-eslint/eslint-plugin": "2.34.0",
     "@typescript-eslint/parser": "2.34.0",
     "chai": "4.2.0",
@@ -59,7 +59,7 @@
     "glob": "7.1.6",
     "mocha": "7.1.2",
     "nyc": "15.0.1",
-    "sinon": "9.0.2",
+    "sinon": "9.0.3",
     "ts-node": "8.10.1",
     "typedoc": "0.17.7",
     "typescript": "3.9.3"

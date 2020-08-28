@@ -48,7 +48,7 @@
   "devDependencies": {
     "@types/chai": "4.2.11",
     "@types/glob": "7.1.1",
-    "@types/mocha": "7.0.2",
+    "@types/mocha": "8.0.3",
     "@types/node": "13.13.9",
     "@types/sinon": "9.0.4",
     "@typescript-eslint/eslint-plugin": "2.34.0",
@@ -57,7 +57,7 @@
     "coveralls": "3.1.0",
     "eslint": "7.1.0",
     "glob": "7.1.6",
-    "mocha": "7.1.2",
+    "mocha": "8.1.3",
     "nyc": "15.0.1",
     "sinon": "9.0.2",
     "ts-node": "8.10.1",

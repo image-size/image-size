@@ -61,7 +61,7 @@
     "nyc": "15.0.1",
     "sinon": "9.0.2",
     "ts-node": "8.10.1",
-    "typedoc": "0.17.7",
+    "typedoc": "0.19.0",
     "typescript": "3.9.3"
   },
   "dependencies": {

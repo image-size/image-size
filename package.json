@@ -49,7 +49,7 @@
     "@types/chai": "4.2.11",
     "@types/glob": "7.1.1",
     "@types/mocha": "7.0.2",
-    "@types/node": "13.13.9",
+    "@types/node": "13.13.16",
     "@types/sinon": "9.0.4",
     "@typescript-eslint/eslint-plugin": "2.34.0",
     "@typescript-eslint/parser": "2.34.0",

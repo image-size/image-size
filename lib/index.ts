@@ -43,7 +43,7 @@ function lookup(buffer: Buffer, filepath?: string): ISizeCalculationResult {
  * @param {String} filepath
  * @returns {Promise<Buffer>}
  */
-async function asyncFileToBuffer(filepath: string) {
+async function asyncFileToBuffer(filepath: string): Promise<Buffer> {
   const handle = await fs.promises.open(filepath, 'r')
   const { size } = await handle.stat()
   if (size <= 0) {
@@ -62,7 +62,7 @@ async function asyncFileToBuffer(filepath: string) {
  * @param {String} filepath
  * @returns {Buffer}
  */
-function syncFileToBuffer(filepath: string) {
+function syncFileToBuffer(filepath: string): Buffer {
   // read from the file, synchronously
   const descriptor = fs.openSync(filepath, 'r')
   const size = fs.fstatSync(descriptor).size
@@ -104,5 +104,5 @@ export function imageSize(input: Buffer | string, callback?: CallbackFn): ISizeC
   }
 }
 
-export const setConcurrency = (c: number) => { queue.concurrency = c }
+export const setConcurrency = (c: number): void => { queue.concurrency = c }
 export const types = Object.keys(typeHandlers)

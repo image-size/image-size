@@ -1,6 +1,6 @@
 {
   "name": "image-size",
-  "version": "0.9.0",
+  "version": "0.9.1",
   "description": "get dimensions of any image file",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

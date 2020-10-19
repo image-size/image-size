@@ -65,7 +65,10 @@ async function asyncFileToBuffer(filepath: string): Promise<Buffer> {
 function syncFileToBuffer(filepath: string): Buffer {
   // read from the file, synchronously
   const descriptor = fs.openSync(filepath, 'r')
-  const size = fs.fstatSync(descriptor).size
+  const { size } = fs.fstatSync(descriptor)
+  if (size <= 0) {
+    throw new Error('Empty file')
+  }
   const bufferSize = Math.min(size, MaxBufferSize)
   const buffer = Buffer.alloc(bufferSize)
   fs.readSync(descriptor, buffer, 0, bufferSize, 0)

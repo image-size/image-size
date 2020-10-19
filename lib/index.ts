@@ -47,6 +47,7 @@ async function asyncFileToBuffer(filepath: string): Promise<Buffer> {
   const handle = await fs.promises.open(filepath, 'r')
   const { size } = await handle.stat()
   if (size <= 0) {
+    await handle.close()
     throw new Error('Empty file')
   }
   const bufferSize = Math.min(size, MaxBufferSize)
@@ -67,6 +68,7 @@ function syncFileToBuffer(filepath: string): Buffer {
   const descriptor = fs.openSync(filepath, 'r')
   const { size } = fs.fstatSync(descriptor)
   if (size <= 0) {
+    fs.closeSync(descriptor)
     throw new Error('Empty file')
   }
   const bufferSize = Math.min(size, MaxBufferSize)

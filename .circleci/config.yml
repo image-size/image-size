@@ -32,6 +32,11 @@ jobs:
       - image: node:13
     steps:
       - build
+  node-14:
+    docker:
+      - image: node:14
+    steps:
+      - build
 
 workflows:
   version: 2
@@ -40,3 +45,4 @@ workflows:
       - node-10
       - node-12
       - node-13
+      - node-14

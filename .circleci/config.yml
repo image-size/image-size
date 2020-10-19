@@ -32,6 +32,7 @@ jobs:
       - image: node:13
     steps:
       - build
+
 workflows:
   version: 2
   node-multi-build:

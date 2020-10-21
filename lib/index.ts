@@ -80,6 +80,7 @@ function syncFileToBuffer(filepath: string): Buffer {
 
 // eslint-disable-next-line @typescript-eslint/no-use-before-define
 module.exports = exports = imageSize // backwards compatibility
+export default imageSize
 export function imageSize(input: Buffer | string): ISizeCalculationResult
 export function imageSize(input: string, callback: CallbackFn): void
 /**

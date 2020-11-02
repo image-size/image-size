@@ -98,6 +98,10 @@ export function imageSize(input: Buffer | string, callback?: CallbackFn): ISizeC
     throw new TypeError('invalid invocation')
   }
 
+  if (Buffer.isBuffer(input)) {
+    return lookup(input);
+  }
+
   // resolve the file path
   const filepath = path.resolve(input)
   if (typeof callback === 'function') {

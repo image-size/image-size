@@ -99,7 +99,7 @@ export function imageSize(input: Buffer | string, callback?: CallbackFn): ISizeC
   }
 
   if (Buffer.isBuffer(input)) {
-    return lookup(input);
+    return lookup(input)
   }
 
   // resolve the file path

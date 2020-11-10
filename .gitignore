@@ -1,7 +1,8 @@
 .DS_Store
 coverage/
 node_modules
-npm-debug.log
+yarn-debug.log
+yarn-error.log
 .nyc_output
 dist/
 docs/

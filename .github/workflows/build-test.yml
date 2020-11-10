@@ -20,8 +20,8 @@ jobs:
           node-version: 12
       - name: Build and run all tests
         run: |
-          npm ci
-          npm run build
-          npm run test
+          yarn
+          yarn build
+          yarn test
         env:
           CI: true

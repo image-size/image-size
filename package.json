@@ -20,7 +20,7 @@
     "clean": "rm -rf dist docs",
     "generate-docs": "typedoc",
     "build": "tsc",
-    "prepack": "npm run clean && npm run build"
+    "prepack": "yarn clean && yarn build"
   },
   "keywords": [
     "image",

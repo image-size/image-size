@@ -3,18 +3,17 @@ version: 2.1
 commands:
   build:
     steps:
-      - run: node --version && npm --version
+      - run: node --version && yarn --version
       - checkout
       - restore_cache:
           keys:
-            - npm-{{ checksum "package-lock.json" }}
-            - npm-cache
-      - run: npm install
-      - run: npm test
+            - yarn-{{ checksum "yarn.lock" }}
+      - run: yarn install --immutable --frozen-lockfile
+      - run: yarn test
       - save_cache:
-          key: npm-{{ checksum "package-lock.json" }}
+          key: yarn-{{ checksum "yarn.lock" }}
           paths:
-            - "~/.npm/"
+            - ~/.cache/yarn
 
 jobs:
   node-10:

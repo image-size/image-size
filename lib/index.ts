@@ -15,10 +15,12 @@ const MaxBufferSize = 512 * 1024
 const queue = new Queue({ concurrency: 100, autostart: true })
 
 interface Options {
+  disabledFS: boolean
   disabledTypes: imageType[]
 }
 
 const globalOptions: Options = {
+  disabledFS: false,
   disabledTypes: []
 }
 
@@ -111,8 +113,8 @@ export function imageSize(input: Buffer | string, callback?: CallbackFn): ISizeC
   }
 
   // input should be a string at this point
-  if (typeof input !== 'string') {
-    throw new TypeError('invalid invocation')
+  if (typeof input !== 'string' || globalOptions.disabledFS) {
+    throw new TypeError('invalid invocation. input should be a Buffer')
   }
 
   // resolve the file path
@@ -127,6 +129,7 @@ export function imageSize(input: Buffer | string, callback?: CallbackFn): ISizeC
   }
 }
 
+export const disableFS = (v: boolean): void => { globalOptions.disabledFS = v }
 export const disableTypes = (types: imageType[]): void => { globalOptions.disabledTypes = types }
 export const setConcurrency = (c: number): void => { queue.concurrency = c }
 export const types = Object.keys(typeHandlers)

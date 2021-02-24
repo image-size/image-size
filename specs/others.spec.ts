@@ -1,7 +1,7 @@
 import { resolve } from 'path'
 import { openSync, readSync } from 'fs'
 import { expect } from 'chai'
-import { imageSize, types, disableTypes } from '../lib'
+import { imageSize, types, disableTypes, disableFS } from '../lib'
 
 // If something other than a buffer or filepath is passed
 describe('Invalid invocation', () => {
@@ -29,6 +29,16 @@ describe('Invalid invocation', () => {
         .to.throw(TypeError, 'disabled file type: bmp')
       expect(() => imageSize('specs/images/valid/png/sample.png'))
         .to.not.throw()
+    })
+  })
+
+  describe('when FS reads are disabled', () => {
+    before(() => disableFS(true))
+    after(() => disableFS(false))
+
+    it ('should only allow buffer inputs', () => {
+      expect(() => imageSize('specs/images/valid/jpg/sample.jpg'))
+        .to.throw(TypeError, 'invalid invocation. input should be a Buffer')
     })
   })
 })

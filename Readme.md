@@ -38,18 +38,18 @@ yarn add image-size
 ### Synchronous
 
 ```javascript
-var sizeOf = require('image-size');
-var dimensions = sizeOf('images/funny-cats.png');
-console.log(dimensions.width, dimensions.height);
+const sizeOf = require('image-size')
+const dimensions = sizeOf('images/funny-cats.png')
+console.log(dimensions.width, dimensions.height)
 ```
 
 ### Asynchronous
 
 ```javascript
-var sizeOf = require('image-size');
+const sizeOf = require('image-size')
 sizeOf('images/funny-cats.png', function (err, dimensions) {
-  console.log(dimensions.width, dimensions.height);
-});
+  console.log(dimensions.width, dimensions.height)
+})
 ```
 
 NOTE: The asynchronous version doesn't work if the input is a Buffer. Use synchronous version instead.
@@ -58,33 +58,33 @@ Also, the asynchronous functions have a default concurreny limit of **100**
 To change this limit, you can call the `setConcurrency` function like this:
 
 ```javascript
-var sizeOf = require('image-size');
+const sizeOf = require('image-size')
 sizeOf.setConcurrency(123456)
 ```
 
 ### Using promises (nodejs 10.x+)
 
 ```javascript
-var { promisify } = require('util');
-var sizeOf = promisify(require('image-size'));
+const { promisify } = require('util')
+const sizeOf = promisify(require('image-size'))
 sizeOf('images/funny-cats.png')
-  .then(dimensions => { console.log(dimensions.width, dimensions.height); })
-  .catch(err => console.error(err));
+  .then(dimensions => { console.log(dimensions.width, dimensions.height) })
+  .catch(err => console.error(err))
 ```
 
 ### Async/Await (Typescript & ES7)
 
 ```javascript
-var { promisify } = require('util');
-var sizeOf = promisify(require('image-size'));
+const { promisify } = require('util')
+const sizeOf = promisify(require('image-size'))
 (async () => {
   try {
-    const dimensions = await sizeOf('images/funny-cats.png');
-    console.log(dimensions.width, dimensions.height);
+    const dimensions = await sizeOf('images/funny-cats.png')
+    console.log(dimensions.width, dimensions.height)
   } catch (err) {
-    console.error(err);
+    console.error(err)
   }
-})().then(c => console.log(c));
+})().then(c => console.log(c))
 ```
 
 ### Multi-size
@@ -94,37 +94,49 @@ If the target file is an icon (.ico) or a cursor (.cur), the `width` and `height
 An additional `images` array is available and returns the dimensions of all the available images
 
 ```javascript
-var sizeOf = require('image-size');
-var images = sizeOf('images/multi-size.ico').images;
+const sizeOf = require('image-size')
+const images = sizeOf('images/multi-size.ico').images
 for (const dimensions of images) {
-  console.log(dimensions.width, dimensions.height);
+  console.log(dimensions.width, dimensions.height)
 }
 ```
 
 ### Using a URL
 
 ```javascript
-var url = require('url');
-var http = require('http');
+const url = require('url')
+const http = require('http')
 
-var sizeOf = require('image-size');
+const sizeOf = require('image-size')
 
-var imgUrl = 'http://my-amazing-website.com/image.jpeg';
-var options = url.parse(imgUrl);
+const imgUrl = 'http://my-amazing-website.com/image.jpeg'
+const options = url.parse(imgUrl)
 
 http.get(options, function (response) {
-  var chunks = [];
+  const chunks = []
   response.on('data', function (chunk) {
-    chunks.push(chunk);
+    chunks.push(chunk)
   }).on('end', function() {
-    var buffer = Buffer.concat(chunks);
-    console.log(sizeOf(buffer));
-  });
-});
+    const buffer = Buffer.concat(chunks)
+    console.log(sizeOf(buffer))
+  })
+})
 ```
 
 You can optionally check the buffer lengths & stop downloading the image after a few kilobytes.
 **You don't need to download the entire image**
+
+### Disabling certain image types
+```javascript
+const imageSize = require('image-size')
+imageSize.disableTypes(['tiff', 'ico'])
+```
+
+### Disabling all file-system reads
+```javascript
+const imageSize = require('image-size')
+imageSize.disableFS(true)
+```
 
 ## Command-Line Usage (CLI)
 

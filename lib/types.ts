@@ -1,5 +1,4 @@
 // load all available handlers explicitely for browserify support
-import { IImage } from './types/interface'
 import { BMP } from './types/bmp'
 import { CUR } from './types/cur'
 import { DDS } from './types/dds'
@@ -17,7 +16,7 @@ import { SVG } from './types/svg'
 import { TIFF } from './types/tiff'
 import { WEBP } from './types/webp'
 
-export const typeHandlers: { [key: string]: IImage} = {
+export const typeHandlers = {
   bmp: BMP,
   cur: CUR,
   dds: DDS,
@@ -35,3 +34,5 @@ export const typeHandlers: { [key: string]: IImage} = {
   tiff: TIFF,
   webp: WEBP,
 }
+
+export type imageType = keyof typeof typeHandlers

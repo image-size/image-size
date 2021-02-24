@@ -16,10 +16,9 @@
   ],
   "typedocOptions": {
     "excludeExternals": true,
-    "excludeNotExported": true,
     "excludePrivate": true,
     "excludeProtected": true,
-    "inputFiles": ["lib/index.ts"],
+    "entryPoints": ["lib/index.ts"],
     "out": "docs"
   }
 }

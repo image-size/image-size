@@ -1,7 +1,7 @@
 import { resolve } from 'path'
 import { openSync, readSync } from 'fs'
 import { expect } from 'chai'
-import { imageSize, types } from '../lib'
+import { imageSize, types, disableTypes } from '../lib'
 
 // If something other than a buffer or filepath is passed
 describe('Invalid invocation', () => {
@@ -15,6 +15,20 @@ describe('Invalid invocation', () => {
       const descriptor = openSync(filepath, 'r')
       readSync(descriptor, buffer, 0, bufferSize, 0)
       expect(() => imageSize(buffer)).to.throw(TypeError, 'Tiff doesn\'t support buffer')
+    })
+  })
+
+  describe('for a disabled image type', () => {
+    before(() => disableTypes(['jpg', 'bmp']))
+    after(() => disableTypes([]))
+
+    it('should throw', () => {
+      expect(() => imageSize('specs/images/valid/jpg/sample.jpg'))
+        .to.throw(TypeError, 'disabled file type: jpg')
+      expect(() => imageSize('specs/images/valid/bmp/sample.bmp'))
+        .to.throw(TypeError, 'disabled file type: bmp')
+      expect(() => imageSize('specs/images/valid/png/sample.png'))
+        .to.not.throw()
     })
   })
 })

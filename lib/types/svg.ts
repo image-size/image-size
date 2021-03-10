@@ -11,7 +11,7 @@ const svgReg = /<svg\s([^>"']|"[^"]*"|'[^']*')*>/
 const extractorRegExps = {
   height: /\sheight=(['"])([^%]+?)\1/,
   root: svgReg,
-  viewbox: /\sviewBox=(['"])(.+?)\1/,
+  viewbox: /\sviewBox=(['"])(.+?)\1/i,
   width: /\swidth=(['"])([^%]+?)\1/,
 }
 

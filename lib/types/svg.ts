@@ -24,14 +24,17 @@ const units: { [unit: string]: number } = {
   mm: 96 / INCH_CM / 10,
   pc: 96 / 72 / 12,
   pt: 96 / 72,
+  px: 1
 }
 
+const unitsReg = new RegExp(`^([0-9.]+(?:e\\d+)?)(${Object.keys(units).join('|')})?$`)
+
 function parseLength(len: string) {
-  const m = /([0-9.]+)([a-z]*)/.exec(len)
+  const m = unitsReg.exec(len)
   if (!m) {
     return undefined
   }
-  return Math.round(parseFloat(m[1]) * (units[m[2]] || 1))
+  return Math.round(Number(m[1]) * (units[m[2]] || 1))
 }
 
 function parseViewbox(viewbox: string): IAttributes {

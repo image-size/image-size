@@ -17,6 +17,7 @@ const extractorRegExps = {
 
 const INCH_CM = 2.54
 const units: { [unit: string]: number } = {
+  in: 96,
   cm: 96 / INCH_CM,
   em: 16,
   ex: 8,

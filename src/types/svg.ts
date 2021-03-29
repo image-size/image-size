@@ -1,4 +1,4 @@
-import { IImage, ISize } from './interface'
+import type { IImage, ISize } from './interface'
 
 interface IAttributes {
   width: number | null
@@ -84,6 +84,11 @@ function calculateByViewbox(attrs: IAttributes, viewbox: IAttributes): ISize {
   }
 }
 
+function toUtf8String(view: DataView): string {
+  const decoder = new TextDecoder('utf8');
+  return decoder.decode(view);
+}
+
 export const SVG: IImage = {
   validate(buffer) {
     const str = String(buffer)
@@ -91,7 +96,7 @@ export const SVG: IImage = {
   },
 
   calculate(buffer) {
-    const root = buffer.toString('utf8').match(extractorRegExps.root)
+    const root = toUtf8String(buffer).match(extractorRegExps.root)
     if (root) {
       const attrs = parseAttributes(root[0])
       if (attrs.width && attrs.height) {

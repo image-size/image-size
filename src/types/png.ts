@@ -1,4 +1,6 @@
-import { IImage } from './interface'
+import type { IImage } from './interface'
+import { readUInt32BE } from '../readUInt'
+import toAsciiString from '../toAsciiString'
 
 const pngSignature = 'PNG\r\n\x1a\n'
 const pngImageHeaderChunkName = 'IHDR'
@@ -8,10 +10,10 @@ const pngFriedChunkName = 'CgBI'
 
 export const PNG: IImage = {
   validate(buffer) {
-    if (pngSignature === buffer.toString('ascii', 1, 8)) {
-      let chunkName = buffer.toString('ascii', 12, 16)
+    if (pngSignature === toAsciiString(buffer, 1, 8)) {
+      let chunkName = toAsciiString(buffer, 12, 16)
       if (chunkName === pngFriedChunkName) {
-        chunkName = buffer.toString('ascii', 28, 32)
+        chunkName = toAsciiString(buffer, 28, 32)
       }
       if (chunkName !== pngImageHeaderChunkName) {
         throw new TypeError('Invalid PNG')
@@ -22,15 +24,15 @@ export const PNG: IImage = {
   },
 
   calculate(buffer) {
-    if (buffer.toString('ascii', 12, 16) === pngFriedChunkName) {
+    if (toAsciiString(buffer, 12, 16) === pngFriedChunkName) {
       return {
-        height: buffer.readUInt32BE(36),
-        width: buffer.readUInt32BE(32)
+        height: readUInt32BE(buffer, 36),
+        width: readUInt32BE(buffer, 32)
       }
     }
     return {
-      height: buffer.readUInt32BE(20),
-      width: buffer.readUInt32BE(16)
+      height: readUInt32BE(buffer, 20),
+      width: readUInt32BE(buffer, 16)
     }
   }
 }

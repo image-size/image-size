@@ -1,4 +1,6 @@
-import { IImage, ISize } from './interface'
+import type { IImage, ISize } from './interface'
+import { readUInt32BE } from '../readUInt'
+import toAsciiString from '../toAsciiString'
 
 /**
  * ICNS Header
@@ -64,11 +66,11 @@ const ICON_TYPE_SIZE: {[key: string]: number} = {
   ic10: 1024,
 }
 
-function readImageHeader(buffer: Buffer, imageOffset: number): [string, number] {
+function readImageHeader(buffer: DataView, imageOffset: number): [string, number] {
   const imageLengthOffset = imageOffset + ENTRY_LENGTH_OFFSET
   return [
-    buffer.toString('ascii', imageOffset, imageLengthOffset),
-    buffer.readUInt32BE(imageLengthOffset)
+    toAsciiString(buffer, imageOffset, imageLengthOffset),
+    readUInt32BE(buffer, imageLengthOffset)
   ]
 }
 
@@ -79,12 +81,12 @@ function getImageSize(type: string): ISize {
 
 export const ICNS: IImage = {
   validate(buffer) {
-    return ('icns' === buffer.toString('ascii', 0, 4))
+    return ('icns' === toAsciiString(buffer, 0, 4))
   },
 
   calculate(buffer) {
-    const bufferLength = buffer.length
-    const fileLength = buffer.readUInt32BE(FILE_LENGTH_OFFSET)
+    const bufferLength = buffer.byteLength
+    const fileLength = readUInt32BE(buffer, FILE_LENGTH_OFFSET)
     let imageOffset = SIZE_HEADER
 
     let imageHeader = readImageHeader(buffer, imageOffset)

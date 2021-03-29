@@ -1,4 +1,5 @@
-import { IImage, ISize, ISizeCalculationResult } from './interface'
+import type { IImage, ISize, ISizeCalculationResult } from './interface'
+import { readUInt16LE } from '../readUInt'
 
 const TYPE_ICON = 1
 
@@ -31,12 +32,12 @@ const SIZE_HEADER = 2 + 2 + 2 // 6
  */
 const SIZE_IMAGE_ENTRY = 1 + 1 + 1 + 1 + 2 + 2 + 4 + 4 // 16
 
-function getSizeFromOffset(buffer: Buffer, offset: number): number {
-  const value = buffer.readUInt8(offset)
+function getSizeFromOffset(buffer: DataView, offset: number): number {
+  const value = buffer.getUint8(offset)
   return value === 0 ? 256 : value
 }
 
-function getImageSize(buffer: Buffer, imageIndex: number): ISize {
+function getImageSize(buffer: DataView, imageIndex: number): ISize {
   const offset = SIZE_HEADER + (imageIndex * SIZE_IMAGE_ENTRY)
   return {
     height: getSizeFromOffset(buffer, offset + 1),
@@ -46,14 +47,14 @@ function getImageSize(buffer: Buffer, imageIndex: number): ISize {
 
 export const ICO: IImage = {
   validate(buffer) {
-    if (buffer.readUInt16LE(0) !== 0) {
+    if (readUInt16LE(buffer, 0) !== 0) {
       return false
     }
-    return buffer.readUInt16LE(2) === TYPE_ICON
+    return readUInt16LE(buffer, 2) === TYPE_ICON
   },
 
   calculate(buffer) {
-    const nbImages = buffer.readUInt16LE(4)
+    const nbImages = readUInt16LE(buffer, 4)
     const imageSize = getImageSize(buffer, 0)
 
     if (nbImages === 1) {

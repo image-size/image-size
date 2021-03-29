@@ -3,8 +3,9 @@
 // with a maximum size of 4096 bytes. so if the SOF marker is outside
 // if this range we can't detect the file size correctly.
 
-import { IImage, ISize } from './interface'
-import { readUInt } from '../readUInt'
+import type { IImage, ISize } from './interface'
+import { readUInt16, readUInt32, readUInt16BE } from '../readUInt'
+import toHexadecimal from '../toHexadecimal'
 
 const EXIF_MARKER = '45786966'
 const APP1_DATA_SIZE_BYTES = 2
@@ -17,18 +18,18 @@ const LITTLE_ENDIAN_BYTE_ALIGN = '4949'
 const IDF_ENTRY_BYTES = 12
 const NUM_DIRECTORY_ENTRIES_BYTES = 2
 
-function isEXIF(buffer: Buffer): boolean {
-  return (buffer.toString('hex', 2, 6) === EXIF_MARKER)
+function isEXIF(buffer: DataView, offset: number): boolean {
+  return (toHexadecimal(buffer, offset + 2, offset + 6) === EXIF_MARKER)
 }
 
-function extractSize(buffer: Buffer, index: number): ISize {
+function extractSize(buffer: DataView, index: number): ISize {
   return {
-    height : buffer.readUInt16BE(index),
-    width : buffer.readUInt16BE(index + 2)
+    height : readUInt16BE(buffer, index),
+    width : readUInt16BE(buffer, index + 2)
   }
 }
 
-function extractOrientation(exifBlock: Buffer, isBigEndian: boolean) {
+function extractOrientation(exifBlock: DataView, begin: number, isBigEndian: boolean) {
   // TODO: assert that this contains 0x002A
   // let STATIC_MOTOROLA_TIFF_HEADER_BYTES = 2
   // let TIFF_IMAGE_FILE_DIRECTORY_BYTES = 4
@@ -38,85 +39,89 @@ function extractOrientation(exifBlock: Buffer, isBigEndian: boolean) {
 
   // IDF osset works from right after the header bytes
   // (so the offset includes the tiff byte align)
-  const offset = EXIF_HEADER_BYTES + idfOffset
+  const offset = begin + EXIF_HEADER_BYTES + idfOffset
 
-  const idfDirectoryEntries = readUInt(exifBlock, 16, offset, isBigEndian)
+  const idfDirectoryEntries = readUInt16(exifBlock, offset, isBigEndian)
 
   for (let directoryEntryNumber = 0; directoryEntryNumber < idfDirectoryEntries; directoryEntryNumber++) {
     const start = offset + NUM_DIRECTORY_ENTRIES_BYTES + (directoryEntryNumber * IDF_ENTRY_BYTES)
     const end = start + IDF_ENTRY_BYTES
 
     // Skip on corrupt EXIF blocks
-    if (start > exifBlock.length) {
+    if (start > exifBlock.byteLength) {
       return
     }
 
-    const block = exifBlock.slice(start, end)
-    const tagNumber = readUInt(block, 16, 0, isBigEndian)
+    // const block = exifBlock.slice(start, end)
+    const blockStart = start
+    const tagNumber = readUInt16(exifBlock, blockStart, isBigEndian)
 
     // 0x0112 (decimal: 274) is the `orientation` tag ID
     if (tagNumber === 274) {
-      const dataFormat = readUInt(block, 16, 2, isBigEndian)
+      const dataFormat = readUInt16(exifBlock, blockStart + 2, isBigEndian)
       if (dataFormat !== 3) {
         return
       }
 
       // unsinged int has 2 bytes per component
       // if there would more than 4 bytes in total it's a pointer
-      const numberOfComponents = readUInt(block, 32, 4, isBigEndian)
+      const numberOfComponents = readUInt32(exifBlock, blockStart + 4, isBigEndian)
       if (numberOfComponents !== 1) {
         return
       }
 
-      return readUInt(block, 16, 8, isBigEndian)
+      return readUInt16(exifBlock, blockStart + 8, isBigEndian)
     }
   }
 }
 
-function validateExifBlock(buffer: Buffer, index: number) {
+function validateExifBlock(buffer: DataView, index: number) {
   // Skip APP1 Data Size
-  const exifBlock = buffer.slice(APP1_DATA_SIZE_BYTES, index)
+  // const exifBlock = buffer.slice(APP1_DATA_SIZE_BYTES, index)
+  const start = index
 
   // Consider byte alignment
-  const byteAlign = exifBlock.toString('hex', EXIF_HEADER_BYTES, EXIF_HEADER_BYTES + TIFF_BYTE_ALIGN_BYTES)
+  // const byteAlign = toHexadecimal(exifBlock, EXIF_HEADER_BYTES, EXIF_HEADER_BYTES + TIFF_BYTE_ALIGN_BYTES)
+  const byteAlign = toHexadecimal(buffer, index + EXIF_HEADER_BYTES, index +EXIF_HEADER_BYTES + TIFF_BYTE_ALIGN_BYTES)
 
   // Ignore Empty EXIF. Validate byte alignment
   const isBigEndian = byteAlign === BIG_ENDIAN_BYTE_ALIGN
   const isLittleEndian = byteAlign === LITTLE_ENDIAN_BYTE_ALIGN
 
   if (isBigEndian || isLittleEndian) {
-    return extractOrientation(exifBlock, isBigEndian)
+    return extractOrientation(buffer, index, isBigEndian)
   }
 }
 
-function validateBuffer(buffer: Buffer, index: number): void {
+function validateBuffer(buffer: DataView, index: number): void {
   // index should be within buffer limits
-  if (index > buffer.length) {
+  if (index > buffer.byteLength) {
     throw new TypeError('Corrupt JPG, exceeded buffer limits')
   }
   // Every JPEG block must begin with a 0xFF
-  if (buffer[index] !== 0xFF) {
+  if (buffer.getUint8(index) !== 0xFF) {
     throw new TypeError('Invalid JPG, marker table corrupted')
   }
 }
 
 export const JPG: IImage = {
-  validate(buffer) {
-    const SOIMarker = buffer.toString('hex', 0, 2)
+  validate(buffer: DataView) {
+    const SOIMarker = toHexadecimal(buffer, 0, 2)
     return ('ffd8' === SOIMarker)
   },
 
-  calculate(buffer) {
+  calculate(buffer: DataView) {
     // Skip 4 chars, they are for signature
-    buffer = buffer.slice(4)
+    // buffer = buffer.slice(4)
+    let offset = 4;
 
     let orientation: number | undefined
     let next: number
-    while (buffer.length) {
+    while (buffer.byteLength) {
       // read length of the next block
-      const i = buffer.readUInt16BE(0)
+      const i = readUInt16BE(buffer, offset)
 
-      if (isEXIF(buffer)) {
+      if (isEXIF(buffer, offset)) {
         orientation = validateExifBlock(buffer, i)
       }
 
@@ -126,7 +131,7 @@ export const JPG: IImage = {
       // 0xFFC0 is baseline standard(SOF)
       // 0xFFC1 is baseline optimized(SOF)
       // 0xFFC2 is progressive(SOF2)
-      next = buffer[i + 1]
+      next = buffer.getUint8(i + 1)
       if (next === 0xC0 || next === 0xC1 || next === 0xC2) {
         const size = extractSize(buffer, i + 5)
 
@@ -143,7 +148,8 @@ export const JPG: IImage = {
       }
 
       // move to the next block
-      buffer = buffer.slice(i + 2)
+      offset = i + 2
+      // buffer = buffer.slice(i + 2)
     }
 
     throw new TypeError('Invalid JPG, no size found')

@@ -10,6 +10,6 @@ export interface ISizeCalculationResult extends ISize {
 }
 
 export interface IImage {
-  validate: (buffer: Buffer) => boolean
-  calculate: (buffer: Buffer, filepath?: string) => ISizeCalculationResult
+  validate: (buffer: DataView) => boolean
+  calculate: (buffer: DataView, filepath?: string) => ISizeCalculationResult
 }

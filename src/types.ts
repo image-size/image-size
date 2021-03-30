@@ -1,20 +1,20 @@
 // load all available handlers explicitely for browserify support
-import { BMP } from './types/bmp'
-import { CUR } from './types/cur'
-import { DDS } from './types/dds'
-import { GIF } from './types/gif'
-import { ICNS } from './types/icns'
-import { ICO } from './types/ico'
-import { J2C } from './types/j2c'
-import { JP2 } from './types/jp2'
-import { JPG } from './types/jpg'
-import { KTX } from './types/ktx'
-import { PNG } from './types/png'
-import { PNM } from './types/pnm'
-import { PSD } from './types/psd'
-import { SVG } from './types/svg'
+import { BMP } from './types/bmp';
+import { CUR } from './types/cur';
+import { DDS } from './types/dds';
+import { GIF } from './types/gif';
+import { ICNS } from './types/icns';
+import { ICO } from './types/ico';
+import { J2C } from './types/j2c';
+import { JP2 } from './types/jp2';
+import { JPG } from './types/jpg';
+import { KTX } from './types/ktx';
+import { PNG } from './types/png';
+import { PNM } from './types/pnm';
+import { PSD } from './types/psd';
+import { SVG } from './types/svg';
 // import { TIFF } from './types/tiff'
-import { WEBP } from './types/webp'
+import { WEBP } from './types/webp';
 
 export const typeHandlers = {
   bmp: BMP,
@@ -33,6 +33,6 @@ export const typeHandlers = {
   svg: SVG,
   // tiff: TIFF,
   webp: WEBP,
-}
+};
 
-export type imageType = keyof typeof typeHandlers
+export type imageType = keyof typeof typeHandlers;

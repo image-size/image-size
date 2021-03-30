@@ -1,6 +1,6 @@
-import type { IImage, ISize } from './interface'
-import { readUInt32BE } from '../readUInt'
-import toAsciiString from '../toAsciiString'
+import type { IImage, ISize } from './interface';
+import { readUInt32BE } from '../readUInt';
+import toAsciiString from '../toAsciiString';
 
 /**
  * ICNS Header
@@ -10,8 +10,8 @@ import toAsciiString from '../toAsciiString'
  * | 4      | 4    | Length of file, in bytes, msb first.                   |
  *
  */
-const SIZE_HEADER = 4 + 4 // 8
-const FILE_LENGTH_OFFSET = 4 // MSB => BIG ENDIAN
+const SIZE_HEADER = 4 + 4; // 8
+const FILE_LENGTH_OFFSET = 4; // MSB => BIG ENDIAN
 
 /**
  * Image Entry
@@ -21,9 +21,9 @@ const FILE_LENGTH_OFFSET = 4 // MSB => BIG ENDIAN
  * | 4      | 4    | Length of data, in bytes (including type and length), msb first. |
  * | 8      | n    | Icon data                                                        |
  */
-const ENTRY_LENGTH_OFFSET = 4 // MSB => BIG ENDIAN
+const ENTRY_LENGTH_OFFSET = 4; // MSB => BIG ENDIAN
 
-const ICON_TYPE_SIZE: {[key: string]: number} = {
+const ICON_TYPE_SIZE: { [key: string]: number } = {
   ICON: 32,
   'ICN#': 32,
   // m => 16 x 16
@@ -64,52 +64,55 @@ const ICON_TYPE_SIZE: {[key: string]: number} = {
   ic14: 512,
   // . => 1024 x 1024
   ic10: 1024,
-}
+};
 
-function readImageHeader(buffer: DataView, imageOffset: number): [string, number] {
-  const imageLengthOffset = imageOffset + ENTRY_LENGTH_OFFSET
+function readImageHeader(
+  buffer: DataView,
+  imageOffset: number,
+): [string, number] {
+  const imageLengthOffset = imageOffset + ENTRY_LENGTH_OFFSET;
   return [
     toAsciiString(buffer, imageOffset, imageLengthOffset),
-    readUInt32BE(buffer, imageLengthOffset)
-  ]
+    readUInt32BE(buffer, imageLengthOffset),
+  ];
 }
 
 function getImageSize(type: string): ISize {
-  const size = ICON_TYPE_SIZE[type]
-  return { width: size, height: size, type }
+  const size = ICON_TYPE_SIZE[type];
+  return { width: size, height: size, type };
 }
 
 export const ICNS: IImage = {
   validate(buffer) {
-    return ('icns' === toAsciiString(buffer, 0, 4))
+    return 'icns' === toAsciiString(buffer, 0, 4);
   },
 
   calculate(buffer) {
-    const bufferLength = buffer.byteLength
-    const fileLength = readUInt32BE(buffer, FILE_LENGTH_OFFSET)
-    let imageOffset = SIZE_HEADER
+    const bufferLength = buffer.byteLength;
+    const fileLength = readUInt32BE(buffer, FILE_LENGTH_OFFSET);
+    let imageOffset = SIZE_HEADER;
 
-    let imageHeader = readImageHeader(buffer, imageOffset)
-    let imageSize = getImageSize(imageHeader[0])
-    imageOffset += imageHeader[1]
+    let imageHeader = readImageHeader(buffer, imageOffset);
+    let imageSize = getImageSize(imageHeader[0]);
+    imageOffset += imageHeader[1];
 
     if (imageOffset === fileLength) {
-      return imageSize
+      return imageSize;
     }
 
     const result = {
       height: imageSize.height,
       images: [imageSize],
-      width: imageSize.width
-    }
+      width: imageSize.width,
+    };
 
     while (imageOffset < fileLength && imageOffset < bufferLength) {
-      imageHeader = readImageHeader(buffer, imageOffset)
-      imageSize = getImageSize(imageHeader[0])
-      imageOffset += imageHeader[1]
-      result.images.push(imageSize)
+      imageHeader = readImageHeader(buffer, imageOffset);
+      imageSize = getImageSize(imageHeader[0]);
+      imageOffset += imageHeader[1];
+      result.images.push(imageSize);
     }
 
-    return result
-  }
-}
+    return result;
+  },
+};

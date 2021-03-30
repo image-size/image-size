@@ -5,15 +5,16 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
-    "dist",
-    "bin/image-size.js"
+    "dist/",
+    "./Readme.md",
+    "LICENSE"
   ],
   "bin": {
     "image-size": "bin/image-size.js"
   },
   "scripts": {
-    "start": "snowpack dev",
-    "build": "snowpack build",
+    "start": "tsc && snowpack dev",
+    "build": "tsc && snowpack build",
     "format": "prettier --write \"src/**/*.{ts,js}\"",
     "lint": "prettier --check \"src/**/*.{ts,js}\"",
     "test": "echo \"This template does not include a test runner by default.\" && exit 1"

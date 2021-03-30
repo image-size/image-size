@@ -1,6 +1,6 @@
-import { typeHandlers, imageType } from './types'
+import { typeHandlers, imageType } from './types';
 
-const keys = Object.keys(typeHandlers) as imageType[]
+const keys = Object.keys(typeHandlers) as imageType[];
 
 // This map helps avoid validating for every single image type
 const firstBytes: { [byte: number]: imageType } = {
@@ -13,18 +13,18 @@ const firstBytes: { [byte: number]: imageType } = {
   0x52: 'webp',
   0x69: 'icns',
   0x89: 'png',
-  0xff: 'jpg'
-}
+  0xff: 'jpg',
+};
 
 export function detector(view: DataView): imageType | undefined {
   const byte = view.getUint8(0);
   if (byte in firstBytes) {
-    const type = firstBytes[byte]
+    const type = firstBytes[byte];
     if (type && typeHandlers[type].validate(view)) {
-      return type
+      return type;
     }
   }
 
-  const finder = (key: imageType) => typeHandlers[key].validate(view)
-  return keys.find(finder)
+  const finder = (key: imageType) => typeHandlers[key].validate(view);
+  return keys.find(finder);
 }

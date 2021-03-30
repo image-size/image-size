@@ -1,5 +1,12 @@
 {
-  "include": ["src", "types"],
+  "include": [
+    "src/**/*"
+  ],
+  "exclude": [
+    "./dist/*",
+    "./archive/*",
+    "./lib/**/*"
+  ],
   "compilerOptions": {
     "module": "esnext",
     "target": "esnext",
@@ -18,12 +25,14 @@
     /* more strict checking for errors that per-file transpilers like `esbuild` would crash */
     "isolatedModules": true,
     /* noEmit - We only use TypeScript for type checking. */
-    "noEmit": true,
+    "noEmit": false,
     /* Additional Options */
     "strict": true,
-    "skipLibCheck": true,
+    "skipLibCheck": false,
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
-    "useDefineForClassFields": true
+    "useDefineForClassFields": true,
+    "outDir": "./dist",
+    "declaration": true,
   }
 }

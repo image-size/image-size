@@ -1,7 +1,7 @@
-import type { IImage, ISize, ISizeCalculationResult } from './interface'
-import { readUInt16LE } from '../readUInt'
+import type { IImage, ISize, ISizeCalculationResult } from './interface';
+import { readUInt16LE } from '../readUInt';
 
-const TYPE_ICON = 1
+const TYPE_ICON = 1;
 
 /**
  * ICON Header
@@ -12,7 +12,7 @@ const TYPE_ICON = 1
  * | 4      | 2    | Number of images in the file. |
  *
  */
-const SIZE_HEADER = 2 + 2 + 2 // 6
+const SIZE_HEADER = 2 + 2 + 2; // 6
 
 /**
  * Image Entry
@@ -30,48 +30,48 @@ const SIZE_HEADER = 2 + 2 + 2 // 6
  * | 12     | 4    | The offset of BMP or PNG data from the beginning of the ICO/CUR file |
  *
  */
-const SIZE_IMAGE_ENTRY = 1 + 1 + 1 + 1 + 2 + 2 + 4 + 4 // 16
+const SIZE_IMAGE_ENTRY = 1 + 1 + 1 + 1 + 2 + 2 + 4 + 4; // 16
 
 function getSizeFromOffset(buffer: DataView, offset: number): number {
-  const value = buffer.getUint8(offset)
-  return value === 0 ? 256 : value
+  const value = buffer.getUint8(offset);
+  return value === 0 ? 256 : value;
 }
 
 function getImageSize(buffer: DataView, imageIndex: number): ISize {
-  const offset = SIZE_HEADER + (imageIndex * SIZE_IMAGE_ENTRY)
+  const offset = SIZE_HEADER + imageIndex * SIZE_IMAGE_ENTRY;
   return {
     height: getSizeFromOffset(buffer, offset + 1),
-    width: getSizeFromOffset(buffer, offset)
-  }
+    width: getSizeFromOffset(buffer, offset),
+  };
 }
 
 export const ICO: IImage = {
   validate(buffer) {
     if (readUInt16LE(buffer, 0) !== 0) {
-      return false
+      return false;
     }
-    return readUInt16LE(buffer, 2) === TYPE_ICON
+    return readUInt16LE(buffer, 2) === TYPE_ICON;
   },
 
   calculate(buffer) {
-    const nbImages = readUInt16LE(buffer, 4)
-    const imageSize = getImageSize(buffer, 0)
+    const nbImages = readUInt16LE(buffer, 4);
+    const imageSize = getImageSize(buffer, 0);
 
     if (nbImages === 1) {
-      return imageSize
+      return imageSize;
     }
 
-    const imgs: ISize[] = [imageSize]
+    const imgs: ISize[] = [imageSize];
     for (let imageIndex = 1; imageIndex < nbImages; imageIndex += 1) {
-      imgs.push(getImageSize(buffer, imageIndex))
+      imgs.push(getImageSize(buffer, imageIndex));
     }
 
     const result: ISizeCalculationResult = {
       height: imageSize.height,
       images: imgs,
-      width: imageSize.width
-    }
+      width: imageSize.width,
+    };
 
-    return result
-  }
-}
+    return result;
+  },
+};

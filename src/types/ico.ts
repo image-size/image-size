@@ -1,5 +1,5 @@
-import type { IImage, ISize, ISizeCalculationResult } from './interface';
-import { readUInt16LE } from '../readUInt';
+import type { IImage, ISize, ISizeCalculationResult, ToAsciiCallback } from './interface.js';
+import { readUInt16LE } from '../readUInt.js';
 
 const TYPE_ICON = 1;
 
@@ -53,7 +53,7 @@ export const ICO: IImage = {
     return readUInt16LE(buffer, 2) === TYPE_ICON;
   },
 
-  calculate(buffer) {
+  calculate(buffer, toAscii) {
     const nbImages = readUInt16LE(buffer, 4);
     const imageSize = getImageSize(buffer, 0);
 

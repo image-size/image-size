@@ -1,4 +1,3 @@
-import { expect } from 'chai'
 import imageSize, { imageSize as imageSizeNamed } from '../lib'
 
 describe('Imports', () => {

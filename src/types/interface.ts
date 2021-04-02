@@ -9,7 +9,17 @@ export interface ISizeCalculationResult extends ISize {
   images?: ISize[];
 }
 
+export type ToAsciiCallback = {
+  (
+    view: DataView, 
+    begin: number, 
+    end: number
+  ): string
+};
+
+
 export interface IImage {
-  validate: (buffer: DataView) => boolean;
-  calculate: (buffer: DataView, filepath?: string) => ISizeCalculationResult;
+  validate: (buffer: DataView, toAscii: ToAsciiCallback) => boolean;
+  calculate: (buffer: DataView, toAscii: ToAsciiCallback) => ISizeCalculationResult;
 }
+

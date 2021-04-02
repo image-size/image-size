@@ -1,6 +1,5 @@
-import { expect } from 'chai'
 import { sync as globSync } from 'glob'
-import { imageSize } from '../lib'
+import imageSize from '../lib'
 
 // Test all invalid files
 describe('Invalid Images', () => {

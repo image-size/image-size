@@ -1,12 +1,11 @@
-import type { IImage } from './interface';
-import { readUInt32LE } from '../readUInt';
-import toAsciiString from '../toAsciiString';
+import type { IImage } from './interface.js';
+import { readUInt32LE } from '../readUInt.js';
 
 const SIGNATURE = 'KTX 11';
 
 export const KTX: IImage = {
-  validate(buffer: DataView) {
-    return SIGNATURE === toAsciiString(buffer, 1, 7);
+  validate(buffer: DataView, toAscii) {
+    return SIGNATURE === toAscii(buffer, 1, 7);
   },
 
   calculate(buffer: DataView) {

@@ -1,11 +1,10 @@
-import type { IImage } from './interface';
-import { readUInt16LE } from '../readUInt';
-import toAsciiString from '../toAsciiString';
+import type { IImage } from './interface.js';
+import { readUInt16LE } from '../readUInt.js';
 
 const gifRegexp = /^GIF8[79]a/;
 export const GIF: IImage = {
-  validate(buffer) {
-    const signature = toAsciiString(buffer, 0, 6);
+  validate(buffer, toAscii) {
+    const signature = toAscii(buffer, 0, 6);
     return gifRegexp.test(signature);
   },
 

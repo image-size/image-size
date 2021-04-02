@@ -1,4 +1,3 @@
-import { expect } from 'chai'
 import { sync as globSync } from 'glob'
 import { extname, resolve } from 'path'
 import { openSync, readSync } from 'fs'

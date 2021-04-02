@@ -1,7 +1,6 @@
-import type { IImage, ISize } from './interface';
-import { readUInt32BE, readUInt16BE } from '../readUInt';
-import toHexadecimal from '../toHexadecimal';
-import toAsciiString from '../toAsciiString';
+import type { IImage, ISize } from './interface.js';
+import { readUInt32BE, readUInt16BE } from '../readUInt.js';
+import toHexadecimal from '../toHexadecimal.js';
 
 const BoxTypes = {
   ftyp: '66747970',
@@ -47,7 +46,7 @@ export const JP2: IImage = {
     );
   },
 
-  calculate(buffer) {
+  calculate(buffer, toAscii) {
     const signatureLength = readUInt32BE(buffer, 0);
     const ftypBoxLength = readUInt16BE(buffer, signatureLength + 2);
     let offset = signatureLength + 4 + ftypBoxLength;
@@ -64,7 +63,7 @@ export const JP2: IImage = {
       default:
         throw new TypeError(
           'Unsupported header found: ' +
-            toAsciiString(buffer, offset, offset + 4),
+          toAscii(buffer, offset, offset + 4),
         );
     }
   },

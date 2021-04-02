@@ -1,5 +1,5 @@
-import type { IImage } from './interface';
-import { readUInt32LE } from '../readUInt';
+import type { IImage } from './interface.js';
+import { readUInt32LE } from '../readUInt.js';
 
 export const DDS: IImage = {
   validate(buffer) {

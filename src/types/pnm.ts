@@ -1,5 +1,4 @@
-import toAsciiString from '../toAsciiString';
-import type { IImage, ISize } from './interface';
+import type { IImage, ISize } from './interface.js';
 
 const PNMTypes: { [signature: string]: string } = {
   P1: 'pbm/ascii',
@@ -65,17 +64,17 @@ const handlers: { [type: string]: Handler } = {
 };
 
 export const PNM: IImage = {
-  validate(buffer) {
-    const signature = toAsciiString(buffer, 0, 2);
+  validate(buffer, toAscii) {
+    const signature = toAscii(buffer, 0, 2);
     return Signatures.includes(signature);
   },
 
-  calculate(buffer) {
-    const signature = toAsciiString(buffer, 0, 2);
+  calculate(buffer, toAscii) {
+    const signature = toAscii(buffer, 0, 2);
     const type = PNMTypes[signature];
     // TODO: this probably generates garbage. move to a stream based parser
     // const lines = buffer.toString('ascii', 3).split(/[\r\n]+/)
-    const lines = toAsciiString(buffer, 3, buffer.byteLength).split(/[\r\n]+/);
+    const lines = toAscii(buffer, 3, buffer.byteLength).split(/[\r\n]+/);
     const handler = handlers[type] || handlers.default;
     return handler(lines);
   },

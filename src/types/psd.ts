@@ -1,10 +1,9 @@
-import type { IImage } from './interface';
-import { readUInt32BE } from '../readUInt';
-import toAsciiString from '../toAsciiString';
+import type { IImage } from './interface.js';
+import { readUInt32BE } from '../readUInt.js';
 
 export const PSD: IImage = {
-  validate(buffer) {
-    return '8BPS' === toAsciiString(buffer, 0, 4);
+  validate(buffer, toAscii) {
+    return '8BPS' === toAscii(buffer, 0, 4);
   },
 
   calculate(buffer) {

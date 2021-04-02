@@ -2,7 +2,9 @@
 module.exports = {
   mount: {
     public: { url: '/', static: true },
-    src: { url: '/dist' },
+    src: { url: '/lib' },
+    web: { url: '/' },
+    "specs/images": { url: '/images'}
   },
   plugins: ['@snowpack/plugin-typescript'],
   routes: [

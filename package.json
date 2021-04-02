@@ -1,23 +1,32 @@
 {
   "name": "image-size",
+  "exports": {
+    ".": {
+      "import": "./lib/mjs/index.js",
+      "require": "./lib/cjs/index.js"
+    }
+  },
+  "types": "./lib/types/index.d.ts",
   "version": "0.9.7",
   "description": "fork of get dimensions of any image file",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
   "files": [
-    "dist/",
+    "./lib/*",
     "./Readme.md",
     "LICENSE"
   ],
-  "bin": {
-    "image-size": "bin/image-size.js"
-  },
   "scripts": {
-    "start": "tsc && snowpack dev",
-    "build": "tsc && snowpack build",
+    "start": "snowpack dev",
+    "build": "npm run build:es6 && npm run build:cjs && snowpack build",
+    "build:es6": "tsc -p tsconfig-mjs.json && node ./deploy/copy-mjs.js",
+    "build:cjs": "tsc -p tsconfig-cjs.json && node ./deploy/copy-cjs.js",
     "format": "prettier --write \"src/**/*.{ts,js}\"",
     "lint": "prettier --check \"src/**/*.{ts,js}\"",
-    "test": "echo \"This template does not include a test runner by default.\" && exit 1"
+    "test": "jest",
+    "clean": "npm run clean:es6 && npm run clean:cjs",
+    "clean:es6": "tsc --build --clean tsconfig-mjs.json && node ./deploy/delete-mjs.js",
+    "clean:cjs": "tsc --build --clean tsconfig-cjs.json && node ./deploy/delete-cjs.js",
+    "es6": "node --experimental-modules ./archive/demo.mjs",
+    "cjs": "node ./enc.js"
   },
   "keywords": [
     "image",
@@ -31,7 +40,6 @@
     "bmp",
     "gif",
     "psd",
-    "tiff",
     "webp",
     "svg",
     "icns",
@@ -39,10 +47,12 @@
     "cur"
   ],
   "repository": "git://github.com/dyoung2019/image-size.git",
-  "author": "netroy <aditya@netroy.in> (http://netroy.in/)",
+  "author": "David Young <tgsstdio@gmail.com>",
   "license": "MIT",
   "devDependencies": {
     "@snowpack/plugin-typescript": "^1.2.1",
+    "del": "^6.0.0",
+    "jest": "^26.6.3",
     "prettier": "^2.2.1",
     "snowpack": "^3.1.2",
     "typescript": "^4.2.3"

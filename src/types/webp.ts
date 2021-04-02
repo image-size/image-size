@@ -1,8 +1,7 @@
 // based on https://developers.google.com/speed/webp/docs/riff_container
 import type { IImage, ISize } from './interface';
-import { readUInt24LE, readInt16LE } from '../readUInt';
-import toAsciiString from '../toAsciiString';
-import toHexadecimal from '../toHexadecimal';
+import { readUInt24LE, readInt16LE } from '../readUInt.js';
+import toHexadecimal from '../toHexadecimal.js';
 
 function calculateExtended(buffer: DataView, offset: number): ISize {
   return {
@@ -34,15 +33,15 @@ function calculateLossy(buffer: DataView, offset: number): ISize {
 }
 
 export const WEBP: IImage = {
-  validate(buffer) {
-    const riffHeader = 'RIFF' === toAsciiString(buffer, 0, 4);
-    const webpHeader = 'WEBP' === toAsciiString(buffer, 8, 12);
-    const vp8Header = 'VP8' === toAsciiString(buffer, 12, 15);
+  validate(buffer, toAscii) {
+    const riffHeader = 'RIFF' === toAscii(buffer, 0, 4);
+    const webpHeader = 'WEBP' === toAscii(buffer, 8, 12);
+    const vp8Header = 'VP8' === toAscii(buffer, 12, 15);
     return riffHeader && webpHeader && vp8Header;
   },
 
-  calculate(buffer) {
-    const chunkHeader = toAsciiString(buffer, 12, 16);
+  calculate(buffer, toAscii) {
+    const chunkHeader = toAscii(buffer, 12, 16);
     // const sample = buffer.slice(20, 30)
     const sampleStart: number = 20;
 

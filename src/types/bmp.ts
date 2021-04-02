@@ -1,10 +1,9 @@
-import type { IImage } from './interface';
-import { readInt32LE, readUInt32LE } from '../readUInt';
-import toAsciiString from '../toAsciiString';
+import type { IImage, ToAsciiCallback } from './interface.js';
+import { readInt32LE, readUInt32LE } from '../readUInt.js';
 
 export const BMP: IImage = {
-  validate(buffer) {
-    return 'BM' === toAsciiString(buffer, 0, 2);
+  validate(buffer: DataView, toAscii: ToAsciiCallback) {
+    return 'BM' === toAscii(buffer, 0, 2);
   },
 
   calculate(buffer) {

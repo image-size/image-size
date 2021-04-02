@@ -1,4 +1,5 @@
-import { typeHandlers, imageType } from './types';
+import { typeHandlers, imageType } from './types/index.js';
+import type { ToAsciiCallback } from './types/interface.js';
 
 const keys = Object.keys(typeHandlers) as imageType[];
 
@@ -16,15 +17,15 @@ const firstBytes: { [byte: number]: imageType } = {
   0xff: 'jpg',
 };
 
-export function detector(view: DataView): imageType | undefined {
+export function detector(view: DataView, toAscii: ToAsciiCallback): imageType | undefined {
   const byte = view.getUint8(0);
   if (byte in firstBytes) {
     const type = firstBytes[byte];
-    if (type && typeHandlers[type].validate(view)) {
+    if (type && typeHandlers[type].validate(view, toAscii)) {
       return type;
     }
   }
 
-  const finder = (key: imageType) => typeHandlers[key].validate(view);
+  const finder = (key: imageType) => typeHandlers[key].validate(view, toAscii);
   return keys.find(finder);
 }

@@ -1,6 +1,5 @@
-import type { IImage, ISize } from './interface';
-import { readUInt32BE } from '../readUInt';
-import toAsciiString from '../toAsciiString';
+import type { IImage, ISize, ToAsciiCallback } from './interface.js';
+import { readUInt32BE } from '../readUInt.js';
 
 /**
  * ICNS Header
@@ -69,10 +68,11 @@ const ICON_TYPE_SIZE: { [key: string]: number } = {
 function readImageHeader(
   buffer: DataView,
   imageOffset: number,
+  toAscii: ToAsciiCallback
 ): [string, number] {
   const imageLengthOffset = imageOffset + ENTRY_LENGTH_OFFSET;
   return [
-    toAsciiString(buffer, imageOffset, imageLengthOffset),
+    toAscii(buffer, imageOffset, imageLengthOffset),
     readUInt32BE(buffer, imageLengthOffset),
   ];
 }
@@ -83,16 +83,16 @@ function getImageSize(type: string): ISize {
 }
 
 export const ICNS: IImage = {
-  validate(buffer) {
-    return 'icns' === toAsciiString(buffer, 0, 4);
+  validate(buffer, toAscii) {
+    return 'icns' === toAscii(buffer, 0, 4);
   },
 
-  calculate(buffer) {
+  calculate(buffer, toAscii) {
     const bufferLength = buffer.byteLength;
     const fileLength = readUInt32BE(buffer, FILE_LENGTH_OFFSET);
     let imageOffset = SIZE_HEADER;
 
-    let imageHeader = readImageHeader(buffer, imageOffset);
+    let imageHeader = readImageHeader(buffer, imageOffset, toAscii);
     let imageSize = getImageSize(imageHeader[0]);
     imageOffset += imageHeader[1];
 
@@ -107,7 +107,7 @@ export const ICNS: IImage = {
     };
 
     while (imageOffset < fileLength && imageOffset < bufferLength) {
-      imageHeader = readImageHeader(buffer, imageOffset);
+      imageHeader = readImageHeader(buffer, imageOffset, toAscii);
       imageSize = getImageSize(imageHeader[0]);
       imageOffset += imageHeader[1];
       result.images.push(imageSize);

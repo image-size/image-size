@@ -1,7 +1,5 @@
-import { expect } from 'chai'
-import * as sinon from 'sinon'
 import * as fs from 'fs'
-import { imageSize } from '../lib'
+import { imageSize } from '../../lib/index.js'
 
 describe('after done reading from files', () => {
   const readFromClosed = (fd: number) => fs.readSync(fd, Buffer.alloc(1), 0, 1, 0)

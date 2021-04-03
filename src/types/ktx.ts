@@ -1,5 +1,5 @@
-import type { IImage } from './interface.js';
-import { readUInt32LE } from '../readUInt.js';
+import type { IImage } from './interface';
+import { readUInt32LE } from '../readUInt';
 
 const SIGNATURE = 'KTX 11';
 

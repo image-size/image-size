@@ -1,5 +1,5 @@
-import type { IImage, ISize, ISizeCalculationResult, ToAsciiCallback } from './interface.js';
-import { readUInt16LE } from '../readUInt.js';
+import type { IImage, ISize, ISizeCalculationResult, ToAsciiCallback } from './interface';
+import { readUInt16LE } from '../readUInt';
 
 const TYPE_ICON = 1;
 

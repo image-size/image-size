@@ -1,16 +1,16 @@
 {
-  "include": [
-    "src"
-  ],
   "exclude": [
     "node_modules",
+    "./web/*",
     "./dist/*",
     "./archive/*",
     "./lib/**/*",
     "./types/**/",
-    "snowpack.config.cjs"
+    "snowpack.config.cjs",
+    "web-test-runner.config.cjs"
   ],
   "compilerOptions": {
+    "types": ["node", "jest"],
     "moduleResolution": "node",
     "esModuleInterop": true,
     "jsx": "preserve",

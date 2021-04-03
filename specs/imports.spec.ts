@@ -1,7 +1,7 @@
-import imageSize, { imageSize as imageSizeNamed } from '../lib'
+import imageSize, { imageSize as imageSizeNamed } from '../src/index';
 
 describe('Imports', () => {
   it('should import both default and named export', () => {
-    expect(imageSize).to.equal(imageSizeNamed)
+    expect(imageSize).toEqual(imageSizeNamed)
   })
 })

@@ -1,5 +1,5 @@
-import type { IImage } from './interface.js';
-import { readUInt32BE } from '../readUInt.js';
+import type { IImage } from './interface';
+import { readUInt32BE } from '../readUInt';
 
 export const PSD: IImage = {
   validate(buffer, toAscii) {

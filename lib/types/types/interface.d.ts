@@ -4,9 +4,9 @@ export interface ISize {
     orientation?: number;
     type?: string;
 }
-export interface ISizeCalculationResult extends ISize {
+export declare type ISizeCalculationResult = ISize & {
     images?: ISize[];
-}
+};
 export declare type ToAsciiCallback = {
     (view: DataView, begin: number, end: number): string;
 };

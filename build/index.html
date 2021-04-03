@@ -9,10 +9,100 @@
     <title>Snowpack App</title>
   </head>
   <body>
-    <img id="img" src="/logo.svg" />
-    <canvas id="canvas"></canvas>
+    <h1>image-size-view</h1>
+    <div>
+      <label for="files">Test files:</label>
+      <select id="files" class="img-files">
+        <optgroup label="invalid">
+          <option value="images/invalid/broken-quotes.svg">broken-quotes.svg</option>
+          <option value="images/invalid/malformed.svg">malformed.svg</option>
+          <option value="images/invalid/no-quotes.svg">no-quotes.svg</option>
+          <option value="images/invalid/sample.png">sample.png</option>
+          <option value="images/invalid/width.svg">width.svg</option>
+        </optgroup>
+        <optgroup label="bmp">
+          <option value="images/valid/bmp/sample.bmp">sample.bmp</option>
+        </optgroup>
+        <optgroup label="cur">
+          <option value="images/valid/cur/sample.cur">sample.cur</option>
+        </optgroup> 
+        <optgroup label="gif">
+          <option value="images/valid/gif/sample.gif">sample.gif</option>
+        </optgroup>    
+        <optgroup label="icns">
+          <option value="images/valid/icns/sample.icns">sample.icns</option>
+        </optgroup>  
+        <optgroup label="ico">
+          <option value="images/valid/ico/multi-size-compressed.ico">multi-size-compressed.ico</option>
+          <option value="images/valid/ico/multi-size.ico">multi-size.ico</option>
+          <option value="images/valid/ico/sample-256-compressed.ico">sample-256-compressed.ico</option>
+          <option value="images/valid/ico/sample-256.ico">sample-256.ico</option>
+          <option value="images/valid/ico/sample-compressed.ico">sample-compressed.ico</option>
+          <option value="images/valid/ico/sample.ico">sample.ico</option>
+        </optgroup>
+        <optgroup label="jp2">
+          <option value="images/valid/jp2/sample.jp2">sample.jp2</option>
+        </optgroup>  
+        <optgroup label="jpg">
+          <option value="images/valid/jpg/1x2-flipped-big-endian.jpg">1x2-flipped-big-endian.jpg</option>
+          <option value="images/valid/jpg/1x2-flipped-little-endian.jpg">1x2-flipped-little-endian.jpg</option>
+          <option value="images/valid/jpg/large.jpg">large.jpg</option>
+          <option value="images/valid/jpg/optimized.jpg">optimized.jpg</option>
+          <option value="images/valid/jpg/progressive.jpg">progressive.jpg</option>
+          <option value="images/valid/jpg/sample.jpg" selected>sample.jpg</option>
+          <option value="images/valid/jpg/sampleExported.jpg">sampleExported.jpg</option>
+          <option value="images/valid/jpg/very-large.jpg">very-large.jpg</option>
+        </optgroup> 
+        <optgroup label="ktx">
+          <option value="images/valid/ktx/sample.ktx">sample.ktx</option>
+        </optgroup>   
+        <optgroup label="png">
+          <option value="images/valid/png/sample.png">sample.png</option>
+          <option value="images/valid/png/sample_fried.png">sample_fried.png</option>
+        </optgroup>  
+        <optgroup label="pnm">
+          <option value="images/valid/pnm/sample-ascii.pbm">sample-ascii.pbm</option>
+          <option value="images/valid/pnm/sample-ascii.pgm">sample-ascii.pgm</option>
+          <option value="images/valid/pnm/sample-ascii.ppm">sample-ascii.ppm</option>
+          <option value="images/valid/pnm/sample.pam">sample.pam</option>
+          <option value="images/valid/pnm/sample.pbm">sample.pbm</option>
+          <option value="images/valid/pnm/sample.pfm">sample.pfm</option>
+          <option value="images/valid/pnm/sample.pgm">sample.pgm</option>
+          <option value="images/valid/pnm/sample.ppm">sample.ppm</option>
+        </optgroup>   
+        <optgroup label="psd">
+          <option value="images/valid/psd/sample.psd">sample.psd</option>
+        </optgroup>         
+        <optgroup label="svg">     
+          <option value="images/valid/svg/exponent-width-height.svg">exponent-width-height.svg</option>
+          <option value="images/valid/svg/ignore-stroke-width.svg">ignore-stroke-width.svg</option>
+          <option value="images/valid/svg/percentage.svg">percentage.svg</option>
+          <option value="images/valid/svg/single-quotes.svg">single-quotes.svg</option>
+          <option value="images/valid/svg/units-inches.svg">units-inches.svg</option>
+          <option value="images/valid/svg/viewbox-height.svg">viewbox-height.svg</option>
+          <option value="images/valid/svg/viewbox-lowercase.svg">viewbox-lowercase.svg</option>
+          <option value="images/valid/svg/viewbox-units.svg">viewbox-units.svg</option>
+          <option value="images/valid/svg/viewbox-width-height-brackets.svg">viewbox-width-height-brackets.svg</option>
+          <option value="images/valid/svg/viewbox-width-height.svg">viewbox-width-height.svg</option>
+          <option value="images/valid/svg/viewbox-width.svg">viewbox-width.svg</option>
+          <option value="images/valid/svg/viewbox.svg">viewbox.svg</option>
+          <option value="images/valid/svg/width-height.svg">width-height.svg</option>
+        </optgroup>
+        <optgroup label="webp">
+          <option value="images/valid/webp/extended.webp">extended.webp</option>
+          <option value="images/valid/webp/lossless.webp">lossless.webp</option>
+          <option value="images/valid/webp/lossy.webp">lossy.webp</option>
+        </optgroup> 
+      </select>
+      <div class="output-panel"></div>
+      <div>
+        <button class="inspect-btn">Inspect</button>      
+      </div>
+      <img class="img-thumbnail"/>
+
+    </div>
     <noscript>You need to enable JavaScript to run this app.</noscript>
-    <script type="module" src="/dist/index.js"></script>
+    <script type="module" src="/index.js"></script>
     <!--
       This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.

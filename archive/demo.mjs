@@ -1,4 +1,4 @@
-import { imageSize } from '../lib/index.js'
+import { imageSize } from '../lib/mjs/index.js'
 import { readFileSync } from 'fs'
 
 const toAscii = (view, begin, end) => {

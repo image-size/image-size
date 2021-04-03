@@ -1,6 +1,6 @@
-import type { IImage } from './interface.js';
-import { readUInt32BE } from '../readUInt.js';
-import toHexadecimal from '../toHexadecimal.js';
+import type { IImage } from './interface';
+import { readUInt32BE } from '../readUInt';
+import toHexadecimal from '../toHexadecimal';
 
 export const J2C: IImage = {
   validate(buffer) {

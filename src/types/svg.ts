@@ -1,4 +1,4 @@
-import type { IImage, ISize } from './interface.js';
+import type { IImage, ISize } from './interface';
 
 interface IAttributes {
   width: number | null;

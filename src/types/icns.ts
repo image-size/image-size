@@ -1,5 +1,5 @@
-import type { IImage, ISize, ToAsciiCallback } from './interface.js';
-import { readUInt32BE } from '../readUInt.js';
+import type { IImage, ISize, ToAsciiCallback } from './interface';
+import { readUInt32BE } from '../readUInt';
 
 /**
  * ICNS Header

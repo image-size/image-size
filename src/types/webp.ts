@@ -1,7 +1,7 @@
 // based on https://developers.google.com/speed/webp/docs/riff_container
 import type { IImage, ISize } from './interface';
-import { readUInt24LE, readInt16LE } from '../readUInt.js';
-import toHexadecimal from '../toHexadecimal.js';
+import { readUInt24LE, readInt16LE } from '../readUInt';
+import toHexadecimal from '../toHexadecimal';
 
 function calculateExtended(buffer: DataView, offset: number): ISize {
   return {

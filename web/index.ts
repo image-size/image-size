@@ -1,4 +1,4 @@
-import { imageSize } from './lib/index.js';
+import imageSize from '../src/index';
 
 const imgThumbnail: HTMLImageElement = document.querySelector('.img-thumbnail');
 const imgFiles: HTMLSelectElement = document.querySelector('.img-files');

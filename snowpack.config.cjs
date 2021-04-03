@@ -2,7 +2,7 @@
 module.exports = {
   mount: {
     public: { url: '/', static: true },
-    src: { url: '/lib' },
+    src: { url: '/lib/mjs' },
     web: { url: '/' },
     "specs/images": { url: '/images'}
   },

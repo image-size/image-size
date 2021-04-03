@@ -5,7 +5,7 @@ export interface ISize {
   type?: string;
 }
 
-export interface ISizeCalculationResult extends ISize {
+export type ISizeCalculationResult = ISize & {
   images?: ISize[];
 }
 

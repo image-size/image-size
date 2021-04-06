@@ -13,9 +13,9 @@ import type { ISizeCalculationResult, ToAsciiCallback } from './types/interface'
  * }
  * } image size
  */
-export declare function imageSize(view: DataView, toAscii: ToAsciiCallback): ISizeCalculationResult;
-export declare namespace imageSize {
-    var _a: typeof imageSize;
-    export { _a as default };
-}
+export declare const imageSize: {
+    (view: DataView, toAscii: ToAsciiCallback): ISizeCalculationResult;
+    default: any;
+};
+export declare const libName = "image-size-view";
 export default imageSize;

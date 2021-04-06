@@ -1,5 +1,8 @@
 import {readUInt16, readUInt32, readUInt16BE} from "../readUInt.js";
 import toHexadecimal from "../toHexadecimal.js";
+import validateJPG from "./validateJPG.js";
+import readJpgBlockLength from "./readJpgBlockLength.js";
+import isEXIFAppMarker from "./isEXIFAppMarker.js";
 const EXIF_MARKER = "45786966";
 const APP1_DATA_SIZE_BYTES = 2;
 const EXIF_HEADER_BYTES = 6;
@@ -8,9 +11,6 @@ const BIG_ENDIAN_BYTE_ALIGN = "4d4d";
 const LITTLE_ENDIAN_BYTE_ALIGN = "4949";
 const IDF_ENTRY_BYTES = 12;
 const NUM_DIRECTORY_ENTRIES_BYTES = 2;
-function isEXIF(buffer, offset) {
-  return toHexadecimal(buffer, offset + 2, offset + 6) === EXIF_MARKER;
-}
 function extractSize(buffer, index) {
   return {
     height: readUInt16BE(buffer, index),
@@ -53,30 +53,36 @@ function validateExifBlock(buffer, index) {
 }
 function validateBuffer(buffer, index) {
   if (index > buffer.byteLength) {
-    throw new TypeError("Corrupt JPG, exceeded buffer limits");
+    throw new TypeError(`Corrupt JPG index (${index}), exceeded buffer limits (${buffer.byteLength})`);
   }
   if (buffer.getUint8(index) !== 255) {
     throw new TypeError("Invalid JPG, marker table corrupted");
   }
 }
+const readMarker = (view, index) => {
+  return readUInt16BE(view, index);
+};
 export const JPG = {
   validate(buffer) {
-    const SOIMarker = toHexadecimal(buffer, 0, 2);
-    return SOIMarker === "ffd8";
+    const markerShort = validateJPG(buffer);
+    return markerShort === "ffd8";
   },
-  calculate(buffer) {
-    let offset = 4;
+  calculate(buffer, toAscii) {
+    let offset = 2;
     let orientation;
     let next;
-    while (buffer.byteLength) {
-      const i = readUInt16BE(buffer, offset);
-      if (isEXIF(buffer, offset)) {
-        orientation = validateExifBlock(buffer, i);
+    while (offset < buffer.byteLength) {
+      const shortMarker = readMarker(buffer, offset);
+      let markerOffset = offset + 2;
+      const blockLength = readJpgBlockLength(buffer, markerOffset);
+      const headerOffset = markerOffset + 2;
+      if (isEXIFAppMarker(buffer, shortMarker, headerOffset)) {
+        const EXIF_IDENTIFIER_ID_LEN = 6;
+        orientation = validateExifBlock(buffer, headerOffset + EXIF_IDENTIFIER_ID_LEN);
       }
-      validateBuffer(buffer, i);
-      next = buffer.getUint8(i + 1);
-      if (next === 192 || next === 193 || next === 194) {
-        const size = extractSize(buffer, i + 5);
+      validateBuffer(buffer, offset);
+      if (shortMarker === 65472 || shortMarker === 65473 || shortMarker === 65474) {
+        const size = extractSize(buffer, markerOffset + 3);
         if (!orientation) {
           return size;
         }
@@ -86,7 +92,7 @@ export const JPG = {
           width: size.width
         };
       }
-      offset = i + 2;
+      offset = markerOffset + blockLength;
     }
     throw new TypeError("Invalid JPG, no size found");
   }

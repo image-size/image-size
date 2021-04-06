@@ -21,7 +21,7 @@
     "build:cjs": "tsc -p tsconfig-cjs.json && node ./deploy/copy-cjs.js",
     "format": "prettier --write \"src/**/*.{ts,js}\"",
     "lint": "prettier --check \"src/**/*.{ts,js}\"",
-    "test": "jest",
+    "test": "node --experimental-vm-modules node_modules/.bin/jest",
     "test:wtr": "tsc --build tsconfig-test.json --watch --preserveWatchOutput && wtr specs/*.test.ts --node-resolve --watch",
     "clean": "npm run clean:es6 && npm run clean:cjs",
     "clean:es6": "tsc --build --clean tsconfig-mjs.json && node ./deploy/delete-mjs.js",

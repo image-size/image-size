@@ -3,9 +3,12 @@
 // with a maximum size of 4096 bytes. so if the SOF marker is outside
 // if this range we can't detect the file size correctly.
 
-import type { IImage, ISize } from './interface';
+import type { IImage, ISize, ToAsciiCallback } from './interface';
 import { readUInt16, readUInt32, readUInt16BE } from '../readUInt';
 import toHexadecimal from '../toHexadecimal';
+import validateJPG from './validateJPG';
+import readJpgBlockLength from './readJpgBlockLength';
+import isEXIFAppMarker from './isEXIFAppMarker';
 
 const EXIF_MARKER = '45786966';
 const APP1_DATA_SIZE_BYTES = 2;
@@ -18,9 +21,9 @@ const LITTLE_ENDIAN_BYTE_ALIGN = '4949';
 const IDF_ENTRY_BYTES = 12;
 const NUM_DIRECTORY_ENTRIES_BYTES = 2;
 
-function isEXIF(buffer: DataView, offset: number): boolean {
-  return toHexadecimal(buffer, offset + 2, offset + 6) === EXIF_MARKER;
-}
+// function isEXIF(buffer: DataView, offset: number): boolean {
+//   return toHexadecimal(buffer, offset + 2, offset + 6) === EXIF_MARKER;
+// }
 
 function extractSize(buffer: DataView, index: number): ISize {
   return {
@@ -115,7 +118,7 @@ function validateExifBlock(buffer: DataView, index: number) {
 function validateBuffer(buffer: DataView, index: number): void {
   // index should be within buffer limits
   if (index > buffer.byteLength) {
-    throw new TypeError('Corrupt JPG, exceeded buffer limits');
+    throw new TypeError(`Corrupt JPG index (${index}), exceeded buffer limits (${buffer.byteLength})`);
   }
   // Every JPEG block must begin with a 0xFF
   if (buffer.getUint8(index) !== 0xff) {
@@ -123,36 +126,53 @@ function validateBuffer(buffer: DataView, index: number): void {
   }
 }
 
+const readMarker = (view: DataView, index: number): number => {
+  return readUInt16BE(view, index);
+}
+
+
 export const JPG: IImage = {
   validate(buffer: DataView) {
-    const SOIMarker = toHexadecimal(buffer, 0, 2);
-    return 'ffd8' === SOIMarker;
+    const markerShort = validateJPG(buffer); // SOI
+    return markerShort === 'ffd8'
   },
 
-  calculate(buffer: DataView) {
-    // Skip 4 chars, they are for signature
-    // buffer = buffer.slice(4)
-    let offset = 4;
+  calculate(buffer: DataView, toAscii: ToAsciiCallback) {
+
+    // Skip 2 bytes, first is SOI
+    let offset = 2;
 
     let orientation: number | undefined;
     let next: number;
-    while (buffer.byteLength) {
-      // read length of the next block
-      const i = readUInt16BE(buffer, offset);
+    while (offset < buffer.byteLength) { // or EOI 0xffD9
+      // console.log('@shortMarker', offset)
+      const shortMarker = readMarker(buffer, offset);
 
-      if (isEXIF(buffer, offset)) {
-        orientation = validateExifBlock(buffer, i);
+      // console.log('=shortMarker ', shortMarker.toString(16));
+
+      let markerOffset = offset + 2;
+      // console.log('@blockLength', markerOffset)
+      const blockLength = readJpgBlockLength(buffer, markerOffset);
+      // console.log('=blockLength', blockLength)
+
+      const headerOffset = markerOffset + 2
+      if (isEXIFAppMarker(buffer, shortMarker, headerOffset)) {
+        // console.log('EXIF HERE')
+        const EXIF_IDENTIFIER_ID_LEN = 6;
+        orientation = validateExifBlock(buffer, headerOffset + EXIF_IDENTIFIER_ID_LEN);
+        // console.log('orientation', orientation);
       }
 
       // ensure correct format
-      validateBuffer(buffer, i);
+      validateBuffer(buffer, offset);
 
       // 0xFFC0 is baseline standard(SOF)
       // 0xFFC1 is baseline optimized(SOF)
       // 0xFFC2 is progressive(SOF2)
-      next = buffer.getUint8(i + 1);
-      if (next === 0xc0 || next === 0xc1 || next === 0xc2) {
-        const size = extractSize(buffer, i + 5);
+      // next = buffer.getUint8(i + 1);
+      if (shortMarker === 0xffc0 || shortMarker === 0xffc1 || shortMarker === 0xffc2) {
+        // https://www.ccoderun.ca/programming/2017-01-31_jpeg/
+        const size = extractSize(buffer, markerOffset + 3);
 
         // TODO: is orientation=0 a valid answer here?
         if (!orientation) {
@@ -167,7 +187,7 @@ export const JPG: IImage = {
       }
 
       // move to the next block
-      offset = i + 2;
+      offset = markerOffset + blockLength;
       // buffer = buffer.slice(i + 2)
     }
 

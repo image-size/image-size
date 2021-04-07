@@ -118,7 +118,9 @@ function validateExifBlock(buffer: DataView, index: number) {
 function validateBuffer(buffer: DataView, index: number): void {
   // index should be within buffer limits
   if (index > buffer.byteLength) {
-    throw new TypeError(`Corrupt JPG index (${index}), exceeded buffer limits (${buffer.byteLength})`);
+    throw new TypeError(
+      `Corrupt JPG index (${index}), exceeded buffer limits (${buffer.byteLength})`,
+    );
   }
   // Every JPEG block must begin with a 0xFF
   if (buffer.getUint8(index) !== 0xff) {
@@ -128,23 +130,22 @@ function validateBuffer(buffer: DataView, index: number): void {
 
 const readMarker = (view: DataView, index: number): number => {
   return readUInt16BE(view, index);
-}
-
+};
 
 export const JPG: IImage = {
   validate(buffer: DataView) {
     const markerShort = validateJPG(buffer); // SOI
-    return markerShort === 'ffd8'
+    return markerShort === 'ffd8';
   },
 
   calculate(buffer: DataView, toAscii: ToAsciiCallback) {
-
     // Skip 2 bytes, first is SOI
     let offset = 2;
 
     let orientation: number | undefined;
     let next: number;
-    while (offset < buffer.byteLength) { // or EOI 0xffD9
+    while (offset < buffer.byteLength) {
+      // or EOI 0xffD9
       // console.log('@shortMarker', offset)
       const shortMarker = readMarker(buffer, offset);
 
@@ -155,11 +156,14 @@ export const JPG: IImage = {
       const blockLength = readJpgBlockLength(buffer, markerOffset);
       // console.log('=blockLength', blockLength)
 
-      const headerOffset = markerOffset + 2
+      const headerOffset = markerOffset + 2;
       if (isEXIFAppMarker(buffer, shortMarker, headerOffset)) {
         // console.log('EXIF HERE')
         const EXIF_IDENTIFIER_ID_LEN = 6;
-        orientation = validateExifBlock(buffer, headerOffset + EXIF_IDENTIFIER_ID_LEN);
+        orientation = validateExifBlock(
+          buffer,
+          headerOffset + EXIF_IDENTIFIER_ID_LEN,
+        );
         // console.log('orientation', orientation);
       }
 
@@ -170,7 +174,11 @@ export const JPG: IImage = {
       // 0xFFC1 is baseline optimized(SOF)
       // 0xFFC2 is progressive(SOF2)
       // next = buffer.getUint8(i + 1);
-      if (shortMarker === 0xffc0 || shortMarker === 0xffc1 || shortMarker === 0xffc2) {
+      if (
+        shortMarker === 0xffc0 ||
+        shortMarker === 0xffc1 ||
+        shortMarker === 0xffc2
+      ) {
         // https://www.ccoderun.ca/programming/2017-01-31_jpeg/
         const size = extractSize(buffer, markerOffset + 3);
 

@@ -1,4 +1,9 @@
-import type { IImage, ISize, ISizeCalculationResult, ToAsciiCallback } from './interface';
+import type {
+  IImage,
+  ISize,
+  ISizeCalculationResult,
+  ToAsciiCallback,
+} from './interface';
 import { readUInt16LE } from '../readUInt';
 
 const TYPE_ICON = 1;

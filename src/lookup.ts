@@ -1,6 +1,9 @@
 import typeHandlers from './types/typeHandlers';
 import type { imageType } from './types/imageType';
-import type { ISizeCalculationResult, ToAsciiCallback } from './types/interface';
+import type {
+  ISizeCalculationResult,
+  ToAsciiCallback,
+} from './types/interface';
 
 /**
  * Return size information based on a buffer
@@ -13,9 +16,8 @@ import type { ISizeCalculationResult, ToAsciiCallback } from './types/interface'
 export default function lookup(
   type: imageType | undefined,
   view: DataView,
-  toAscii: ToAsciiCallback
-): ISizeCalculationResult { 
-
+  toAscii: ToAsciiCallback,
+): ISizeCalculationResult {
   if (typeof type !== 'undefined') {
     // find an appropriate handler for this file type
     if (type in typeHandlers) {
@@ -28,7 +30,5 @@ export default function lookup(
   }
 
   // throw up, if we don't understand the image type
-  throw new TypeError(
-    'unsupported image type: ' + type,
-  );
+  throw new TypeError('unsupported image type: ' + type);
 }

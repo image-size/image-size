@@ -8,7 +8,7 @@
   },
   "types": "./lib/types/index.d.ts",
   "version": "0.9.7",
-  "description": "fork of get dimensions of any image file",
+  "description": "fork of get dimensions of an image file",
   "files": [
     "./lib/*",
     "./Readme.md",
@@ -25,9 +25,7 @@
     "test:wtr": "tsc --build tsconfig-test.json --watch --preserveWatchOutput && wtr specs/*.test.ts --node-resolve --watch",
     "clean": "npm run clean:es6 && npm run clean:cjs",
     "clean:es6": "tsc --build --clean tsconfig-mjs.json && node ./deploy/delete-mjs.js",
-    "clean:cjs": "tsc --build --clean tsconfig-cjs.json && node ./deploy/delete-cjs.js",
-    "es6": "node --experimental-modules ./archive/demo.mjs",
-    "cjs": "node ./enc.js"
+    "clean:cjs": "tsc --build --clean tsconfig-cjs.json && node ./deploy/delete-cjs.js"
   },
   "keywords": [
     "image",

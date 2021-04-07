@@ -62,8 +62,7 @@ export const JP2: IImage = {
         return parseIHDR(buffer, offset + 8);
       default:
         throw new TypeError(
-          'Unsupported header found: ' +
-          toAscii(buffer, offset, offset + 4),
+          'Unsupported header found: ' + toAscii(buffer, offset, offset + 4),
         );
     }
   },

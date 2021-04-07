@@ -68,7 +68,7 @@ const ICON_TYPE_SIZE: { [key: string]: number } = {
 function readImageHeader(
   buffer: DataView,
   imageOffset: number,
-  toAscii: ToAsciiCallback
+  toAscii: ToAsciiCallback,
 ): [string, number] {
   const imageLengthOffset = imageOffset + ENTRY_LENGTH_OFFSET;
   return [

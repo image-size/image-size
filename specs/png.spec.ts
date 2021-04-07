@@ -3,7 +3,7 @@ import toAscii from './toAscii';
 import detector from '../src/detectType';
 import setupView from './setupView'
 
-describe.skip('png mjs test files', () => {
+describe('png mjs test files', () => {
   // Inputs - fileName, path, 
   // Outputs - ... imageType, dims
   type TestElement = [

@@ -102,6 +102,11 @@ describe.skip('Valid images', () => {
 
   const validFiles = globSync('specs/images/valid/**/*.*')
     .filter(file => extname(file) !== '.md')
+    .filter(file => extname(file) !== '.tiff')
+    .filter(file => extname(file) !== '.svg')
+    .filter(file => extname(file) !== '.jpg')
+    .filter(file => extname(file) !== '.png')
+    .filter(file => extname(file) !== '.ico')
 
   validFiles.forEach(file => describe(file, () => {
     let type: string | undefined

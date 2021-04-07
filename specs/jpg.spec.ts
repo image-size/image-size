@@ -9,7 +9,7 @@ import locateZeroTerminator from '../src/types/locateZeroTerminator'
 import { readUInt16BE, readUInt32BE } from '../src/readUInt';
 import findNonZeroCharacter from '../src/types/findNonZeroCharacter';
 
-describe.only('jpg test files', () => {
+describe('jpg test files', () => {
   // Inputs - fileName, path, 
   // Outputs - ... imageType, dims
   type TestElement = [
@@ -178,21 +178,6 @@ describe.only('jpg test files', () => {
       test('type', () => {
         expect(actual.type).toEqual(expected.type)
       })
-    })
-
-    test.skip('demo', () => {
-      var buffer = new ArrayBuffer(6);
-
-      var view = new DataView(buffer);
-      view.setUint8(0, 'E'.charCodeAt(0) % 255); 
-      view.setUint8(1, 'x'.charCodeAt(0) % 255); // (max unsigned 32-bit integer)
-      view.setUint8(2, 'i'.charCodeAt(0) % 255); // (max unsigned 32-bit integer)
-      view.setUint8(3, 'f'.charCodeAt(0) % 255); // (max unsigned 32-bit integer)
-      view.setUint8(4, 0); 
-      view.setUint8(5, 0); 
-
-      console.log(view.getUint32(0, false));
-      console.log(view.getUint16(4));
     })
   })
 

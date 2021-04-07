@@ -1,6 +1,6 @@
 import toHexadecimal from '../src/toHexadecimal';
 
-describe.skip('toHexadecimal', () => {
+describe('toHexadecimal', () => {
   test('SOIMarker', () => { 
     const data = new Uint8Array([255, 216]);
     const view = new DataView(data.buffer);

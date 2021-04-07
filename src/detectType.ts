@@ -1,8 +1,8 @@
 import firstBytes from './firstBytes';
-import keys from './keys';
 import type { imageType } from './types/imageType';
 import typeHandlers from './types/typeHandlers';
 import type { ToAsciiCallback } from './types/interface';
+import { specificHandlers } from './types/specificHandlers';
 
 /**
  * detect the image type 
@@ -15,16 +15,36 @@ const detectType = (
   view: DataView, 
   toAscii: ToAsciiCallback
   ): imageType | undefined => {
-  const byte = view.getUint8(0);
-  if (byte in firstBytes) {
-    const type = firstBytes[byte];
-    if (type && typeHandlers[type].validate(view, toAscii)) {
-      return type;
+  const detectionByFirstByte = (): [found: boolean, handleType: imageType | undefined] => {
+    const byte = view.getUint8(0);
+    if (byte in firstBytes) {
+      const byteType = firstBytes[byte];
+      if (byteType && typeHandlers[byteType].validate(view, toAscii)) {
+        return [true, byteType];
+      }
     }
+    return [false, undefined];
   }
 
-  const finder = (key: imageType) => typeHandlers[key].validate(view, toAscii);
-  return keys.find(finder);
+  const loopThruSpecificHandlers = (): imageType | undefined => {
+    for (let i = 0; i < specificHandlers.length; i += 1) {
+      const key = specificHandlers[i];
+      const handler = typeHandlers[key];
+      const specificResult = handler.validate(view, toAscii);
+      if (specificResult) {
+        return key;
+      }
+    }
+    return undefined;
+  }
+
+  const [found, handleType] = detectionByFirstByte();
+
+  if (found) {
+    return handleType;
+  } else {
+    return loopThruSpecificHandlers();
+  }
 }
 
 detectType.default = detectType;

@@ -98,7 +98,7 @@ const sizes: { [key: string]: any} = {
 }
 
 // Test all valid files
-describe.skip('Valid images', () => {
+describe('Valid images', () => {
 
   const validFiles = globSync('specs/images/valid/**/*.*')
     .filter(file => extname(file) !== '.md')

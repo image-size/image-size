@@ -1,6 +1,6 @@
-import typeHandlers from '../src/types/typeHandlers';
-import firstBytes from '../src/firstBytes';
-import type { IImage } from '../src/types/interface'
+import typeHandlers from '../../src/types/typeHandlers';
+import firstBytes from '../../src/firstBytes';
+import type { IImage } from '../../src/types/interface'
 
 const getAllBinaryFiles = () => {
   return Object.values(firstBytes);

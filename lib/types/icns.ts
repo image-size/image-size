@@ -22,46 +22,42 @@ const FILE_LENGTH_OFFSET = 4 // MSB => BIG ENDIAN
 const ENTRY_LENGTH_OFFSET = 4 // MSB => BIG ENDIAN
 
 const ICON_TYPE_SIZE: {[key: string]: number} = {
-  ICON: 32,
+  'ICON': 32,
   'ICN#': 32,
-  // m => 16 x 16
   'icm#': 16,
-  icm4: 16,
-  icm8: 16,
-  // s => 16 x 16
+  'icm4': 16,
+  'icm8': 16,
   'ics#': 16,
-  ics4: 16,
-  ics8: 16,
-  is32: 16,
-  s8mk: 16,
-  icp4: 16,
-  // l => 32 x 32
-  icl4: 32,
-  icl8: 32,
-  il32: 32,
-  l8mk: 32,
-  icp5: 32,
-  ic11: 32,
-  // h => 48 x 48
-  ich4: 48,
-  ich8: 48,
-  ih32: 48,
-  h8mk: 48,
-  // . => 64 x 64
-  icp6: 64,
-  ic12: 32,
-  // t => 128 x 128
-  it32: 128,
-  t8mk: 128,
-  ic07: 128,
-  // . => 256 x 256
-  ic08: 256,
-  ic13: 256,
-  // . => 512 x 512
-  ic09: 512,
-  ic14: 512,
-  // . => 1024 x 1024
-  ic10: 1024,
+  'ics4': 16,
+  'ics8': 16,
+  'is32': 16,
+  's8mk': 16,
+  'icl4': 32,
+  'icl8': 32,
+  'il32': 32,
+  'l8mk': 32,
+  'ich#': 48,
+  'ich4': 48,
+  'ich8': 48,
+  'ih32': 48,
+  'h8mk': 48,
+  'it32': 128,
+  't8mk': 128,
+  'icp4': 16,
+  'icp5': 32,
+  'icp6': 64,
+  'ic07': 128,
+  'ic08': 256,
+  'ic09': 512,
+  'ic10': 1024,
+  'ic11': 32,
+  'ic12': 64,
+  'ic13': 256,
+  'ic14': 512,
+  'ic04': 16,
+  'ic05': 32,
+  'icsB': 36,
+  'icsb': 18,
 }
 
 function readImageHeader(buffer: Buffer, imageOffset: number): [string, number] {

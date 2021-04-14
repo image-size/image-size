@@ -3,7 +3,10 @@ import type {
   ToAsciiCallback,
 } from './types/interface';
 import lookup from './lookup';
-import detectType from './detectType';
+import detectType from './detectImageType';
+import viewTiff from './viewTiffImage';
+
+import { isBigEndian } from './types/tiffHelpers';
 
 /**
  * get image size and type from a DataView of buffer
@@ -32,7 +35,9 @@ export const imageSize = (
   return lookup(type, view, toAscii);
 };
 
-export const libName = 'image-size-view';
+export const detectImageType = detectType;
+export const isTiffBigEndian = isBigEndian;
+export const viewTiffImage = viewTiff;
 
 imageSize.default = imageSize;
 export default imageSize;

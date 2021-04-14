@@ -1,6 +1,6 @@
 import imageSize from '../src/index';
 import toAscii from './toAscii';
-import detector from '../src/detectType';
+import detector from '../src/detectImageType';
 import setupView from './setupView'
 
 describe('png mjs test files', () => {

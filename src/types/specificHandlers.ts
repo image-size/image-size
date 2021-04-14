@@ -10,4 +10,5 @@ export const specificHandlers: imageType[] = [
   'ktx',
   'pnm',
   'svg',
+  'tiff',
 ];

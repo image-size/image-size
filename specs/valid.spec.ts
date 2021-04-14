@@ -2,7 +2,7 @@ import { sync as globSync } from 'glob'
 import { extname, resolve } from 'path'
 import { readFileSync } from 'fs'
 import imageSize from '../src/index';
-import detector from '../src/detectType';
+import detector from '../src/detectImageType';
 import type { ISizeCalculationResult } from '../src/types/interface'
 import toAscii from './toAscii';
 

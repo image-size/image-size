@@ -13,7 +13,7 @@ import { PNG } from './png';
 import { PNM } from './pnm';
 import { PSD } from './psd';
 import { SVG } from './svg';
-// import { TIFF } from './tiff'
+import { TIFF } from './tiff';
 import { WEBP } from './webp';
 
 const typeHandlers = {
@@ -31,7 +31,7 @@ const typeHandlers = {
   pnm: PNM,
   psd: PSD,
   svg: SVG,
-  // tiff: TIFF,
+  tiff: TIFF,
   webp: WEBP,
 };
 

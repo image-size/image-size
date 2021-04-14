@@ -54,7 +54,7 @@ sizeOf('images/funny-cats.png', function (err, dimensions) {
 
 NOTE: The asynchronous version doesn't work if the input is a Buffer. Use synchronous version instead.
 
-Also, the asynchronous functions have a default concurreny limit of **100**
+Also, the asynchronous functions have a default concurrency limit of **100**
 To change this limit, you can call the `setConcurrency` function like this:
 
 ```javascript

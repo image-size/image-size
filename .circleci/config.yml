@@ -16,19 +16,9 @@ commands:
             - ~/.cache/yarn
 
 jobs:
-  node-10:
-    docker:
-      - image: node:10
-    steps:
-      - build
   node-12:
     docker:
       - image: node:12
-    steps:
-      - build
-  node-13:
-    docker:
-      - image: node:13
     steps:
       - build
   node-14:
@@ -36,12 +26,16 @@ jobs:
       - image: node:14
     steps:
       - build
+  node-15:
+    docker:
+      - image: node:15
+    steps:
+      - build
 
 workflows:
   version: 2
   node-multi-build:
     jobs:
-      - node-10
       - node-12
-      - node-13
       - node-14
+      - node-15

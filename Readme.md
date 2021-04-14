@@ -1,10 +1,6 @@
-# image-size
+# view-image-size
 
-[![Build Status](https://circleci.com/gh/image-size/image-size.svg?style=shield)](https://circleci.com/gh/image-size/image-size)
-[![Package Version](https://img.shields.io/npm/v/image-size.svg)](https://www.npmjs.com/package/image-size)
-[![Downloads](https://img.shields.io/npm/dm/image-size.svg)](http://npm-stat.com/charts.html?package=image-size&author=&from=&to=)
-
-A [Node](https://nodejs.org/en/) module to get dimensions of any image file
+A in-browser module to get dimensions (i.e. width, height, type) of an image file (by using a DataView)
 
 ## Supported formats
 
@@ -26,13 +22,7 @@ A [Node](https://nodejs.org/en/) module to get dimensions of any image file
 ## Programmatic Usage
 
 ```shell
-npm install image-size --save
-```
-
-or
-
-```shell
-yarn add image-size
+npm install view-image-size --save
 ```
 
 ### Synchronous

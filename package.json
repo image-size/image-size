@@ -1,5 +1,5 @@
 {
-  "name": "image-size",
+  "name": "view-image-size",
   "exports": {
     ".": {
       "import": "./lib/mjs/index.js",
@@ -7,7 +7,7 @@
     }
   },
   "types": "./lib/types/index.d.ts",
-  "version": "0.9.7",
+  "version": "1.0.0",
   "description": "fork of get dimensions of an image file",
   "files": [
     "./lib/*",
@@ -46,7 +46,7 @@
     "cur"
   ],
   "repository": "git://github.com/dyoung2019/image-size.git",
-  "author": "David Young <tgsstdio@gmail.com>",
+  "author": "David Young <dyoung.2019.github@gmail.com>",
   "license": "MIT",
   "devDependencies": {
     "@esm-bundle/chai": "^4.3.4",

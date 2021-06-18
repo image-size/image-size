@@ -138,6 +138,16 @@ const imageSize = require('image-size')
 imageSize.disableFS(true)
 ```
 
+### JPEG image orientation
+
+If the orientation is present in the JPEG EXIF metadata, it will be returned by the function. The orientation value is a [number between 1 and 8](https://exiftool.org/TagNames/EXIF.html#:~:text=0x0112,8%20=%20Rotate%20270%20CW) representing a type of orientation.
+
+```javascript
+const sizeOf = require('image-size')
+const dimensions = sizeOf('images/photo.jpeg')
+console.log(dimensions.orientation)
+```
+
 ## Command-Line Usage (CLI)
 
 ```shell

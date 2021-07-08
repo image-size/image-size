@@ -3,27 +3,74 @@ import * as sinon from 'sinon'
 import * as fs from 'fs'
 import { imageSize } from '../lib'
 
+const testBuf = Buffer.alloc(1)
+const readFromClosed = (fd: number) => fs.readSync(fd, testBuf, 0, 1, 0)
+
 describe('after done reading from files', () => {
-  const readFromClosed = (fd: number) => fs.readSync(fd, Buffer.alloc(1), 0, 1, 0)
+  describe('should close the file descriptor', () => {
+    it('async', done => {
+      const spy = sinon.spy(fs.promises, 'open')
+      imageSize('specs/images/valid/jpg/large.jpg', async err => {
+        try {
+          expect(err).to.be.null
+          expect(spy.calledOnce).to.be.true
+          const fileHandle = await spy.returnValues[0]
+          expect(() => readFromClosed(fileHandle.fd)).to.throw(Error)
+
+          done()
+        } catch (err) {
+          done(err)
+        } finally {
+          spy.restore()
+        }
+      })
+    })
+
+    it('sync', () => {
+      const spy = sinon.spy(fs, 'openSync')
+      imageSize('specs/images/valid/jpg/large.jpg')
+      expect(() => readFromClosed(spy.returnValues[0])).to.throw(Error, 'bad file descriptor')
+      spy.restore()
+    })
+  })
+})
+
+describe('when buffer allocation fails', () => {
+  const sandbox = sinon.createSandbox()
+
+  before(() => {
+    sandbox
+      .stub(Buffer, 'alloc')
+      // Error like the one thrown by Buffer.alloc when there is not enough free memory
+      .throws(new RangeError('Array buffer allocation failed'))
+  })
+
+  after(() => {
+    sandbox.restore()
+  })
 
   describe('should close the file descriptor', () => {
     it('async', done => {
       const spy = sinon.spy(fs.promises, 'open')
-      imageSize('specs/images/valid/jpg/large.jpg', () => {
-        expect(spy.calledOnce).to.be.true
-        const fsPromise = spy.returnValues[0]
-        fsPromise.then((handle) => {
-          expect(() => readFromClosed(handle.fd)).to.throw(Error)
-          spy.restore()
+      imageSize('specs/images/valid/jpg/large.jpg', async err => {
+        try {
+          expect(err).to.be.instanceOf(RangeError)
+          expect(spy.calledOnce).to.be.true
+          const fileHandle = await spy.returnValues[0]
+          expect(() => readFromClosed(fileHandle.fd)).to.throw(Error)
+
           done()
-        })
+        } catch (err) {
+          done(err)
+        } finally {
+          spy.restore()
+        }
       })
     })
 
-    // TODO: revisit this spec. how to ensure that we never leave descriptors open
     it('sync', () => {
       const spy = sinon.spy(fs, 'openSync')
-      imageSize('specs/images/valid/jpg/large.jpg')
+      expect(() => imageSize('specs/images/valid/jpg/large.jpg')).to.throw(RangeError)
       expect(() => readFromClosed(spy.returnValues[0])).to.throw(Error, 'bad file descriptor')
       spy.restore()
     })

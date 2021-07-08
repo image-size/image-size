@@ -62,16 +62,18 @@ function lookup(buffer: Buffer, filepath?: string): ISizeCalculationResult {
  */
 async function asyncFileToBuffer(filepath: string): Promise<Buffer> {
   const handle = await fs.promises.open(filepath, 'r')
-  const { size } = await handle.stat()
-  if (size <= 0) {
+  try {
+    const { size } = await handle.stat()
+    if (size <= 0) {
+      throw new Error('Empty file')
+    }
+    const bufferSize = Math.min(size, MaxBufferSize)
+    const buffer = Buffer.alloc(bufferSize)
+    await handle.read(buffer, 0, bufferSize, 0)
+    return buffer
+  } finally {
     await handle.close()
-    throw new Error('Empty file')
   }
-  const bufferSize = Math.min(size, MaxBufferSize)
-  const buffer = Buffer.alloc(bufferSize)
-  await handle.read(buffer, 0, bufferSize, 0)
-  await handle.close()
-  return buffer
 }
 
 /**
@@ -83,16 +85,18 @@ async function asyncFileToBuffer(filepath: string): Promise<Buffer> {
 function syncFileToBuffer(filepath: string): Buffer {
   // read from the file, synchronously
   const descriptor = fs.openSync(filepath, 'r')
-  const { size } = fs.fstatSync(descriptor)
-  if (size <= 0) {
+  try {
+    const { size } = fs.fstatSync(descriptor)
+    if (size <= 0) {
+      throw new Error('Empty file')
+    }
+    const bufferSize = Math.min(size, MaxBufferSize)
+    const buffer = Buffer.alloc(bufferSize)
+    fs.readSync(descriptor, buffer, 0, bufferSize, 0)
+    return buffer
+  } finally {
     fs.closeSync(descriptor)
-    throw new Error('Empty file')
   }
-  const bufferSize = Math.min(size, MaxBufferSize)
-  const buffer = Buffer.alloc(bufferSize)
-  fs.readSync(descriptor, buffer, 0, bufferSize, 0)
-  fs.closeSync(descriptor)
-  return buffer
 }
 
 // eslint-disable-next-line @typescript-eslint/no-use-before-define

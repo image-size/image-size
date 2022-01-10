@@ -6,3 +6,5 @@ yarn-error.log
 .nyc_output
 dist/
 docs/
+.yarn/*.gz
+.yarn/cache

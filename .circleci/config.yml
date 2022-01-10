@@ -8,7 +8,7 @@ commands:
       - restore_cache:
           keys:
             - yarn-{{ checksum "yarn.lock" }}
-      - run: yarn install --immutable --frozen-lockfile
+      - run: yarn install --immutable
       - run: yarn test
       - save_cache:
           key: yarn-{{ checksum "yarn.lock" }}

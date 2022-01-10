@@ -11,9 +11,7 @@
   "engines": {
     "node": ">=12.0.0"
   },
-  "bin": {
-    "image-size": "bin/image-size.js"
-  },
+  "bin": "bin/image-size.js",
   "scripts": {
     "pretest": "eslint --ext .ts,.js bin lib specs",
     "test": "nyc mocha",
@@ -64,5 +62,6 @@
   },
   "dependencies": {
     "queue": "6.0.2"
-  }
+  },
+  "packageManager": "yarn@3.1.1"
 }

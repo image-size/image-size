@@ -10,7 +10,7 @@ describe('Invalid invocation', () => {
     const file = 'specs/images/valid/tiff/little-endian.tiff'
 
     it('should throw', () => {
-      const buffer = Buffer.alloc(bufferSize)
+      const buffer = new Uint8Array(bufferSize)
       const filepath = resolve(file)
       const descriptor = openSync(filepath, 'r')
       readSync(descriptor, buffer, 0, bufferSize, 0)
@@ -36,9 +36,9 @@ describe('Invalid invocation', () => {
     before(() => disableFS(true))
     after(() => disableFS(false))
 
-    it ('should only allow buffer inputs', () => {
+    it ('should only allow Uint8Array inputs', () => {
       expect(() => imageSize('specs/images/valid/jpg/sample.jpg'))
-        .to.throw(TypeError, 'invalid invocation. input should be a Buffer')
+        .to.throw(TypeError, 'invalid invocation. input should be a Uint8Array')
     })
   })
 })

@@ -1,6 +1,6 @@
-import { IImage, ISize } from './interface'
+import { IImage, ISize, toUTF8String } from './interface'
 
-const PNMTypes: { [signature: string]: string } = {
+const PNMTypes = {
   P1: 'pbm/ascii',
   P2: 'pgm/ascii',
   P3: 'ppm/ascii',
@@ -9,11 +9,11 @@ const PNMTypes: { [signature: string]: string } = {
   P6: 'ppm',
   P7: 'pam',
   PF: 'pfm'
-}
+} as const
 
-const Signatures = Object.keys(PNMTypes)
-
+type ValidSignature = keyof typeof PNMTypes
 type Handler = (type: string[]) => ISize
+
 const handlers: { [type: string]: Handler} = {
   default: (lines) => {
     let dimensions: string[] = []
@@ -64,16 +64,13 @@ const handlers: { [type: string]: Handler} = {
 }
 
 export const PNM: IImage = {
-  validate(buffer) {
-    const signature = buffer.toString('ascii', 0, 2)
-    return Signatures.includes(signature)
-  },
+  validate: input => toUTF8String(input, 0, 2) in PNMTypes,
 
-  calculate(buffer) {
-    const signature = buffer.toString('ascii', 0, 2)
+  calculate(input) {
+    const signature = toUTF8String(input, 0, 2) as ValidSignature
     const type = PNMTypes[signature]
     // TODO: this probably generates garbage. move to a stream based parser
-    const lines = buffer.toString('ascii', 3).split(/[\r\n]+/)
+    const lines = toUTF8String(input, 3).split(/[\r\n]+/)
     const handler = handlers[type] || handlers.default
     return handler(lines)
   }

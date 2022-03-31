@@ -7,9 +7,9 @@ import { ISizeCalculationResult } from './types/interface'
 
 type CallbackFn = (e: Error | null, r?: ISizeCalculationResult) => void
 
-// Maximum buffer size, with a default of 512 kilobytes.
+// Maximum input size, with a default of 512 kilobytes.
 // TO-DO: make this adaptive based on the initial signature of the image
-const MaxBufferSize = 512 * 1024
+const MaxInputSize = 512 * 1024
 
 // This queue is for async `fs` operations, to avoid reaching file-descriptor limits
 const queue = new Queue({ concurrency: 100, autostart: true })
@@ -25,15 +25,15 @@ const globalOptions: Options = {
 }
 
 /**
- * Return size information based on a buffer
+ * Return size information based on an Uint8Array
  *
- * @param {Buffer} buffer
+ * @param {Uint8Array} input
  * @param {String} filepath
  * @returns {Object}
  */
-function lookup(buffer: Buffer, filepath?: string): ISizeCalculationResult {
+function lookup(input: Uint8Array, filepath?: string): ISizeCalculationResult {
   // detect the file type.. don't rely on the extension
-  const type = detector(buffer)
+  const type = detector(input)
 
   if (typeof type !== 'undefined') {
     if (globalOptions.disabledTypes.indexOf(type) > -1) {
@@ -42,7 +42,7 @@ function lookup(buffer: Buffer, filepath?: string): ISizeCalculationResult {
 
     // find an appropriate handler for this file type
     if (type in typeHandlers) {
-      const size = typeHandlers[type].calculate(buffer, filepath)
+      const size = typeHandlers[type].calculate(input, filepath)
       if (size !== undefined) {
         size.type = type
         return size
@@ -56,33 +56,33 @@ function lookup(buffer: Buffer, filepath?: string): ISizeCalculationResult {
 }
 
 /**
- * Reads a file into a buffer.
+ * Reads a file into an Uint8Array.
  * @param {String} filepath
- * @returns {Promise<Buffer>}
+ * @returns {Promise<Uint8Array>}
  */
-async function asyncFileToBuffer(filepath: string): Promise<Buffer> {
+async function readFileAsync(filepath: string): Promise<Uint8Array> {
   const handle = await fs.promises.open(filepath, 'r')
   try {
     const { size } = await handle.stat()
     if (size <= 0) {
       throw new Error('Empty file')
     }
-    const bufferSize = Math.min(size, MaxBufferSize)
-    const buffer = Buffer.alloc(bufferSize)
-    await handle.read(buffer, 0, bufferSize, 0)
-    return buffer
+    const inputSize = Math.min(size, MaxInputSize)
+    const input = new Uint8Array(inputSize)
+    await handle.read(input, 0, inputSize, 0)
+    return input
   } finally {
     await handle.close()
   }
 }
 
 /**
- * Synchronously reads a file into a buffer, blocking the nodejs process.
+ * Synchronously reads a file into an Uint8Array, blocking the nodejs process.
  *
  * @param {String} filepath
- * @returns {Buffer}
+ * @returns {Uint8Array}
  */
-function syncFileToBuffer(filepath: string): Buffer {
+function readFileSync(filepath: string): Uint8Array {
   // read from the file, synchronously
   const descriptor = fs.openSync(filepath, 'r')
   try {
@@ -90,10 +90,10 @@ function syncFileToBuffer(filepath: string): Buffer {
     if (size <= 0) {
       throw new Error('Empty file')
     }
-    const bufferSize = Math.min(size, MaxBufferSize)
-    const buffer = Buffer.alloc(bufferSize)
-    fs.readSync(descriptor, buffer, 0, bufferSize, 0)
-    return buffer
+    const inputSize = Math.min(size, MaxInputSize)
+    const input = new Uint8Array(inputSize)
+    fs.readSync(descriptor, input, 0, inputSize, 0)
+    return input
   } finally {
     fs.closeSync(descriptor)
   }
@@ -103,33 +103,33 @@ function syncFileToBuffer(filepath: string): Buffer {
 module.exports = exports = imageSize // backwards compatibility
 
 export default imageSize
-export function imageSize(input: Buffer | string): ISizeCalculationResult
+export function imageSize(input: Uint8Array | string): ISizeCalculationResult
 export function imageSize(input: string, callback: CallbackFn): void
 
 /**
- * @param {Buffer|string} input - buffer or relative/absolute path of the image file
+ * @param {Uint8Array|string} input - Uint8Array or relative/absolute path of the image file
  * @param {Function=} [callback] - optional function for async detection
  */
-export function imageSize(input: Buffer | string, callback?: CallbackFn): ISizeCalculationResult | void {
-  // Handle buffer input
-  if (Buffer.isBuffer(input)) {
+export function imageSize(input: Uint8Array | string, callback?: CallbackFn): ISizeCalculationResult | void {
+  // Handle Uint8Array input
+  if (input instanceof Uint8Array) {
     return lookup(input)
   }
 
   // input should be a string at this point
   if (typeof input !== 'string' || globalOptions.disabledFS) {
-    throw new TypeError('invalid invocation. input should be a Buffer')
+    throw new TypeError('invalid invocation. input should be a Uint8Array')
   }
 
   // resolve the file path
   const filepath = path.resolve(input)
   if (typeof callback === 'function') {
-    queue.push(() => asyncFileToBuffer(filepath)
-      .then((buffer) => process.nextTick(callback, null, lookup(buffer, filepath)))
+    queue.push(() => readFileAsync(filepath)
+      .then(input => process.nextTick(callback, null, lookup(input, filepath)))
       .catch(callback))
   } else {
-    const buffer = syncFileToBuffer(filepath)
-    return lookup(buffer, filepath)
+    const input = readFileSync(filepath)
+    return lookup(input, filepath)
   }
 }
 

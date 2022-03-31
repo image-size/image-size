@@ -1,14 +1,10 @@
-import { IImage } from './interface'
+import { IImage, toUTF8String, readInt32LE, readUInt32LE } from './interface'
 
 export const BMP: IImage = {
-  validate(buffer) {
-    return ('BM' === buffer.toString('ascii', 0, 2))
-  },
+  validate: input => toUTF8String(input, 0, 2) === 'BM',
 
-  calculate(buffer) {
-    return {
-      height: Math.abs(buffer.readInt32LE(22)),
-      width: buffer.readUInt32LE(18)
-    }
-  }
+  calculate: input => ({
+    height: Math.abs(readInt32LE(input, 22)),
+    width: readUInt32LE(input, 18)
+  })
 }

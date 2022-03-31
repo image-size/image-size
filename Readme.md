@@ -55,7 +55,7 @@ sizeOf('images/funny-cats.png', function (err, dimensions) {
 })
 ```
 
-NOTE: The asynchronous version doesn't work if the input is a Buffer. Use synchronous version instead.
+NOTE: The asynchronous version doesn't work if the input is a Uint8Array. Use synchronous version instead.
 
 Also, the asynchronous functions have a default concurrency limit of **100**
 To change this limit, you can call the `setConcurrency` function like this:
@@ -120,13 +120,13 @@ http.get(options, function (response) {
   response.on('data', function (chunk) {
     chunks.push(chunk)
   }).on('end', function() {
-    const buffer = Buffer.concat(chunks)
-    console.log(sizeOf(buffer))
+    const input = Buffer.concat(chunks)
+    console.log(sizeOf(input))
   })
 })
 ```
 
-You can optionally check the buffer lengths & stop downloading the image after a few kilobytes.
+You can optionally check the buffer length & stop downloading the image after a few kilobytes.
 **You don't need to download the entire image**
 
 ### Disabling certain image types

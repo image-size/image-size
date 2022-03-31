@@ -1,13 +1,12 @@
 // based on http://www.compix.com/fileformattif.htm
 // TO-DO: support big-endian as well
 import * as fs from 'fs'
-import { IImage } from './interface'
-import { readUInt } from '../readUInt'
+import { IImage, readUInt, toHexString, toUTF8String } from './interface'
 
 // Read IFD (image-file-directory) into a buffer
-function readIFD(buffer: Buffer, filepath: string, isBigEndian: boolean) {
+function readIFD(input: Uint8Array, filepath: string, isBigEndian: boolean) {
 
-  const ifdOffset = readUInt(buffer, 32, 4, isBigEndian)
+  const ifdOffset = readUInt(input, 32, 4, isBigEndian)
 
   // read only till the end of the file
   let bufferSize = 1024
@@ -17,7 +16,7 @@ function readIFD(buffer: Buffer, filepath: string, isBigEndian: boolean) {
   }
 
   // populate the buffer
-  const endBuffer = Buffer.alloc(bufferSize)
+  const endBuffer = new Uint8Array(bufferSize)
   const descriptor = fs.openSync(filepath, 'r')
   fs.readSync(descriptor, endBuffer, 0, bufferSize, ifdOffset)
   fs.closeSync(descriptor)
@@ -26,24 +25,24 @@ function readIFD(buffer: Buffer, filepath: string, isBigEndian: boolean) {
 }
 
 // TIFF values seem to be messed up on Big-Endian, this helps
-function readValue(buffer: Buffer, isBigEndian: boolean): number {
-  const low = readUInt(buffer, 16, 8, isBigEndian)
-  const high = readUInt(buffer, 16, 10, isBigEndian)
+function readValue(input: Uint8Array, isBigEndian: boolean): number {
+  const low = readUInt(input, 16, 8, isBigEndian)
+  const high = readUInt(input, 16, 10, isBigEndian)
   return (high << 16) + low
 }
 
 // move to the next tag
-function nextTag(buffer: Buffer) {
-  if (buffer.length > 24) {
-    return buffer.slice(12)
+function nextTag(input: Uint8Array) {
+  if (input.length > 24) {
+    return input.slice(12)
   }
 }
 
 // Extract IFD tags from TIFF metadata
-function extractTags(buffer: Buffer, isBigEndian: boolean) {
+function extractTags(input: Uint8Array, isBigEndian: boolean) {
   const tags: {[key: number]: number} = {}
 
-  let temp: Buffer | undefined = buffer
+  let temp: Uint8Array | undefined = input
   while (temp && temp.length) {
     const code = readUInt(temp, 16, 0, isBigEndian)
     const type = readUInt(temp, 16, 2, isBigEndian)
@@ -68,8 +67,8 @@ function extractTags(buffer: Buffer, isBigEndian: boolean) {
 }
 
 // Test if the TIFF is Big Endian or Little Endian
-function determineEndianness(buffer: Buffer) {
-  const signature = buffer.toString('ascii', 0, 2)
+function determineEndianness(input: Uint8Array) {
+  const signature = toUTF8String(input, 0, 2)
   if ('II' === signature) {
     return 'LE'
   } else if ('MM' === signature) {
@@ -85,20 +84,18 @@ const signatures = [
 ]
 
 export const TIFF: IImage = {
-  validate(buffer) {
-    return signatures.includes(buffer.toString('hex', 0, 4))
-  },
+  validate: input => signatures.includes(toHexString(input, 0, 4)),
 
-  calculate(buffer, filepath) {
+  calculate(input, filepath) {
     if (!filepath) {
       throw new TypeError('Tiff doesn\'t support buffer')
     }
 
     // Determine BE/LE
-    const isBigEndian = determineEndianness(buffer) === 'BE'
+    const isBigEndian = determineEndianness(input) === 'BE'
 
     // read the IFD
-    const ifdBuffer = readIFD(buffer, filepath, isBigEndian)
+    const ifdBuffer = readIFD(input, filepath, isBigEndian)
 
     // extract the tags from the IFD
     const tags = extractTags(ifdBuffer, isBigEndian)

@@ -109,7 +109,7 @@ describe('Valid images', () => {
     let asyncDimensions: ISizeCalculationResult
 
     beforeEach(done => {
-      const buffer = Buffer.alloc(bufferSize)
+      const buffer = new Uint8Array(bufferSize)
       const filepath = resolve(file)
       const descriptor = openSync(filepath, 'r')
       readSync(descriptor, buffer, 0, bufferSize, 0)

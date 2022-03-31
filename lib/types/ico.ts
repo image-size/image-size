@@ -1,4 +1,4 @@
-import { IImage, ISize, ISizeCalculationResult } from './interface'
+import { IImage, ISize, readUInt16LE } from './interface'
 
 const TYPE_ICON = 1
 
@@ -31,49 +31,45 @@ const SIZE_HEADER = 2 + 2 + 2 // 6
  */
 const SIZE_IMAGE_ENTRY = 1 + 1 + 1 + 1 + 2 + 2 + 4 + 4 // 16
 
-function getSizeFromOffset(buffer: Buffer, offset: number): number {
-  const value = buffer.readUInt8(offset)
+function getSizeFromOffset(input: Uint8Array, offset: number): number {
+  const value = input[offset]
   return value === 0 ? 256 : value
 }
 
-function getImageSize(buffer: Buffer, imageIndex: number): ISize {
+function getImageSize(input: Uint8Array, imageIndex: number): ISize {
   const offset = SIZE_HEADER + (imageIndex * SIZE_IMAGE_ENTRY)
   return {
-    height: getSizeFromOffset(buffer, offset + 1),
-    width: getSizeFromOffset(buffer, offset)
+    height: getSizeFromOffset(input, offset + 1),
+    width: getSizeFromOffset(input, offset)
   }
 }
 
 export const ICO: IImage = {
-  validate(buffer) {
-    const reserved = buffer.readUInt16LE(0)
-    const imageCount = buffer.readUInt16LE(4)
-    if (reserved !== 0 ||imageCount === 0) {
-      return false
-    }
-    const imageType = buffer.readUInt16LE(2)
+  validate(input) {
+    const reserved = readUInt16LE(input, 0)
+    const imageCount = readUInt16LE(input, 4)
+    if (reserved !== 0 ||imageCount === 0) return false
+
+    const imageType = readUInt16LE(input, 2)
     return imageType === TYPE_ICON
   },
 
-  calculate(buffer) {
-    const nbImages = buffer.readUInt16LE(4)
-    const imageSize = getImageSize(buffer, 0)
+  calculate(input) {
+    const nbImages = readUInt16LE(input, 4)
+    const imageSize = getImageSize(input, 0)
 
-    if (nbImages === 1) {
+    if (nbImages === 1)
       return imageSize
-    }
 
     const imgs: ISize[] = [imageSize]
     for (let imageIndex = 1; imageIndex < nbImages; imageIndex += 1) {
-      imgs.push(getImageSize(buffer, imageIndex))
+      imgs.push(getImageSize(input, imageIndex))
     }
 
-    const result: ISizeCalculationResult = {
+    return {
       height: imageSize.height,
       images: imgs,
       width: imageSize.width
     }
-
-    return result
   }
 }

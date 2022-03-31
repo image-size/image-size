@@ -16,15 +16,15 @@ const firstBytes: { [byte: number]: imageType } = {
   0xff: 'jpg'
 }
 
-export function detector(buffer: Buffer): imageType | undefined {
-  const byte = buffer[0]
+export function detector(input: Uint8Array): imageType | undefined {
+  const byte = input[0]
   if (byte in firstBytes) {
     const type = firstBytes[byte]
-    if (type && typeHandlers[type].validate(buffer)) {
+    if (type && typeHandlers[type].validate(input)) {
       return type
     }
   }
 
-  const finder = (key: imageType) => typeHandlers[key].validate(buffer)
+  const finder = (key: imageType) => typeHandlers[key].validate(input)
   return keys.find(finder)
 }

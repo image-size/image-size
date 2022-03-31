@@ -3,7 +3,7 @@ import * as sinon from 'sinon'
 import * as fs from 'fs'
 import { imageSize } from '../lib'
 
-const testBuf = Buffer.alloc(1)
+const testBuf = new Uint8Array(1)
 const readFromClosed = (fd: number) => fs.readSync(fd, testBuf, 0, 1, 0)
 
 describe('after done reading from files', () => {
@@ -35,14 +35,14 @@ describe('after done reading from files', () => {
   })
 })
 
-describe('when buffer allocation fails', () => {
+describe('when Uint8Array allocation fails', () => {
   const sandbox = sinon.createSandbox()
 
   before(() => {
     sandbox
-      .stub(Buffer, 'alloc')
+      .stub(global, 'Uint8Array')
       // Error like the one thrown by Buffer.alloc when there is not enough free memory
-      .throws(new RangeError('Array buffer allocation failed'))
+      .throws(new RangeError('Array allocation failed'))
   })
 
   after(() => {

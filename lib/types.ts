@@ -13,6 +13,7 @@ import { PNG } from './types/png'
 import { PNM } from './types/pnm'
 import { PSD } from './types/psd'
 import { SVG } from './types/svg'
+import { TGA } from './types/tga'
 import { TIFF } from './types/tiff'
 import { WEBP } from './types/webp'
 
@@ -31,6 +32,7 @@ export const typeHandlers = {
   pnm: PNM,
   psd: PSD,
   svg: SVG,
+  tga: TGA,
   tiff: TIFF,
   webp: WEBP,
 }

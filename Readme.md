@@ -14,12 +14,15 @@ A [Node](https://nodejs.org/en/) module to get dimensions of any image file
 * GIF
 * ICNS
 * ICO
+* J2C
+* JP2
 * JPEG
 * KTX
 * PNG
 * PNM (PAM, PBM, PFM, PGM, PPM)
 * PSD
 * SVG
+* TGA
 * TIFF
 * WebP
 

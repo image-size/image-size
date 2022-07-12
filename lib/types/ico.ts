@@ -46,10 +46,13 @@ function getImageSize(buffer: Buffer, imageIndex: number): ISize {
 
 export const ICO: IImage = {
   validate(buffer) {
-    if (buffer.readUInt16LE(0) !== 0) {
+    const reserved = buffer.readUInt16LE(0)
+    const imageCount = buffer.readUInt16LE(4)
+    if (reserved !== 0 ||imageCount === 0) {
       return false
     }
-    return buffer.readUInt16LE(2) === TYPE_ICON
+    const imageType = buffer.readUInt16LE(2)
+    return imageType === TYPE_ICON
   },
 
   calculate(buffer) {

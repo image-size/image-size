@@ -65,6 +65,12 @@ describe('Callback ', () => {
 
 describe('.types property', () => {
   it('should expose supported file types', () => {
-    expect(types).to.eql(['bmp', 'cur', 'dds', 'gif', 'icns', 'ico', 'j2c', 'jp2', 'jpg', 'ktx', 'png', 'pnm', 'psd', 'svg', 'tiff', 'webp'])
+    expect(types).to.eql([
+      'bmp', 'cur', 'dds', 'gif',
+      'icns', 'ico', 'j2c', 'jp2',
+      'jpg', 'ktx', 'png', 'pnm',
+      'psd', 'svg', 'tga', 'tiff',
+      'webp'
+    ])
   })
 })

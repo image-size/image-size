@@ -1,11 +1,12 @@
 {
   "compilerOptions": {
-    "target": "ES2018",
+    "target": "es2021",
     "module": "commonjs",
+    "outDir": "dist/cjs",
+    "declarationDir": "dist/dts",
+    "rootDir": "./lib",
     "allowJs": false,
     "declaration": true,
-    "outDir": "./dist",
-    "rootDir": "./lib",
     "removeComments": false,
     "strict": true,
     "alwaysStrict": true,

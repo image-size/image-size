@@ -8,3 +8,7 @@ dist/
 docs/
 .yarn/*.gz
 .yarn/cache
+*.tgz
+
+!dist/cjs/package.json
+!dist/esm/package.json

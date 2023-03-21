@@ -2,14 +2,22 @@
   "name": "image-size",
   "version": "1.0.2",
   "description": "get dimensions of any image file",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "type": "module",
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
+  "types": "dist/dts/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/esm/index.js",
+      "require": "./dist/cjs/index.js"
+    }
+  },
   "files": [
     "dist",
     "bin/image-size.js"
   ],
   "engines": {
-    "node": ">=14.0.0"
+    "node": ">=16.18.0"
   },
   "bin": "bin/image-size.js",
   "scripts": {
@@ -17,8 +25,8 @@
     "test": "nyc mocha",
     "clean": "rm -rf dist docs",
     "generate-docs": "typedoc",
-    "build": "tsc",
-    "prepack": "yarn clean && yarn build"
+    "build": "tsc && tsc -p tsconfig.esm.json",
+    "prepack": "yarn build"
   },
   "keywords": [
     "image",

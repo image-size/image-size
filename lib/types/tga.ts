@@ -10,5 +10,5 @@ export const TGA: IImage = {
       height: buffer.readUInt16LE(14),
       width: buffer.readUInt16LE(12),
     }
-  }
+  },
 }

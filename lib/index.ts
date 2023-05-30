@@ -14,14 +14,14 @@ const MaxBufferSize = 512 * 1024
 // This queue is for async `fs` operations, to avoid reaching file-descriptor limits
 const queue = new Queue({ concurrency: 100, autostart: true })
 
-interface Options {
+type Options = {
   disabledFS: boolean
   disabledTypes: imageType[]
 }
 
 const globalOptions: Options = {
   disabledFS: false,
-  disabledTypes: []
+  disabledTypes: [],
 }
 
 /**
@@ -50,9 +50,10 @@ function lookup(buffer: Buffer, filepath?: string): ISizeCalculationResult {
     }
   }
 
-
   // throw up, if we don't understand the file
-  throw new TypeError('unsupported file type: ' + type + ' (file: ' + filepath + ')')
+  throw new TypeError(
+    'unsupported file type: ' + type + ' (file: ' + filepath + ')'
+  )
 }
 
 /**
@@ -110,7 +111,10 @@ export function imageSize(input: string, callback: CallbackFn): void
  * @param {Buffer|string} input - buffer or relative/absolute path of the image file
  * @param {Function=} [callback] - optional function for async detection
  */
-export function imageSize(input: Buffer | string, callback?: CallbackFn): ISizeCalculationResult | void {
+export function imageSize(
+  input: Buffer | string,
+  callback?: CallbackFn
+): ISizeCalculationResult | void {
   // Handle buffer input
   if (Buffer.isBuffer(input)) {
     return lookup(input)
@@ -124,16 +128,26 @@ export function imageSize(input: Buffer | string, callback?: CallbackFn): ISizeC
   // resolve the file path
   const filepath = path.resolve(input)
   if (typeof callback === 'function') {
-    queue.push(() => asyncFileToBuffer(filepath)
-      .then((buffer) => process.nextTick(callback, null, lookup(buffer, filepath)))
-      .catch(callback))
+    queue.push(() =>
+      asyncFileToBuffer(filepath)
+        .then((buffer) =>
+          process.nextTick(callback, null, lookup(buffer, filepath))
+        )
+        .catch(callback)
+    )
   } else {
     const buffer = syncFileToBuffer(filepath)
     return lookup(buffer, filepath)
   }
 }
 
-export const disableFS = (v: boolean): void => { globalOptions.disabledFS = v }
-export const disableTypes = (types: imageType[]): void => { globalOptions.disabledTypes = types }
-export const setConcurrency = (c: number): void => { queue.concurrency = c }
+export const disableFS = (v: boolean): void => {
+  globalOptions.disabledFS = v
+}
+export const disableTypes = (types: imageType[]): void => {
+  globalOptions.disabledTypes = types
+}
+export const setConcurrency = (c: number): void => {
+  queue.concurrency = c
+}
 export const types = Object.keys(typeHandlers)

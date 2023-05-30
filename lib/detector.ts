@@ -13,7 +13,7 @@ const firstBytes: { [byte: number]: imageType } = {
   0x52: 'webp',
   0x69: 'icns',
   0x89: 'png',
-  0xff: 'jpg'
+  0xff: 'jpg',
 }
 
 export function detector(buffer: Buffer): imageType | undefined {

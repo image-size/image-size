@@ -37,10 +37,10 @@ function getSizeFromOffset(buffer: Buffer, offset: number): number {
 }
 
 function getImageSize(buffer: Buffer, imageIndex: number): ISize {
-  const offset = SIZE_HEADER + (imageIndex * SIZE_IMAGE_ENTRY)
+  const offset = SIZE_HEADER + imageIndex * SIZE_IMAGE_ENTRY
   return {
     height: getSizeFromOffset(buffer, offset + 1),
-    width: getSizeFromOffset(buffer, offset)
+    width: getSizeFromOffset(buffer, offset),
   }
 }
 
@@ -48,7 +48,7 @@ export const ICO: IImage = {
   validate(buffer) {
     const reserved = buffer.readUInt16LE(0)
     const imageCount = buffer.readUInt16LE(4)
-    if (reserved !== 0 ||imageCount === 0) {
+    if (reserved !== 0 || imageCount === 0) {
       return false
     }
     const imageType = buffer.readUInt16LE(2)
@@ -71,9 +71,9 @@ export const ICO: IImage = {
     const result: ISizeCalculationResult = {
       height: imageSize.height,
       images: imgs,
-      width: imageSize.width
+      width: imageSize.width,
     }
 
     return result
-  }
+  },
 }

@@ -11,5 +11,5 @@ export const J2C: IImage = {
       height: buffer.readUInt32BE(12),
       width: buffer.readUInt32BE(8),
     }
-  }
+  },
 }

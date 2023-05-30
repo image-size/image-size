@@ -1,15 +1,15 @@
-export interface ISize {
+export type ISize = {
   width: number | undefined
   height: number | undefined
   orientation?: number
   type?: string
 }
 
-export interface ISizeCalculationResult extends ISize {
+export type ISizeCalculationResult = {
   images?: ISize[]
-}
+} & ISize
 
-export interface IImage {
+export type IImage = {
   validate: (buffer: Buffer) => boolean
   calculate: (buffer: Buffer, filepath?: string) => ISizeCalculationResult
 }

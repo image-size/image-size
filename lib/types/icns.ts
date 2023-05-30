@@ -21,7 +21,7 @@ const FILE_LENGTH_OFFSET = 4 // MSB => BIG ENDIAN
  */
 const ENTRY_LENGTH_OFFSET = 4 // MSB => BIG ENDIAN
 
-const ICON_TYPE_SIZE: {[key: string]: number} = {
+const ICON_TYPE_SIZE: { [key: string]: number } = {
   ICON: 32,
   'ICN#': 32,
   // m => 16 x 16
@@ -64,11 +64,14 @@ const ICON_TYPE_SIZE: {[key: string]: number} = {
   ic10: 1024,
 }
 
-function readImageHeader(buffer: Buffer, imageOffset: number): [string, number] {
+function readImageHeader(
+  buffer: Buffer,
+  imageOffset: number
+): [string, number] {
   const imageLengthOffset = imageOffset + ENTRY_LENGTH_OFFSET
   return [
     buffer.toString('ascii', imageOffset, imageLengthOffset),
-    buffer.readUInt32BE(imageLengthOffset)
+    buffer.readUInt32BE(imageLengthOffset),
   ]
 }
 
@@ -79,7 +82,7 @@ function getImageSize(type: string): ISize {
 
 export const ICNS: IImage = {
   validate(buffer) {
-    return ('icns' === buffer.toString('ascii', 0, 4))
+    return 'icns' === buffer.toString('ascii', 0, 4)
   },
 
   calculate(buffer) {
@@ -98,7 +101,7 @@ export const ICNS: IImage = {
     const result = {
       height: imageSize.height,
       images: [imageSize],
-      width: imageSize.width
+      width: imageSize.width,
     }
 
     while (imageOffset < fileLength && imageOffset < bufferLength) {
@@ -109,5 +112,5 @@ export const ICNS: IImage = {
     }
 
     return result
-  }
+  },
 }

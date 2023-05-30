@@ -8,9 +8,9 @@ const readFromClosed = (fd: number) => fs.readSync(fd, testBuf, 0, 1, 0)
 
 describe('after done reading from files', () => {
   describe('should close the file descriptor', () => {
-    it('async', done => {
+    it('async', (done) => {
       const spy = sinon.spy(fs.promises, 'open')
-      imageSize('specs/images/valid/jpg/large.jpg', async err => {
+      imageSize('specs/images/valid/jpg/large.jpg', async (err) => {
         try {
           expect(err).to.be.null
           expect(spy.calledOnce).to.be.true
@@ -29,7 +29,10 @@ describe('after done reading from files', () => {
     it('sync', () => {
       const spy = sinon.spy(fs, 'openSync')
       imageSize('specs/images/valid/jpg/large.jpg')
-      expect(() => readFromClosed(spy.returnValues[0])).to.throw(Error, 'bad file descriptor')
+      expect(() => readFromClosed(spy.returnValues[0])).to.throw(
+        Error,
+        'bad file descriptor'
+      )
       spy.restore()
     })
   })
@@ -50,9 +53,9 @@ describe('when buffer allocation fails', () => {
   })
 
   describe('should close the file descriptor', () => {
-    it('async', done => {
+    it('async', (done) => {
       const spy = sinon.spy(fs.promises, 'open')
-      imageSize('specs/images/valid/jpg/large.jpg', async err => {
+      imageSize('specs/images/valid/jpg/large.jpg', async (err) => {
         try {
           expect(err).to.be.instanceOf(RangeError)
           expect(spy.calledOnce).to.be.true
@@ -70,8 +73,13 @@ describe('when buffer allocation fails', () => {
 
     it('sync', () => {
       const spy = sinon.spy(fs, 'openSync')
-      expect(() => imageSize('specs/images/valid/jpg/large.jpg')).to.throw(RangeError)
-      expect(() => readFromClosed(spy.returnValues[0])).to.throw(Error, 'bad file descriptor')
+      expect(() => imageSize('specs/images/valid/jpg/large.jpg')).to.throw(
+        RangeError
+      )
+      expect(() => readFromClosed(spy.returnValues[0])).to.throw(
+        Error,
+        'bad file descriptor'
+      )
       spy.restore()
     })
   })

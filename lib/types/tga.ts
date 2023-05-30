@@ -1,14 +1,14 @@
-import { IImage } from './interface'
+import { IImage, readUInt16LE } from './interface'
 
 export const TGA: IImage = {
-  validate(buffer) {
-    return buffer.readUInt16LE(0) === 0 && buffer.readUInt16LE(4) === 0
+  validate(input) {
+    return readUInt16LE(input, 0) === 0 && readUInt16LE(input, 4) === 0
   },
 
-  calculate(buffer) {
+  calculate(input) {
     return {
-      height: buffer.readUInt16LE(14),
-      width: buffer.readUInt16LE(12),
+      height: readUInt16LE(input, 14),
+      width: readUInt16LE(input, 12),
     }
   },
 }

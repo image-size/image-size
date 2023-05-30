@@ -1,4 +1,4 @@
-import { IImage, ISize } from './interface'
+import { IImage, ISize, toUTF8String, readUInt32BE } from './interface'
 
 /**
  * ICNS Header
@@ -65,13 +65,13 @@ const ICON_TYPE_SIZE: { [key: string]: number } = {
 }
 
 function readImageHeader(
-  buffer: Buffer,
+  input: Uint8Array,
   imageOffset: number
 ): [string, number] {
   const imageLengthOffset = imageOffset + ENTRY_LENGTH_OFFSET
   return [
-    buffer.toString('ascii', imageOffset, imageLengthOffset),
-    buffer.readUInt32BE(imageLengthOffset),
+    toUTF8String(input, imageOffset, imageLengthOffset),
+    readUInt32BE(input, imageLengthOffset),
   ]
 }
 
@@ -81,22 +81,18 @@ function getImageSize(type: string): ISize {
 }
 
 export const ICNS: IImage = {
-  validate(buffer) {
-    return 'icns' === buffer.toString('ascii', 0, 4)
-  },
+  validate: (input) => toUTF8String(input, 0, 4) === 'icns',
 
-  calculate(buffer) {
-    const bufferLength = buffer.length
-    const fileLength = buffer.readUInt32BE(FILE_LENGTH_OFFSET)
+  calculate(input) {
+    const inputLength = input.length
+    const fileLength = readUInt32BE(input, FILE_LENGTH_OFFSET)
     let imageOffset = SIZE_HEADER
 
-    let imageHeader = readImageHeader(buffer, imageOffset)
+    let imageHeader = readImageHeader(input, imageOffset)
     let imageSize = getImageSize(imageHeader[0])
     imageOffset += imageHeader[1]
 
-    if (imageOffset === fileLength) {
-      return imageSize
-    }
+    if (imageOffset === fileLength) return imageSize
 
     const result = {
       height: imageSize.height,
@@ -104,8 +100,8 @@ export const ICNS: IImage = {
       width: imageSize.width,
     }
 
-    while (imageOffset < fileLength && imageOffset < bufferLength) {
-      imageHeader = readImageHeader(buffer, imageOffset)
+    while (imageOffset < fileLength && imageOffset < inputLength) {
+      imageHeader = readImageHeader(input, imageOffset)
       imageSize = getImageSize(imageHeader[0])
       imageOffset += imageHeader[1]
       result.images.push(imageSize)

@@ -1,19 +1,19 @@
 {
   "compilerOptions": {
-    "target": "ES2021",
-    "module": "commonjs",
+    "target": "esnext",
+    "module": "esnext",
+    "moduleResolution": "nodenext",
+    "esModuleInterop": true,
+    "outDir": "dist/esm",
+    "declarationDir": "dist/dts",
+    "rootDir": "./lib",
     "allowJs": false,
     "declaration": true,
-    "outDir": "./dist",
-    "rootDir": "./lib",
     "removeComments": false,
     "strict": true,
-    "alwaysStrict": true,
-    "moduleResolution": "node"
+    "alwaysStrict": true
   },
-  "include": [
-    "lib/**/*"
-  ],
+  "include": ["lib/**/*"],
   "typedocOptions": {
     "excludeExternals": true,
     "excludePrivate": true,

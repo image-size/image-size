@@ -4,14 +4,18 @@ import { IImage, ISize } from './interface'
 function calculateExtended(buffer: Buffer): ISize {
   return {
     height: 1 + buffer.readUIntLE(7, 3),
-    width: 1 + buffer.readUIntLE(4, 3)
+    width: 1 + buffer.readUIntLE(4, 3),
   }
 }
 
 function calculateLossless(buffer: Buffer): ISize {
   return {
-    height: 1 + (((buffer[4] & 0xF) << 10) | (buffer[3] << 2) | ((buffer[2] & 0xC0) >> 6)),
-    width: 1 + (((buffer[2] & 0x3F) << 8) | buffer[1])
+    height:
+      1 +
+      (((buffer[4] & 0xf) << 10) |
+        (buffer[3] << 2) |
+        ((buffer[2] & 0xc0) >> 6)),
+    width: 1 + (((buffer[2] & 0x3f) << 8) | buffer[1]),
   }
 }
 
@@ -20,7 +24,7 @@ function calculateLossy(buffer: Buffer): ISize {
   // TO-DO: include webp scaling in the calculations
   return {
     height: buffer.readInt16LE(8) & 0x3fff,
-    width: buffer.readInt16LE(6) & 0x3fff
+    width: buffer.readInt16LE(6) & 0x3fff,
   }
 }
 
@@ -28,8 +32,8 @@ export const WEBP: IImage = {
   validate(buffer) {
     const riffHeader = 'RIFF' === buffer.toString('ascii', 0, 4)
     const webpHeader = 'WEBP' === buffer.toString('ascii', 8, 12)
-    const vp8Header  = 'VP8'  === buffer.toString('ascii', 12, 15)
-    return (riffHeader && webpHeader && vp8Header)
+    const vp8Header = 'VP8' === buffer.toString('ascii', 12, 15)
+    return riffHeader && webpHeader && vp8Header
   },
 
   calculate(buffer) {
@@ -61,5 +65,5 @@ export const WEBP: IImage = {
     }
 
     throw new TypeError('Invalid WebP')
-  }
+  },
 }

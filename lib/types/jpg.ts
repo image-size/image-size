@@ -18,13 +18,13 @@ const IDF_ENTRY_BYTES = 12
 const NUM_DIRECTORY_ENTRIES_BYTES = 2
 
 function isEXIF(buffer: Buffer): boolean {
-  return (buffer.toString('hex', 2, 6) === EXIF_MARKER)
+  return buffer.toString('hex', 2, 6) === EXIF_MARKER
 }
 
 function extractSize(buffer: Buffer, index: number): ISize {
   return {
-    height : buffer.readUInt16BE(index),
-    width : buffer.readUInt16BE(index + 2)
+    height: buffer.readUInt16BE(index),
+    width: buffer.readUInt16BE(index + 2),
   }
 }
 
@@ -42,8 +42,15 @@ function extractOrientation(exifBlock: Buffer, isBigEndian: boolean) {
 
   const idfDirectoryEntries = readUInt(exifBlock, 16, offset, isBigEndian)
 
-  for (let directoryEntryNumber = 0; directoryEntryNumber < idfDirectoryEntries; directoryEntryNumber++) {
-    const start = offset + NUM_DIRECTORY_ENTRIES_BYTES + (directoryEntryNumber * IDF_ENTRY_BYTES)
+  for (
+    let directoryEntryNumber = 0;
+    directoryEntryNumber < idfDirectoryEntries;
+    directoryEntryNumber++
+  ) {
+    const start =
+      offset +
+      NUM_DIRECTORY_ENTRIES_BYTES +
+      directoryEntryNumber * IDF_ENTRY_BYTES
     const end = start + IDF_ENTRY_BYTES
 
     // Skip on corrupt EXIF blocks
@@ -78,7 +85,11 @@ function validateExifBlock(buffer: Buffer, index: number) {
   const exifBlock = buffer.slice(APP1_DATA_SIZE_BYTES, index)
 
   // Consider byte alignment
-  const byteAlign = exifBlock.toString('hex', EXIF_HEADER_BYTES, EXIF_HEADER_BYTES + TIFF_BYTE_ALIGN_BYTES)
+  const byteAlign = exifBlock.toString(
+    'hex',
+    EXIF_HEADER_BYTES,
+    EXIF_HEADER_BYTES + TIFF_BYTE_ALIGN_BYTES
+  )
 
   // Ignore Empty EXIF. Validate byte alignment
   const isBigEndian = byteAlign === BIG_ENDIAN_BYTE_ALIGN
@@ -95,7 +106,7 @@ function validateBuffer(buffer: Buffer, index: number): void {
     throw new TypeError('Corrupt JPG, exceeded buffer limits')
   }
   // Every JPEG block must begin with a 0xFF
-  if (buffer[index] !== 0xFF) {
+  if (buffer[index] !== 0xff) {
     throw new TypeError('Invalid JPG, marker table corrupted')
   }
 }
@@ -103,7 +114,7 @@ function validateBuffer(buffer: Buffer, index: number): void {
 export const JPG: IImage = {
   validate(buffer) {
     const SOIMarker = buffer.toString('hex', 0, 2)
-    return ('ffd8' === SOIMarker)
+    return 'ffd8' === SOIMarker
   },
 
   calculate(buffer) {
@@ -127,7 +138,7 @@ export const JPG: IImage = {
       // 0xFFC1 is baseline optimized(SOF)
       // 0xFFC2 is progressive(SOF2)
       next = buffer[i + 1]
-      if (next === 0xC0 || next === 0xC1 || next === 0xC2) {
+      if (next === 0xc0 || next === 0xc1 || next === 0xc2) {
         const size = extractSize(buffer, i + 5)
 
         // TODO: is orientation=0 a valid answer here?
@@ -138,7 +149,7 @@ export const JPG: IImage = {
         return {
           height: size.height,
           orientation,
-          width: size.width
+          width: size.width,
         }
       }
 
@@ -147,5 +158,5 @@ export const JPG: IImage = {
     }
 
     throw new TypeError('Invalid JPG, no size found')
-  }
+  },
 }

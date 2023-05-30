@@ -25,12 +25,12 @@ export const PNG: IImage = {
     if (buffer.toString('ascii', 12, 16) === pngFriedChunkName) {
       return {
         height: buffer.readUInt32BE(36),
-        width: buffer.readUInt32BE(32)
+        width: buffer.readUInt32BE(32),
       }
     }
     return {
       height: buffer.readUInt32BE(20),
-      width: buffer.readUInt32BE(16)
+      width: buffer.readUInt32BE(16),
     }
-  }
+  },
 }

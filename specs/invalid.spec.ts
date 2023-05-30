@@ -12,8 +12,8 @@ describe('Invalid Images', () => {
         expect(() => imageSize(file)).to.throw(TypeError, 'Invalid')
       })
 
-      it('should callback with error when called asynchronously', done => {
-        imageSize(file, e => {
+      it('should callback with error when called asynchronously', (done) => {
+        imageSize(file, (e) => {
           expect(e).to.be.instanceOf(TypeError)
           expect(e?.message).to.match(/^Invalid \w+$/)
           done()
@@ -30,7 +30,7 @@ describe('Invalid Images', () => {
     })
 
     it('should callback with error when called asynchronously', (done) => {
-      imageSize(fakeFile, e => {
+      imageSize(fakeFile, (e) => {
         expect(e?.message).to.match(/^ENOENT.*$/)
         done()
       })

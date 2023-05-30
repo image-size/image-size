@@ -6,7 +6,6 @@ import { readUInt } from '../readUInt'
 
 // Read IFD (image-file-directory) into a buffer
 function readIFD(buffer: Buffer, filepath: string, isBigEndian: boolean) {
-
   const ifdOffset = readUInt(buffer, 32, 4, isBigEndian)
 
   // read only till the end of the file
@@ -41,7 +40,7 @@ function nextTag(buffer: Buffer) {
 
 // Extract IFD tags from TIFF metadata
 function extractTags(buffer: Buffer, isBigEndian: boolean) {
-  const tags: {[key: number]: number} = {}
+  const tags: { [key: number]: number } = {}
 
   let temp: Buffer | undefined = buffer
   while (temp && temp.length) {
@@ -111,5 +110,5 @@ export const TIFF: IImage = {
     }
 
     return { height, width }
-  }
+  },
 }

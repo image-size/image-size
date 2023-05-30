@@ -14,7 +14,10 @@ describe('Invalid invocation', () => {
       const filepath = resolve(file)
       const descriptor = openSync(filepath, 'r')
       readSync(descriptor, buffer, 0, bufferSize, 0)
-      expect(() => imageSize(buffer)).to.throw(TypeError, 'Tiff doesn\'t support buffer')
+      expect(() => imageSize(buffer)).to.throw(
+        TypeError,
+        'Tiff doesn\'t support buffer'
+      )
     })
   })
 
@@ -23,12 +26,17 @@ describe('Invalid invocation', () => {
     after(() => disableTypes([]))
 
     it('should throw', () => {
-      expect(() => imageSize('specs/images/valid/jpg/sample.jpg'))
-        .to.throw(TypeError, 'disabled file type: jpg')
-      expect(() => imageSize('specs/images/valid/bmp/sample.bmp'))
-        .to.throw(TypeError, 'disabled file type: bmp')
-      expect(() => imageSize('specs/images/valid/png/sample.png'))
-        .to.not.throw()
+      expect(() => imageSize('specs/images/valid/jpg/sample.jpg')).to.throw(
+        TypeError,
+        'disabled file type: jpg'
+      )
+      expect(() => imageSize('specs/images/valid/bmp/sample.bmp')).to.throw(
+        TypeError,
+        'disabled file type: bmp'
+      )
+      expect(() =>
+        imageSize('specs/images/valid/png/sample.png')
+      ).to.not.throw()
     })
   })
 
@@ -36,9 +44,11 @@ describe('Invalid invocation', () => {
     before(() => disableFS(true))
     after(() => disableFS(false))
 
-    it ('should only allow buffer inputs', () => {
-      expect(() => imageSize('specs/images/valid/jpg/sample.jpg'))
-        .to.throw(TypeError, 'invalid invocation. input should be a Buffer')
+    it('should only allow buffer inputs', () => {
+      expect(() => imageSize('specs/images/valid/jpg/sample.jpg')).to.throw(
+        TypeError,
+        'invalid invocation. input should be a Buffer'
+      )
     })
   })
 })
@@ -66,11 +76,23 @@ describe('Callback ', () => {
 describe('.types property', () => {
   it('should expose supported file types', () => {
     expect(types).to.eql([
-      'bmp', 'cur', 'dds', 'gif',
-      'icns', 'ico', 'j2c', 'jp2',
-      'jpg', 'ktx', 'png', 'pnm',
-      'psd', 'svg', 'tga', 'tiff',
-      'webp'
+      'bmp',
+      'cur',
+      'dds',
+      'gif',
+      'icns',
+      'ico',
+      'j2c',
+      'jp2',
+      'jpg',
+      'ktx',
+      'png',
+      'pnm',
+      'psd',
+      'svg',
+      'tga',
+      'tiff',
+      'webp',
     ])
   })
 })

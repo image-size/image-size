@@ -8,13 +8,13 @@ const PNMTypes: { [signature: string]: string } = {
   P5: 'pgm',
   P6: 'ppm',
   P7: 'pam',
-  PF: 'pfm'
+  PF: 'pfm',
 }
 
 const Signatures = Object.keys(PNMTypes)
 
 type Handler = (type: string[]) => ISize
-const handlers: { [type: string]: Handler} = {
+const handlers: { [type: string]: Handler } = {
   default: (lines) => {
     let dimensions: string[] = []
 
@@ -55,12 +55,12 @@ const handlers: { [type: string]: Handler} = {
     if (size.height && size.width) {
       return {
         height: size.height,
-        width: size.width
+        width: size.width,
       }
     } else {
       throw new TypeError('Invalid PAM')
     }
-  }
+  },
 }
 
 export const PNM: IImage = {
@@ -76,5 +76,5 @@ export const PNM: IImage = {
     const lines = buffer.toString('ascii', 3).split(/[\r\n]+/)
     const handler = handlers[type] || handlers.default
     return handler(lines)
-  }
+  },
 }

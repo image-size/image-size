@@ -8,7 +8,7 @@ export const DDS: IImage = {
   calculate(buffer) {
     return {
       height: buffer.readUInt32LE(12),
-      width: buffer.readUInt32LE(16)
+      width: buffer.readUInt32LE(16),
     }
-  }
+  },
 }

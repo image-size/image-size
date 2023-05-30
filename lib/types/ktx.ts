@@ -12,5 +12,5 @@ export const KTX: IImage = {
       height: buffer.readUInt32LE(40),
       width: buffer.readUInt32LE(36),
     }
-  }
+  },
 }

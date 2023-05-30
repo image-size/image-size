@@ -1,6 +1,6 @@
 import { IImage, ISize } from './interface'
 
-interface IAttributes {
+type IAttributes = {
   width: number | null
   height: number | null
   viewbox?: IAttributes | null
@@ -21,14 +21,16 @@ const units: { [unit: string]: number } = {
   cm: 96 / INCH_CM,
   em: 16,
   ex: 8,
-  m:  96 / INCH_CM * 100,
+  m: (96 / INCH_CM) * 100,
   mm: 96 / INCH_CM / 10,
   pc: 96 / 72 / 12,
   pt: 96 / 72,
-  px: 1
+  px: 1,
 }
 
-const unitsReg = new RegExp(`^([0-9.]+(?:e\\d+)?)(${Object.keys(units).join('|')})?$`)
+const unitsReg = new RegExp(
+  `^([0-9.]+(?:e\\d+)?)(${Object.keys(units).join('|')})?$`
+)
 
 function parseLength(len: string) {
   const m = unitsReg.exec(len)
@@ -42,7 +44,7 @@ function parseViewbox(viewbox: string): IAttributes {
   const bounds = viewbox.split(' ')
   return {
     height: parseLength(bounds[3]) as number,
-    width: parseLength(bounds[2]) as number
+    width: parseLength(bounds[2]) as number,
   }
 }
 
@@ -51,9 +53,9 @@ function parseAttributes(root: string): IAttributes {
   const height = root.match(extractorRegExps.height)
   const viewbox = root.match(extractorRegExps.viewbox)
   return {
-    height: height && parseLength(height[2]) as number,
-    viewbox: viewbox && parseViewbox(viewbox[2]) as IAttributes,
-    width: width && parseLength(width[2]) as number,
+    height: height && (parseLength(height[2]) as number),
+    viewbox: viewbox && (parseViewbox(viewbox[2]) as IAttributes),
+    width: width && (parseLength(width[2]) as number),
   }
 }
 
@@ -102,5 +104,5 @@ export const SVG: IImage = {
       }
     }
     throw new TypeError('Invalid SVG')
-  }
+  },
 }

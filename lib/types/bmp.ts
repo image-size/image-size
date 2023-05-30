@@ -1,4 +1,4 @@
-import { IImage } from './interface'
+import type { IImage } from './interface'
 import { toUTF8String, readInt32LE, readUInt32LE } from './utils'
 
 export const BMP: IImage = {

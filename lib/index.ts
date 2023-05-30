@@ -1,9 +1,10 @@
 import * as fs from 'fs'
 import * as path from 'path'
 import Queue from 'queue'
-import { typeHandlers, imageType } from './types/index'
+import type { imageType } from './types/index'
+import { typeHandlers } from './types/index'
 import { detector } from './detector'
-import { ISizeCalculationResult } from './types/interface'
+import type { ISizeCalculationResult } from './types/interface'
 
 type CallbackFn = (e: Error | null, r?: ISizeCalculationResult) => void
 

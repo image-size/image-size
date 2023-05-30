@@ -1,4 +1,4 @@
-import { IImage } from './interface'
+import type { IImage } from './interface'
 import { toUTF8String, readUInt16LE } from './utils'
 
 const gifRegexp = /^GIF8[79]a/

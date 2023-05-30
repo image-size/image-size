@@ -4,7 +4,7 @@ import { extname, resolve } from 'path'
 import { openSync, readSync } from 'fs'
 import { imageSize } from '../lib'
 import { detector } from '../lib/detector'
-import { ISizeCalculationResult } from '../lib/types/interface'
+import type { ISizeCalculationResult } from '../lib/types/interface'
 
 const bufferSize = 8192
 

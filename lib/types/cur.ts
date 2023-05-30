@@ -1,4 +1,4 @@
-import { IImage } from './interface'
+import type { IImage } from './interface'
 import { ICO } from './ico'
 import { readUInt16LE } from './utils'
 

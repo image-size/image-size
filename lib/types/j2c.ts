@@ -1,4 +1,4 @@
-import { IImage } from './interface'
+import type { IImage } from './interface'
 import { toHexString, readUInt32BE } from './utils'
 
 export const J2C: IImage = {

@@ -3,7 +3,7 @@
 // with a maximum size of 4096 bytes. so if the SOF marker is outside
 // if this range we can't detect the file size correctly.
 
-import { IImage, ISize } from './interface'
+import type { IImage, ISize } from './interface'
 import { readUInt, readUInt16BE, toHexString } from './utils'
 
 const EXIF_MARKER = '45786966'

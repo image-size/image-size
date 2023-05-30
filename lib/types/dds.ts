@@ -1,4 +1,4 @@
-import { IImage } from './interface'
+import type { IImage } from './interface'
 import { readUInt32LE } from './utils'
 
 export const DDS: IImage = {

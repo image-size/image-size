@@ -1,4 +1,4 @@
-import { IImage, ISize } from './interface'
+import type { IImage, ISize } from './interface'
 import { toHexString, toUTF8String, readUInt32BE, readUInt16BE } from './utils'
 
 const BoxTypes = {

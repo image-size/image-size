@@ -1,4 +1,4 @@
-import { IImage } from './interface'
+import type { IImage } from './interface'
 import { toUTF8String, readUInt32LE } from './utils'
 
 export const KTX: IImage = {

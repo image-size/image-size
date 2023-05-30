@@ -1,4 +1,4 @@
-import { IImage, ISize } from './interface'
+import type { IImage, ISize } from './interface'
 import { toUTF8String, readUInt32BE } from './utils'
 
 /**

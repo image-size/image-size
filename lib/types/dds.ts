@@ -1,4 +1,5 @@
-import { IImage, readUInt32LE } from './interface'
+import { IImage } from './interface'
+import { readUInt32LE } from './utils'
 
 export const DDS: IImage = {
   validate: (input) => readUInt32LE(input, 0) === 0x20534444,

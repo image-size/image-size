@@ -1,4 +1,5 @@
-import { IImage, ISize, toUTF8String } from './interface'
+import { IImage, ISize } from './interface'
+import { toUTF8String } from './utils'
 
 type IAttributes = {
   width: number | null

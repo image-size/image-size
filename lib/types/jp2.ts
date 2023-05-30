@@ -1,11 +1,5 @@
-import {
-  IImage,
-  ISize,
-  toHexString,
-  toUTF8String,
-  readUInt32BE,
-  readUInt16BE,
-} from './interface'
+import { IImage, ISize } from './interface'
+import { toHexString, toUTF8String, readUInt32BE, readUInt16BE } from './utils'
 
 const BoxTypes = {
   ftyp: '66747970',

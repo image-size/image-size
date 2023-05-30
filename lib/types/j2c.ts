@@ -1,4 +1,5 @@
-import { IImage, toHexString, readUInt32BE } from './interface'
+import { IImage } from './interface'
+import { toHexString, readUInt32BE } from './utils'
 
 export const J2C: IImage = {
   // TODO: this doesn't seem right. SIZ marker doesn't have to be right after the SOC

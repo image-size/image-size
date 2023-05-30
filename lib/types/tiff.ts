@@ -1,7 +1,8 @@
 // based on http://www.compix.com/fileformattif.htm
 // TO-DO: support big-endian as well
 import * as fs from 'fs'
-import { IImage, readUInt, toHexString, toUTF8String } from './interface'
+import { IImage } from './interface'
+import { readUInt, toHexString, toUTF8String } from './utils'
 
 // Read IFD (image-file-directory) into a buffer
 function readIFD(input: Uint8Array, filepath: string, isBigEndian: boolean) {

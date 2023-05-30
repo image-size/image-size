@@ -1,4 +1,5 @@
-import { IImage, readUInt16LE } from './interface'
+import { IImage } from './interface'
+import { readUInt16LE } from './utils'
 
 export const TGA: IImage = {
   validate(input) {

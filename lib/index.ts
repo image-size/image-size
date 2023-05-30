@@ -1,7 +1,7 @@
 import * as fs from 'fs'
 import * as path from 'path'
 import Queue from 'queue'
-import { typeHandlers, imageType } from './types'
+import { typeHandlers, imageType } from './types/index'
 import { detector } from './detector'
 import { ISizeCalculationResult } from './types/interface'
 

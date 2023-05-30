@@ -1,4 +1,5 @@
-import { IImage, toUTF8String, readInt32LE, readUInt32LE } from './interface'
+import { IImage } from './interface'
+import { toUTF8String, readInt32LE, readUInt32LE } from './utils'
 
 export const BMP: IImage = {
   validate: (input) => toUTF8String(input, 0, 2) === 'BM',

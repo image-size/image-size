@@ -1,5 +1,6 @@
-import { IImage, readUInt16LE } from './interface'
+import { IImage } from './interface'
 import { ICO } from './ico'
+import { readUInt16LE } from './utils'
 
 const TYPE_CURSOR = 2
 export const CUR: IImage = {

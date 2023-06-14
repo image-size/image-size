@@ -1,7 +1,7 @@
 import { expect } from 'chai'
 import * as sinon from 'sinon'
 import * as fs from 'node:fs'
-import { imageSize } from '../lib'
+import { imageSize } from '../lib/node'
 
 const testBuf = new Uint8Array(1)
 const readFromClosed = (fd: number) => fs.readSync(fd, testBuf, 0, 1, 0)

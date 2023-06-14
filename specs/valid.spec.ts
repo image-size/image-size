@@ -2,11 +2,13 @@ import { expect } from 'chai'
 import { sync as globSync } from 'glob'
 import { extname, resolve } from 'node:path'
 import { openSync, readSync } from 'node:fs'
-import { imageSize } from '../lib'
+import { imageSize } from '../lib/index'
+import { imageSize as imageSizeNode } from '../lib/node'
 import { detector } from '../lib/detector'
 import type { ISizeCalculationResult } from '../lib/types/interface'
 
 const bufferSize = 8192
+const tiffBufferSize = 262144 // large enough to fit test tiffs in buffer
 
 const sizes: { [key: string]: ISizeCalculationResult } = {
   default: {
@@ -115,18 +117,21 @@ describe('Valid images', () => {
       let asyncDimensions: ISizeCalculationResult
 
       beforeEach((done) => {
-        const buffer = new Uint8Array(bufferSize)
+        let buffer = new Uint8Array(bufferSize)
         const filepath = resolve(file)
         const descriptor = openSync(filepath, 'r')
         readSync(descriptor, buffer, 0, bufferSize, 0)
         type = detector(buffer)
 
-        // tiff cannot support buffers, unless the buffer contains the entire file
-        if (type !== 'tiff') {
-          bufferDimensions = imageSize(buffer)
+        // tiff cannot process partial buffers, buffer must contain the entire file
+        if (type === 'tiff') {
+          buffer = new Uint8Array(tiffBufferSize)
+          readSync(descriptor, buffer, 0, tiffBufferSize, 0)
         }
 
-        imageSize(file, (err, dim) => {
+        bufferDimensions = imageSize(buffer)
+
+        imageSizeNode(file, (err, dim) => {
           if (err || !dim) {
             done(err)
           } else {
@@ -157,18 +162,16 @@ describe('Valid images', () => {
           expect(asyncDimensions.orientation).to.equal(expected.orientation)
         }
 
-        if (type !== 'tiff') {
-          expect(bufferDimensions.width).to.equal(expected.width)
-          expect(bufferDimensions.height).to.equal(expected.height)
-          if (bufferDimensions.images) {
-            bufferDimensions.images.forEach((item, index) => {
-              if (expected.images) {
-                const expectedItem = expected.images[index]
-                expect(item.width).to.equal(expectedItem.width)
-                expect(item.height).to.equal(expectedItem.height)
-              }
-            })
-          }
+        expect(bufferDimensions.width).to.equal(expected.width)
+        expect(bufferDimensions.height).to.equal(expected.height)
+        if (bufferDimensions.images) {
+          bufferDimensions.images.forEach((item, index) => {
+            if (expected.images) {
+              const expectedItem = expected.images[index]
+              expect(item.width).to.equal(expectedItem.width)
+              expect(item.height).to.equal(expectedItem.height)
+            }
+          })
         }
       })
     })

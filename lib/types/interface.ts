@@ -11,5 +11,5 @@ export type ISizeCalculationResult = {
 
 export type IImage = {
   validate: (input: Uint8Array) => boolean
-  calculate: (input: Uint8Array, filepath?: string) => ISizeCalculationResult
+  calculate: (input: Uint8Array) => ISizeCalculationResult
 }

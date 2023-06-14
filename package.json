@@ -7,6 +7,7 @@
   "types": "./dist/dts/index.d.ts",
   "exports": {
     ".": {
+      "types": "./dist/dts/index.d.ts",
       "require": "./dist/cjs/index.js",
       "import": "./dist/esm/index.mjs",
       "types": "./dist/dts/index.d.ts"
@@ -34,7 +35,7 @@
   "scripts": {
     "lint": "eslint --ext .ts,.js bin lib specs",
     "format": "prettier --write lib specs",
-    "test": "nyc mocha",
+    "test": "TS_NODE_PROJECT=tsconfig.cjs.json nyc mocha",
     "clean": "rm -rf dist docs",
     "generate-docs": "typedoc",
     "build": "tsc && tsc -p tsconfig.cjs.json",

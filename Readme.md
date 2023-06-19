@@ -68,7 +68,7 @@ sizeOf.setConcurrency(123456)
 ### Using promises (nodejs 10.x+)
 
 ```javascript
-const { promisify } = require('util')
+const { promisify } = require('node:util')
 const sizeOf = promisify(require('image-size'))
 sizeOf('images/funny-cats.png')
   .then(dimensions => { console.log(dimensions.width, dimensions.height) })
@@ -78,7 +78,7 @@ sizeOf('images/funny-cats.png')
 ### Async/Await (Typescript & ES7)
 
 ```javascript
-const { promisify } = require('util')
+const { promisify } = require('node:util')
 const sizeOf = promisify(require('image-size'))
 (async () => {
   try {
@@ -107,8 +107,8 @@ for (const dimensions of images) {
 ### Using a URL
 
 ```javascript
-const url = require('url')
-const http = require('http')
+const url = require('node:url')
+const http = require('node:http')
 
 const sizeOf = require('image-size')
 

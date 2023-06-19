@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 'use strict'
 
-const fs = require('fs')
-const path = require('path')
+const fs = require('node:fs')
+const path = require('node:path')
 const { imageSize } = require('..')
 
 const files = process.argv.slice(2)
@@ -28,14 +28,18 @@ files.forEach(function (image) {
       const greyImage = colorize(image, grey)
       const size = imageSize(image)
       const sizes = size.images || [size]
-      sizes.forEach(size => {
+      sizes.forEach((size) => {
         let greyType = ''
         if (size.type) {
           greyType = colorize(' (' + size.type + ')', grey)
         }
         console.info(
-          colorize(size.width, green) + greyX + colorize(size.height, green)
-            + ' - ' + greyImage + greyType
+          colorize(size.width, green) +
+            greyX +
+            colorize(size.height, green) +
+            ' - ' +
+            greyImage +
+            greyType
         )
       })
     } else {

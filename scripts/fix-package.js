@@ -1,5 +1,5 @@
-const { resolve } = require('path')
-const { writeFileSync, renameSync } = require('fs')
+const { resolve } = require('node:path')
+const { writeFileSync, renameSync } = require('node:fs')
 const { sync: globSync } = require('glob')
 
 const distDir = resolve(__dirname, '../dist')

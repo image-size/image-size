@@ -1,5 +1,5 @@
-import { resolve } from 'path'
-import { openSync, readSync } from 'fs'
+import { resolve } from 'node:path'
+import { openSync, readSync } from 'node:fs'
 import { expect } from 'chai'
 import { imageSize, types, disableTypes, disableFS } from '../lib'
 

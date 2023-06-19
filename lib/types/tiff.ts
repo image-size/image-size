@@ -1,6 +1,6 @@
 // based on http://www.compix.com/fileformattif.htm
 // TO-DO: support big-endian as well
-import * as fs from 'fs'
+import * as fs from 'node:fs'
 import type { IImage } from './interface'
 import { readUInt, toHexString, toUTF8String } from './utils'
 

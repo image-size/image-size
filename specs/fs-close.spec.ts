@@ -1,6 +1,6 @@
 import { expect } from 'chai'
 import * as sinon from 'sinon'
-import * as fs from 'fs'
+import * as fs from 'node:fs'
 import { imageSize } from '../lib'
 
 const testBuf = new Uint8Array(1)

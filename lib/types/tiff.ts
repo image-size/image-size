@@ -1,27 +1,12 @@
 // based on http://www.compix.com/fileformattif.htm
 // TO-DO: support big-endian as well
-import * as fs from 'node:fs'
 import type { IImage } from './interface'
 import { readUInt, toHexString, toUTF8String } from './utils'
 
 // Read IFD (image-file-directory) into a buffer
-function readIFD(input: Uint8Array, filepath: string, isBigEndian: boolean) {
+function readIFD(input: Uint8Array, isBigEndian: boolean) {
   const ifdOffset = readUInt(input, 32, 4, isBigEndian)
-
-  // read only till the end of the file
-  let bufferSize = 1024
-  const fileSize = fs.statSync(filepath).size
-  if (ifdOffset + bufferSize > fileSize) {
-    bufferSize = fileSize - ifdOffset - 10
-  }
-
-  // populate the buffer
-  const endBuffer = new Uint8Array(bufferSize)
-  const descriptor = fs.openSync(filepath, 'r')
-  fs.readSync(descriptor, endBuffer, 0, bufferSize, ifdOffset)
-  fs.closeSync(descriptor)
-
-  return endBuffer.slice(2)
+  return input.slice(ifdOffset + 2)
 }
 
 // TIFF values seem to be messed up on Big-Endian, this helps
@@ -86,16 +71,12 @@ const signatures = [
 export const TIFF: IImage = {
   validate: (input) => signatures.includes(toHexString(input, 0, 4)),
 
-  calculate(input, filepath) {
-    if (!filepath) {
-      throw new TypeError('Tiff doesn\'t support buffer')
-    }
-
+  calculate(input) {
     // Determine BE/LE
     const isBigEndian = determineEndianness(input) === 'BE'
 
     // read the IFD
-    const ifdBuffer = readIFD(input, filepath, isBigEndian)
+    const ifdBuffer = readIFD(input, isBigEndian)
 
     // extract the tags from the IFD
     const tags = extractTags(ifdBuffer, isBigEndian)

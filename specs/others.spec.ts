@@ -1,7 +1,9 @@
 import { resolve } from 'node:path'
 import { openSync, readSync } from 'node:fs'
 import { expect } from 'chai'
-import { imageSize, types, disableTypes, disableFS } from '../lib'
+import { types, disableTypes } from '../lib/lookup'
+import { imageSize as imageSizeNode } from '../lib/node'
+import { imageSize } from '../lib/index'
 
 // If something other than a buffer or filepath is passed
 describe('Invalid invocation', () => {
@@ -16,7 +18,7 @@ describe('Invalid invocation', () => {
       readSync(descriptor, buffer, 0, bufferSize, 0)
       expect(() => imageSize(buffer)).to.throw(
         TypeError,
-        'Tiff doesn\'t support buffer'
+        'Invalid Tiff. Missing tags'
       )
     })
   })
@@ -26,29 +28,17 @@ describe('Invalid invocation', () => {
     after(() => disableTypes([]))
 
     it('should throw', () => {
-      expect(() => imageSize('specs/images/valid/jpg/sample.jpg')).to.throw(
+      expect(() => imageSizeNode('specs/images/valid/jpg/sample.jpg')).to.throw(
         TypeError,
         'disabled file type: jpg'
       )
-      expect(() => imageSize('specs/images/valid/bmp/sample.bmp')).to.throw(
+      expect(() => imageSizeNode('specs/images/valid/bmp/sample.bmp')).to.throw(
         TypeError,
         'disabled file type: bmp'
       )
       expect(() =>
-        imageSize('specs/images/valid/png/sample.png')
+        imageSizeNode('specs/images/valid/png/sample.png')
       ).to.not.throw()
-    })
-  })
-
-  describe('when FS reads are disabled', () => {
-    before(() => disableFS(true))
-    after(() => disableFS(false))
-
-    it('should only allow Uint8Array inputs', () => {
-      expect(() => imageSize('specs/images/valid/jpg/sample.jpg')).to.throw(
-        TypeError,
-        'invalid invocation. input should be a Uint8Array'
-      )
     })
   })
 })
@@ -66,7 +56,7 @@ describe('Callback ', () => {
       expect(err).to.equal(tmpError)
     })
 
-    imageSize('specs/images/valid/jpg/sample.jpg', () => {
+    imageSizeNode('specs/images/valid/jpg/sample.jpg', () => {
       process.nextTick(() => done())
       throw tmpError
     })

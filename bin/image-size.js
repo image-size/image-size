@@ -3,7 +3,7 @@
 
 const fs = require('node:fs')
 const path = require('node:path')
-const { imageSize } = require('..')
+const { imageSize } = require('../dist/cjs/node')
 
 const files = process.argv.slice(2)
 

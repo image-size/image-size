@@ -12,12 +12,13 @@ describe('Invalid Images', () => {
         expect(() => imageSize(file)).to.throw(TypeError, 'Invalid')
       })
 
-      it('should callback with error when called asynchronously', (done) => {
-        imageSize(file, (e) => {
+      it('should callback with error when called asynchronously', async () => {
+        try {
+          imageSize(file)
+        } catch (e) {
           expect(e).to.be.instanceOf(TypeError)
           expect(e?.message).to.match(/^Invalid \w+$/)
-          done()
-        })
+        }
       })
     })
   })
@@ -26,14 +27,15 @@ describe('Invalid Images', () => {
     const fakeFile = 'fakefile.jpg'
 
     it('should throw when called synchronously', () => {
-      expect(() => imageSize(fakeFile)).to.throw(Error, 'ENOENT')
+      expect(async () => await imageSize(fakeFile)).to.throw(Error, 'ENOENT')
     })
 
-    it('should callback with error when called asynchronously', (done) => {
-      imageSize(fakeFile, (e) => {
+    it('should callback with error when called asynchronously', async () => {
+      try {
+        await imageSize(fakeFile)
+      } catch (e) {
         expect(e?.message).to.match(/^ENOENT.*$/)
-        done()
-      })
+      }
     })
   })
 })

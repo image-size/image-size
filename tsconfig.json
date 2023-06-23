@@ -10,7 +10,7 @@
     "allowJs": false,
     "declaration": true,
     "removeComments": false,
-    "strict": true,
+    "strict": false,
     "alwaysStrict": true
   },
   "include": ["lib/**/*"],

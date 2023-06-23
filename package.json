@@ -9,8 +9,7 @@
     ".": {
       "types": "./dist/dts/index.d.ts",
       "require": "./dist/cjs/index.js",
-      "import": "./dist/esm/index.mjs",
-      "types": "./dist/dts/index.d.ts"
+      "import": "./dist/esm/index.mjs"
     },
     "./*": {
       "require": "./dist/cjs/*.js",
@@ -70,22 +69,19 @@
     "@types/mocha": "10.0.1",
     "@types/node": "18.16.16",
     "@types/sinon": "10.0.15",
-    "@typescript-eslint/eslint-plugin": "5.59.8",
-    "@typescript-eslint/parser": "5.59.8",
+    "@typescript-eslint/eslint-plugin": "5.60.0",
+    "@typescript-eslint/parser": "5.60.0",
     "chai": "4.3.7",
     "eslint": "8.41.0",
     "eslint-config-prettier": "8.8.0",
     "eslint-plugin-prettier": "4.2.1",
-    "glob": "10.2.6",
+    "glob": "10.3.0",
     "mocha": "10.2.0",
     "nyc": "15.1.0",
     "prettier": "2.8.8",
-    "sinon": "15.1.0",
+    "sinon": "15.2.0",
     "ts-node": "10.9.1",
-    "typedoc": "0.24.7",
-    "typescript": "5.0.4"
-  },
-  "dependencies": {
-    "queue": "6.0.2"
+    "typedoc": "0.24.8",
+    "typescript": "5.1.3"
   }
 }

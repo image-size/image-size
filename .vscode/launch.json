@@ -1,0 +1,21 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Debug",
+      "outputCapture": "std",
+      "killBehavior": "polite",
+      "skipFiles": ["<node_internals>/**"],
+      "program": "${workspaceFolder}/bin/image-size.js",
+      "args": [
+        "/home/aditya/Pictures/Screenshots/1-subquery.png",
+        "/home/aditya/Pictures/Screenshots/n8n-on-aws-fargate.jpg",
+        "/home/aditya/Pictures/Screenshots/n8n-on-aws-fargate.png",
+        "/home/aditya/Pictures/Screenshots/2-leftjoin.png",
+        "/home/aditya/Pictures/Screenshots/Screenshot-20200805-140342.png"
+      ]
+    }
+  ]
+}

@@ -46,7 +46,7 @@ function getImageSize(input: Uint8Array, imageIndex: number): ISize {
 }
 
 export const ICO: IImage = {
-  validate(input) {
+  validate(dataView, input) {
     const reserved = readUInt16LE(input, 0)
     const imageCount = readUInt16LE(input, 4)
     if (reserved !== 0 || imageCount === 0) return false
@@ -55,7 +55,7 @@ export const ICO: IImage = {
     return imageType === TYPE_ICON
   },
 
-  calculate(input) {
+  calculate(dataView, input) {
     const nbImages = readUInt16LE(input, 4)
     const imageSize = getImageSize(input, 0)
 

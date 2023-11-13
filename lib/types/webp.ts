@@ -28,14 +28,14 @@ function calculateLossy(input: Uint8Array): ISize {
 }
 
 export const WEBP: IImage = {
-  validate(input) {
+  validate(dataView, input) {
     const riffHeader = 'RIFF' === toUTF8String(input, 0, 4)
     const webpHeader = 'WEBP' === toUTF8String(input, 8, 12)
     const vp8Header = 'VP8' === toUTF8String(input, 12, 15)
     return riffHeader && webpHeader && vp8Header
   },
 
-  calculate(input) {
+  calculate(dataView, input) {
     const chunkHeader = toUTF8String(input, 12, 16)
     input = input.slice(20, 30)
 

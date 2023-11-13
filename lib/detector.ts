@@ -15,11 +15,11 @@ const firstBytes = new Map<number, imageType>([
   [0xff, 'jpg'],
 ])
 
-export function detector(input: Uint8Array): imageType | undefined {
+export function detector(dataView: DataView, input: Uint8Array): imageType | undefined {
   const byte = input[0]
   const type = firstBytes.get(byte)
-  if (type && typeHandlers.get(type)!.validate(input)) {
+  if (type && typeHandlers.get(type)!.validate(dataView, input)) {
     return type
   }
-  return types.find((type) => typeHandlers.get(type)!.validate(input))
+  return types.find((type) => typeHandlers.get(type)!.validate(dataView, input))
 }

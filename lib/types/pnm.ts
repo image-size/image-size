@@ -65,9 +65,9 @@ const handlers: { [type: string]: Handler } = {
 }
 
 export const PNM: IImage = {
-  validate: (input) => toUTF8String(input, 0, 2) in PNMTypes,
+  validate: (dataView, input) => toUTF8String(input, 0, 2) in PNMTypes,
 
-  calculate(input) {
+  calculate(dataView, input) {
     const signature = toUTF8String(input, 0, 2) as ValidSignature
     const type = PNMTypes[signature]
     // TODO: this probably generates garbage. move to a stream based parser

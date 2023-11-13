@@ -18,8 +18,9 @@ const globalOptions: Options = {
  * @returns {ISizeCalculationResult}
  */
 export function lookup(input: Uint8Array): ISizeCalculationResult {
+  const dataView = new DataView(input.buffer)
   // detect the file type... don't rely on the extension
-  const type = detector(input)
+  const type = detector(dataView, input)
 
   if (typeof type !== 'undefined') {
     if (globalOptions.disabledTypes.indexOf(type) > -1) {
@@ -27,7 +28,7 @@ export function lookup(input: Uint8Array): ISizeCalculationResult {
     }
 
     // find an appropriate handler for this file type
-    const size = typeHandlers.get(type)!.calculate(input)
+    const size = typeHandlers.get(type)!.calculate(dataView, input)
     if (size !== undefined) {
       size.type = type
       return size

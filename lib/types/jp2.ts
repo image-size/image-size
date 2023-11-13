@@ -29,7 +29,7 @@ const parseIHDR = (box: Uint8Array): ISize => {
 }
 
 export const JP2: IImage = {
-  validate(input) {
+  validate(dataView, input) {
     const signature = toHexString(input, 4, 8)
     const signatureLength = readUInt32BE(input, 0)
     if (signature !== BoxTypes.jp__ || signatureLength < 1) {
@@ -42,7 +42,7 @@ export const JP2: IImage = {
     return toHexString(ftypBox, 0, 4) === BoxTypes.ftyp
   },
 
-  calculate(input) {
+  calculate(dataView, input) {
     const signatureLength = readUInt32BE(input, 0)
     const ftypBoxLength = readUInt16BE(input, signatureLength + 2)
     let offset = signatureLength + 4 + ftypBoxLength

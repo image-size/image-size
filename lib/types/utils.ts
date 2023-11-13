@@ -3,7 +3,7 @@ export const toUTF8String = (
   input: Uint8Array,
   start = 0,
   end = input.length,
-) => decoder.decode(input.slice(start, end))
+) => decoder.decode(end === input.length ? input : input.slice(start, end))
 
 export const toHexString = (input: Uint8Array, start = 0, end = input.length) =>
   input
@@ -23,12 +23,6 @@ export const readUInt16LE = (input: Uint8Array, offset = 0) =>
 
 export const readUInt24LE = (input: Uint8Array, offset = 0) =>
   input[offset] + input[offset + 1] * 2 ** 8 + input[offset + 2] * 2 ** 16
-
-export const readInt32LE = (input: Uint8Array, offset = 0) =>
-  input[offset] +
-  input[offset + 1] * 2 ** 8 +
-  input[offset + 2] * 2 ** 16 +
-  (input[offset + 3] << 24)
 
 export const readUInt32BE = (input: Uint8Array, offset = 0) =>
   input[offset] * 2 ** 24 +

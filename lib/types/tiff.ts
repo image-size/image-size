@@ -69,9 +69,9 @@ const signatures = [
 ]
 
 export const TIFF: IImage = {
-  validate: (input) => signatures.includes(toHexString(input, 0, 4)),
+  validate: (dataView, input) => signatures.includes(toHexString(input, 0, 4)),
 
-  calculate(input) {
+  calculate(dataView, input) {
     // Determine BE/LE
     const isBigEndian = determineEndianness(input) === 'BE'
 

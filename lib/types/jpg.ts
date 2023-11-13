@@ -112,9 +112,9 @@ function validateInput(input: Uint8Array, index: number): void {
 }
 
 export const JPG: IImage = {
-  validate: (input) => toHexString(input, 0, 2) === 'ffd8',
+  validate: (dataView, input) => toHexString(input, 0, 2) === 'ffd8',
 
-  calculate(input) {
+  calculate(dataView, input) {
     // Skip 4 chars, they are for signature
     input = input.slice(4)
 

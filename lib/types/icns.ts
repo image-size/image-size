@@ -82,11 +82,11 @@ function getImageSize(type: string): ISize {
 }
 
 export const ICNS: IImage = {
-  validate: (input) => toUTF8String(input, 0, 4) === 'icns',
+  validate: (dataView, input) => toUTF8String(input, 0, 4) === 'icns',
 
-  calculate(input) {
-    const inputLength = input.length
-    const fileLength = readUInt32BE(input, FILE_LENGTH_OFFSET)
+  calculate(dataView, input) {
+    const inputLength = input.byteLength
+    const fileLength = dataView.getUint32(FILE_LENGTH_OFFSET)
     let imageOffset = SIZE_HEADER
 
     let imageHeader = readImageHeader(input, imageOffset)

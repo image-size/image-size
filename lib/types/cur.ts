@@ -1,17 +1,16 @@
 import type { IImage } from './interface'
 import { ICO } from './ico'
-import { readUInt16LE } from './utils'
 
 const TYPE_CURSOR = 2
 export const CUR: IImage = {
-  validate(input) {
-    const reserved = readUInt16LE(input, 0)
-    const imageCount = readUInt16LE(input, 4)
+  validate(dataView) {
+    const reserved = dataView.getUint16(0, true)
+    const imageCount = dataView.getUint16(4, true)
     if (reserved !== 0 || imageCount === 0) return false
 
-    const imageType = readUInt16LE(input, 2)
+    const imageType = dataView.getUint16(2, true)
     return imageType === TYPE_CURSOR
   },
 
-  calculate: (input) => ICO.calculate(input),
+  calculate: (dataView, input) => ICO.calculate(dataView, input),
 }

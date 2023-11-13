@@ -1,12 +1,11 @@
 import type { IImage } from './interface'
-import { toUTF8String, readUInt16LE } from './utils'
 
-const gifRegexp = /^GIF8[79]a/
 export const GIF: IImage = {
-  validate: (input) => gifRegexp.test(toUTF8String(input, 0, 6)),
+  validate: (dataView) => dataView.getInt32(0) === 0x47494638 &&
+  [0x3761, 0x3961].includes(dataView.getInt16(4)),
 
-  calculate: (input) => ({
-    height: readUInt16LE(input, 8),
-    width: readUInt16LE(input, 6),
+  calculate: (dataView) => ({
+    height: dataView.getUint16(8, true),
+    width: dataView.getUint16(6, true),
   }),
 }

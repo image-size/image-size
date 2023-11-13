@@ -112,18 +112,19 @@ describe('Valid images', () => {
   validFiles.forEach((file) =>
     describe(file, () => {
       it('should return correct size for ' + file, () => {
-        let buffer = new Uint8Array(bufferSize)
+        let input = new Uint8Array(bufferSize)
         const filepath = resolve(file)
         const descriptor = openSync(filepath, 'r')
-        readSync(descriptor, buffer, 0, bufferSize, 0)
-        const type = detector(buffer)
+        readSync(descriptor, input, 0, bufferSize, 0)
+        const dataView = new DataView(input.buffer)
+        const type = detector(dataView, input)
 
         // tiff cannot process partial buffers, buffer must contain the entire file
         if (type === 'tiff') {
-          buffer = new Uint8Array(tiffBufferSize)
-          readSync(descriptor, buffer, 0, tiffBufferSize, 0)
+          input = new Uint8Array(tiffBufferSize)
+          readSync(descriptor, input, 0, tiffBufferSize, 0)
         }
-        const bufferDimensions = imageSize(buffer)
+        const bufferDimensions = imageSize(input)
         const expected = sizes[file as keyof typeof sizes] || sizes.default
         expect(bufferDimensions.width).to.equal(expected.width)
         expect(bufferDimensions.height).to.equal(expected.height)

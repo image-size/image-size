@@ -8,7 +8,7 @@ const pngImageHeaderChunkName = 'IHDR'
 const pngFriedChunkName = 'CgBI'
 
 export const PNG: IImage = {
-  validate(input) {
+  validate(dataView, input) {
     if (pngSignature === toUTF8String(input, 1, 8)) {
       let chunkName = toUTF8String(input, 12, 16)
       if (chunkName === pngFriedChunkName) {
@@ -22,7 +22,7 @@ export const PNG: IImage = {
     return false
   },
 
-  calculate(input) {
+  calculate(dataView, input) {
     if (toUTF8String(input, 12, 16) === pngFriedChunkName) {
       return {
         height: readUInt32BE(input, 36),

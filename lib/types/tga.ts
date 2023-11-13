@@ -1,15 +1,14 @@
 import type { IImage } from './interface'
-import { readUInt16LE } from './utils'
 
 export const TGA: IImage = {
-  validate(input) {
-    return readUInt16LE(input, 0) === 0 && readUInt16LE(input, 4) === 0
+  validate(dataView) {
+    return dataView.getUint16(0, true) === 0 && dataView.getUint16(4, true) === 0
   },
 
-  calculate(input) {
+  calculate(dataView) {
     return {
-      height: readUInt16LE(input, 14),
-      width: readUInt16LE(input, 12),
+      height: dataView.getUint16(14, true),
+      width: dataView.getUint16(12, true),
     }
   },
 }

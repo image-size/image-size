@@ -1,11 +1,10 @@
 import type { IImage } from './interface'
-import { toUTF8String, readUInt32BE } from './utils'
 
 export const PSD: IImage = {
-  validate: (input) => toUTF8String(input, 0, 4) === '8BPS',
+  validate: (dataView) => dataView.getInt32(0) === 0x38425053,
 
-  calculate: (input) => ({
-    height: readUInt32BE(input, 14),
-    width: readUInt32BE(input, 18),
+  calculate: (dataView) => ({
+    height: dataView.getUint32(14),
+    width: dataView.getUint32(18),
   }),
 }

@@ -10,6 +10,6 @@ export type ISizeCalculationResult = {
 } & ISize
 
 export type IImage = {
-  validate: (input: Uint8Array) => boolean
-  calculate: (input: Uint8Array) => ISizeCalculationResult
+  validate: (dataView: DataView, input: Uint8Array) => boolean
+  calculate: (dataView: DataView, input: Uint8Array) => ISizeCalculationResult
 }

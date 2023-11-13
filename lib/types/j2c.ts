@@ -1,12 +1,11 @@
 import type { IImage } from './interface'
-import { toHexString, readUInt32BE } from './utils'
 
 export const J2C: IImage = {
   // TODO: this doesn't seem right. SIZ marker doesn't have to be right after the SOC
-  validate: (input) => toHexString(input, 0, 4) === 'ff4fff51',
+  validate: (dataView) => dataView.getInt32(0) === 0xff4fff51,
 
-  calculate: (input) => ({
-    height: readUInt32BE(input, 12),
-    width: readUInt32BE(input, 8),
+  calculate: (dataView) => ({
+    height: dataView.getUint32(12),
+    width: dataView.getUint32(8),
   }),
 }

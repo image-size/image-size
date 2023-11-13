@@ -29,7 +29,7 @@ export function lookup(input: Uint8Array): ISizeCalculationResult {
     // find an appropriate handler for this file type
     const size = typeHandlers.get(type)!.calculate(input)
     if (size !== undefined) {
-      size.type = type
+      size.type = size.type ?? type
       return size
     }
   }

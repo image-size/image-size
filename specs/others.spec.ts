@@ -51,6 +51,7 @@ describe('.types property', () => {
       'cur',
       'dds',
       'gif',
+      'heif',
       'icns',
       'ico',
       'j2c',

@@ -12,6 +12,7 @@ A [Node](https://nodejs.org/en/) module to get dimensions of any image file
 - CUR
 - DDS
 - GIF
+- HEIC (HEIF, AVCI, AVIF)
 - ICNS
 - ICO
 - J2C

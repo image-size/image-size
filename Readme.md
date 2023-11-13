@@ -8,25 +8,25 @@ A [Node](https://nodejs.org/en/) module to get dimensions of any image file
 
 ## Supported formats
 
-* BMP
-* CUR
-* DDS
-* GIF
-* ICNS
-* ICO
-* J2C
-* JP2
-* JPEG
-* KTX
-* PNG
-* PNM (PAM, PBM, PFM, PGM, PPM)
-* PSD
-* SVG
-* TGA
-* TIFF
-* WebP
+- BMP
+- CUR
+- DDS
+- GIF
+- ICNS
+- ICO
+- J2C
+- JP2
+- JPEG
+- KTX
+- PNG
+- PNM (PAM, PBM, PFM, PGM, PPM)
+- PSD
+- SVG
+- TGA
+- TIFF
+- WebP
 
-## Programmatic Usage
+## Installation
 
 ```shell
 npm install image-size --save
@@ -38,67 +38,41 @@ or
 yarn add image-size
 ```
 
-### Synchronous
+## Programmatic Usage
+
+### Passing in a Buffer/Uint8Array
 
 ```javascript
-const sizeOf = require('image-size')
-const dimensions = sizeOf('images/funny-cats.png')
+const { imageSize } = require('image-size')
+const { width, height } = imageSize(bufferObject)
+console.log(width, height)
+```
+
+### Reading from a file
+
+```javascript
+const { imageSize } = require('image-size/fromFile')
+const dimensions = await imageSize('images/funny-cats.png')
 console.log(dimensions.width, dimensions.height)
 ```
 
-### Asynchronous
-
-```javascript
-const sizeOf = require('image-size')
-sizeOf('images/funny-cats.png', function (err, dimensions) {
-  console.log(dimensions.width, dimensions.height)
-})
-```
-
-NOTE: The asynchronous version doesn't work if the input is a Buffer. Use synchronous version instead.
-
-Also, the asynchronous functions have a default concurrency limit of **100**
+NOTE: Reading from files haa a default concurrency limit of **100**
 To change this limit, you can call the `setConcurrency` function like this:
 
 ```javascript
-const sizeOf = require('image-size')
+const sizeOf = require('image-size/fromFile')
 sizeOf.setConcurrency(123456)
-```
-
-### Using promises (nodejs 10.x+)
-
-```javascript
-const { promisify } = require('node:util')
-const sizeOf = promisify(require('image-size'))
-sizeOf('images/funny-cats.png')
-  .then(dimensions => { console.log(dimensions.width, dimensions.height) })
-  .catch(err => console.error(err))
-```
-
-### Async/Await (Typescript & ES7)
-
-```javascript
-const { promisify } = require('node:util')
-const sizeOf = promisify(require('image-size'))
-(async () => {
-  try {
-    const dimensions = await sizeOf('images/funny-cats.png')
-    console.log(dimensions.width, dimensions.height)
-  } catch (err) {
-    console.error(err)
-  }
-})().then(c => console.log(c))
 ```
 
 ### Multi-size
 
-If the target file is an icon (.ico) or a cursor (.cur), the `width` and `height` will be the ones of the first found image.
+If the target file/buffer is an icon (.ico) or a cursor (.cur), the `width` and `height` will be the ones of the first found image.
 
 An additional `images` array is available and returns the dimensions of all the available images
 
 ```javascript
-const sizeOf = require('image-size')
-const images = sizeOf('images/multi-size.ico').images
+const { imageSize } = require('image-size')
+const { images } = imageSize('images/multi-size.ico')
 for (const dimensions of images) {
   console.log(dimensions.width, dimensions.height)
 }
@@ -110,19 +84,21 @@ for (const dimensions of images) {
 const url = require('node:url')
 const http = require('node:http')
 
-const sizeOf = require('image-size')
+const { imageSize } = require('image-size')
 
 const imgUrl = 'http://my-amazing-website.com/image.jpeg'
 const options = url.parse(imgUrl)
 
 http.get(options, function (response) {
   const chunks = []
-  response.on('data', function (chunk) {
-    chunks.push(chunk)
-  }).on('end', function() {
-    const buffer = Buffer.concat(chunks)
-    console.log(sizeOf(buffer))
-  })
+  response
+    .on('data', function (chunk) {
+      chunks.push(chunk)
+    })
+    .on('end', function () {
+      const buffer = Buffer.concat(chunks)
+      console.log(imageSize(buffer))
+    })
 })
 ```
 
@@ -130,15 +106,10 @@ You can optionally check the buffer lengths & stop downloading the image after a
 **You don't need to download the entire image**
 
 ### Disabling certain image types
-```javascript
-const imageSize = require('image-size')
-imageSize.disableTypes(['tiff', 'ico'])
-```
 
-### Disabling all file-system reads
 ```javascript
-const imageSize = require('image-size')
-imageSize.disableFS(true)
+const { disableTypes } = require('image-size')
+disableTypes(['tiff', 'ico'])
 ```
 
 ### JPEG image orientation
@@ -146,9 +117,9 @@ imageSize.disableFS(true)
 If the orientation is present in the JPEG EXIF metadata, it will be returned by the function. The orientation value is a [number between 1 and 8](https://exiftool.org/TagNames/EXIF.html#:~:text=0x0112,8%20=%20Rotate%20270%20CW) representing a type of orientation.
 
 ```javascript
-const sizeOf = require('image-size')
-const dimensions = sizeOf('images/photo.jpeg')
-console.log(dimensions.orientation)
+const { imageSize } = require('image-size/fromFile')
+const { width, height, orientation } = imageSize('images/photo.jpeg')
+console.log(width, height, orientation)
 ```
 
 ## Command-Line Usage (CLI)
@@ -168,7 +139,6 @@ followed by
 ```shell
 image-size image1 [image2] [image3] ...
 ```
-
 
 ## Credits
 

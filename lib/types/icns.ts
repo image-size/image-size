@@ -67,7 +67,7 @@ const ICON_TYPE_SIZE: { [key: string]: number } = {
 
 function readImageHeader(
   input: Uint8Array,
-  imageOffset: number
+  imageOffset: number,
 ): [string, number] {
   const imageLengthOffset = imageOffset + ENTRY_LENGTH_OFFSET
   return [

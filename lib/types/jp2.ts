@@ -59,7 +59,8 @@ export const JP2: IImage = {
       return parseIHDR(input.slice(offset + 8, offset + 24))
     default:
       throw new TypeError(
-        'Unsupported header found: ' + toUTF8String(input, offset, offset + 4)
+        'Unsupported header found: ' +
+            toUTF8String(input, offset, offset + 4),
       )
     }
   },

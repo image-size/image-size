@@ -561,7 +561,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/chai@npm:4.3.10":
+"@types/chai-as-promised@npm:7.1.8":
+  version: 7.1.8
+  resolution: "@types/chai-as-promised@npm:7.1.8"
+  dependencies:
+    "@types/chai": "npm:*"
+  checksum: 88e2d42f14d1de19ba1c7b5c35f263fef37d3ad241c71f5eb59b10763706f3902f4131b93854c9c6ed520081c7e36be555849f202418357f905bea71178b7d02
+  languageName: node
+  linkType: hard
+
+"@types/chai@npm:*, @types/chai@npm:4.3.10":
   version: 4.3.10
   resolution: "@types/chai@npm:4.3.10"
   checksum: a52b2c603cf293f0cfce304474b2844d7d03279713ebe3d310f2710d72ab2db14940a187fac389bfa12c58eace62ed477125321813c818f31d82e388ec405a73
@@ -1096,6 +1105,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"chai-as-promised@npm:7.1.1":
+  version: 7.1.1
+  resolution: "chai-as-promised@npm:7.1.1"
+  dependencies:
+    check-error: "npm:^1.0.2"
+  peerDependencies:
+    chai: ">= 2.1.2 < 5"
+  checksum: 5d9ecab37b313047f5ea25d00b1cb6e7f2710c6e2f57d91aed7cfed5008d995cb65ea723af4e5d782bafd9a6eff5a4267af53dfe7212dc10dd1d92b9127bc531
+  languageName: node
+  linkType: hard
+
 "chai@npm:4.3.10":
   version: 4.3.10
   resolution: "chai@npm:4.3.10"
@@ -1132,7 +1152,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"check-error@npm:^1.0.3":
+"check-error@npm:^1.0.2, check-error@npm:^1.0.3":
   version: 1.0.3
   resolution: "check-error@npm:1.0.3"
   dependencies:
@@ -2100,6 +2120,7 @@ __metadata:
   resolution: "image-size@workspace:."
   dependencies:
     "@types/chai": "npm:4.3.10"
+    "@types/chai-as-promised": "npm:7.1.8"
     "@types/glob": "npm:8.1.0"
     "@types/mocha": "npm:10.0.4"
     "@types/node": "npm:18.18.9"
@@ -2107,6 +2128,7 @@ __metadata:
     "@typescript-eslint/eslint-plugin": "npm:6.10.0"
     "@typescript-eslint/parser": "npm:6.10.0"
     chai: "npm:4.3.10"
+    chai-as-promised: "npm:7.1.1"
     eslint: "npm:8.53.0"
     eslint-config-prettier: "npm:9.0.0"
     eslint-plugin-prettier: "npm:5.0.1"

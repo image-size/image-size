@@ -30,7 +30,7 @@ const units: { [unit: string]: number } = {
 }
 
 const unitsReg = new RegExp(
-  `^([0-9.]+(?:e\\d+)?)(${Object.keys(units).join('|')})?$`
+  `^([0-9.]+(?:e\\d+)?)(${Object.keys(units).join('|')})?$`,
 )
 
 function parseLength(len: string) {

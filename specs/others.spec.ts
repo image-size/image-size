@@ -1,9 +1,12 @@
 import { resolve } from 'node:path'
 import { openSync, readSync } from 'node:fs'
-import { expect } from 'chai'
+import * as chai from 'chai'
+import * as chaiAsPromised from 'chai-as-promised'
 import { types, disableTypes } from '../lib/lookup'
-import { imageSize as imageSizeNode } from '../lib/node'
+import { imageSize as imageSizeFromFile } from '../lib/fromFile'
 import { imageSize } from '../lib/index'
+chai.use(chaiAsPromised)
+const { expect } = chai
 
 // If something other than a buffer or filepath is passed
 describe('Invalid invocation', () => {
@@ -18,7 +21,7 @@ describe('Invalid invocation', () => {
       readSync(descriptor, buffer, 0, bufferSize, 0)
       expect(() => imageSize(buffer)).to.throw(
         TypeError,
-        'Invalid Tiff. Missing tags'
+        'Invalid Tiff. Missing tags',
       )
     })
   })
@@ -27,38 +30,15 @@ describe('Invalid invocation', () => {
     before(() => disableTypes(['jpg', 'bmp']))
     after(() => disableTypes([]))
 
-    it('should throw', () => {
-      expect(() => imageSizeNode('specs/images/valid/jpg/sample.jpg')).to.throw(
-        TypeError,
-        'disabled file type: jpg'
-      )
-      expect(() => imageSizeNode('specs/images/valid/bmp/sample.bmp')).to.throw(
-        TypeError,
-        'disabled file type: bmp'
-      )
-      expect(() =>
-        imageSizeNode('specs/images/valid/png/sample.png')
-      ).to.not.throw()
-    })
-  })
-})
-
-describe('Callback ', () => {
-  it('should be called only once', (done) => {
-    const tmpError = new Error()
-
-    const origException = process.listeners('uncaughtException').pop()
-    if (origException) {
-      process.removeListener('uncaughtException', origException)
-    }
-
-    process.once('uncaughtException', (err) => {
-      expect(err).to.equal(tmpError)
-    })
-
-    imageSizeNode('specs/images/valid/jpg/sample.jpg', () => {
-      process.nextTick(() => done())
-      throw tmpError
+    it('should throw', async () => {
+      await expect(
+        imageSizeFromFile('specs/images/valid/jpg/sample.jpg'),
+      ).to.be.rejectedWith(TypeError, 'disabled file type: jpg')
+      await expect(
+        imageSizeFromFile('specs/images/valid/bmp/sample.bmp'),
+      ).to.be.rejectedWith(TypeError, 'disabled file type: bmp')
+      await expect(imageSizeFromFile('specs/images/valid/png/sample.png')).to
+        .not.be.rejected
     })
   })
 })

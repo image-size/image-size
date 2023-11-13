@@ -65,6 +65,7 @@
   "license": "MIT",
   "devDependencies": {
     "@types/chai": "4.3.10",
+    "@types/chai-as-promised": "7.1.8",
     "@types/glob": "8.1.0",
     "@types/mocha": "10.0.4",
     "@types/node": "18.18.9",
@@ -72,6 +73,7 @@
     "@typescript-eslint/eslint-plugin": "6.10.0",
     "@typescript-eslint/parser": "6.10.0",
     "chai": "4.3.10",
+    "chai-as-promised": "7.1.1",
     "eslint": "8.53.0",
     "eslint-config-prettier": "9.0.0",
     "eslint-plugin-prettier": "5.0.1",
@@ -83,8 +85,5 @@
     "ts-node": "10.9.1",
     "typedoc": "0.25.3",
     "typescript": "5.2.2"
-  },
-  "dependencies": {
-    "queue": "7.0.0"
   }
 }

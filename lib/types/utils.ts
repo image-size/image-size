@@ -2,7 +2,7 @@ const decoder = new TextDecoder()
 export const toUTF8String = (
   input: Uint8Array,
   start = 0,
-  end = input.length
+  end = input.length,
 ) => decoder.decode(input.slice(start, end))
 
 export const toHexString = (input: Uint8Array, start = 0, end = input.length) =>
@@ -55,7 +55,7 @@ export function readUInt(
   input: Uint8Array,
   bits: 16 | 32,
   offset: number,
-  isBigEndian: boolean
+  isBigEndian: boolean,
 ): number {
   offset = offset || 0
   const endian = isBigEndian ? 'BE' : 'LE'

@@ -1,40 +1,21 @@
-import { expect } from 'chai'
+import * as chai from 'chai'
+import * as chaiAsPromised from 'chai-as-promised'
 import * as sinon from 'sinon'
 import * as fs from 'node:fs'
-import { imageSize } from '../lib/node'
-
-const testBuf = new Uint8Array(1)
-const readFromClosed = (fd: number) => fs.readSync(fd, testBuf, 0, 1, 0)
+import { imageSize as imageSizeFromFile } from '../lib/fromFile'
+chai.use(chaiAsPromised)
+const { expect } = chai
 
 describe('after done reading from files', () => {
-  describe('should close the file descriptor', () => {
-    it('async', (done) => {
-      const spy = sinon.spy(fs.promises, 'open')
-      imageSize('specs/images/valid/jpg/large.jpg', async (err) => {
-        try {
-          expect(err).to.be.null
-          expect(spy.calledOnce).to.be.true
-          const fileHandle = await spy.returnValues[0]
-          expect(() => readFromClosed(fileHandle.fd)).to.throw(Error)
-
-          done()
-        } catch (err) {
-          done(err)
-        } finally {
-          spy.restore()
-        }
-      })
-    })
-
-    it('sync', () => {
-      const spy = sinon.spy(fs, 'openSync')
-      imageSize('specs/images/valid/jpg/large.jpg')
-      expect(() => readFromClosed(spy.returnValues[0])).to.throw(
-        Error,
-        'bad file descriptor'
-      )
-      spy.restore()
-    })
+  it('should close the file descriptor', async () => {
+    const spy = sinon.spy(fs.promises, 'open')
+    await imageSizeFromFile('specs/images/valid/jpg/large.jpg')
+    expect(spy.calledOnce).to.be.true
+    const fileHandle = await spy.returnValues[0]
+    await expect(fs.promises.readFile(fileHandle)).to.be.rejectedWith(
+      'EBADF: bad file descriptor',
+    )
+    spy.restore()
   })
 })
 
@@ -52,35 +33,16 @@ describe('when Uint8Array allocation fails', () => {
     sandbox.restore()
   })
 
-  describe('should close the file descriptor', () => {
-    it('async', (done) => {
-      const spy = sinon.spy(fs.promises, 'open')
-      imageSize('specs/images/valid/jpg/large.jpg', async (err) => {
-        try {
-          expect(err).to.be.instanceOf(RangeError)
-          expect(spy.calledOnce).to.be.true
-          const fileHandle = await spy.returnValues[0]
-          expect(() => readFromClosed(fileHandle.fd)).to.throw(Error)
-
-          done()
-        } catch (err) {
-          done(err)
-        } finally {
-          spy.restore()
-        }
-      })
-    })
-
-    it('sync', () => {
-      const spy = sinon.spy(fs, 'openSync')
-      expect(() => imageSize('specs/images/valid/jpg/large.jpg')).to.throw(
-        RangeError
-      )
-      expect(() => readFromClosed(spy.returnValues[0])).to.throw(
-        Error,
-        'bad file descriptor'
-      )
-      spy.restore()
-    })
+  it('should close the file descriptor', async () => {
+    const spy = sinon.spy(fs.promises, 'open')
+    expect(
+      imageSizeFromFile('specs/images/valid/jpg/large.jpg'),
+    ).to.be.rejectedWith(RangeError, 'Array allocation failed')
+    expect(spy.calledOnce).to.be.true
+    const fileHandle = await spy.returnValues[0]
+    await expect(fs.promises.readFile(fileHandle)).to.be.rejectedWith(
+      'EBADF: bad file descriptor',
+    )
+    spy.restore()
   })
 })

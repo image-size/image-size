@@ -88,7 +88,7 @@ function validateExifBlock(input: Uint8Array, index: number) {
   const byteAlign = toHexString(
     exifBlock,
     EXIF_HEADER_BYTES,
-    EXIF_HEADER_BYTES + TIFF_BYTE_ALIGN_BYTES
+    EXIF_HEADER_BYTES + TIFF_BYTE_ALIGN_BYTES,
   )
 
   // Ignore Empty EXIF. Validate byte alignment

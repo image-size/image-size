@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "target": "esnext",
-    "module": "esnext",
+    "module": "nodenext",
     "moduleResolution": "nodenext",
     "esModuleInterop": true,
     "outDir": "dist/esm",

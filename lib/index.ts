@@ -45,7 +45,7 @@ function lookup(input: Uint8Array, filepath?: string): ISizeCalculationResult {
     if (type in typeHandlers) {
       const size = typeHandlers[type].calculate(input, filepath)
       if (size !== undefined) {
-        size.type = type
+        size.type = size.type ?? type
         return size
       }
     }

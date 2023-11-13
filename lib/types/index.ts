@@ -1,8 +1,9 @@
-// load all available handlers explicitely for browserify support
+// load all available handlers explicitly for browserify support
 import { BMP } from './bmp'
 import { CUR } from './cur'
 import { DDS } from './dds'
 import { GIF } from './gif'
+import { HEIF } from './heif'
 import { ICNS } from './icns'
 import { ICO } from './ico'
 import { J2C } from './j2c'
@@ -22,6 +23,7 @@ export const typeHandlers = {
   cur: CUR,
   dds: DDS,
   gif: GIF,
+  heif: HEIF,
   icns: ICNS,
   ico: ICO,
   j2c: J2C,

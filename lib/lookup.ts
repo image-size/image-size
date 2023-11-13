@@ -15,7 +15,7 @@ const globalOptions: Options = {
  * Return size information based on an Uint8Array
  *
  * @param {Uint8Array} input
- * @returns {Object}
+ * @returns {ISizeCalculationResult}
  */
 export function lookup(input: Uint8Array): ISizeCalculationResult {
   // detect the file type... don't rely on the extension
@@ -27,12 +27,10 @@ export function lookup(input: Uint8Array): ISizeCalculationResult {
     }
 
     // find an appropriate handler for this file type
-    if (type in typeHandlers) {
-      const size = typeHandlers[type].calculate(input)
-      if (size !== undefined) {
-        size.type = type
-        return size
-      }
+    const size = typeHandlers.get(type)!.calculate(input)
+    if (size !== undefined) {
+      size.type = type
+      return size
     }
   }
 
@@ -43,4 +41,3 @@ export function lookup(input: Uint8Array): ISizeCalculationResult {
 export const disableTypes = (types: imageType[]): void => {
   globalOptions.disabledTypes = types
 }
-export const types = Object.keys(typeHandlers)

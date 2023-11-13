@@ -66,6 +66,10 @@
     "typedoc": "0.24.7",
     "typescript": "5.0.4"
   },
+  "nyc": {
+    "include": "lib",
+    "exclude": "specs/*.spec.ts"
+  },
   "dependencies": {
     "queue": "6.0.2"
   }

@@ -27,9 +27,9 @@
     "bin/image-size.js"
   ],
   "engines": {
-    "node": ">=18.0.0"
+    "node": ">=18.18.0"
   },
-  "packageManager": "yarn@3.5.1",
+  "packageManager": "yarn@4.0.1",
   "bin": "bin/image-size.js",
   "scripts": {
     "lint": "eslint --ext .ts,.js bin lib specs",

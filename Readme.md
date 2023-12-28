@@ -18,7 +18,7 @@ A [Node](https://nodejs.org/en/) module to get dimensions of any image file
 - J2C
 - JP2
 - JPEG
-- KTX
+- KTX (1 and 2)
 - PNG
 - PNM (PAM, PBM, PFM, PGM, PPM)
 - PSD
@@ -72,8 +72,8 @@ If the target file/buffer is an icon (.ico) or a cursor (.cur), the `width` and 
 An additional `images` array is available and returns the dimensions of all the available images
 
 ```javascript
-const { imageSize } = require('image-size')
-const { images } = imageSize('images/multi-size.ico')
+const { imageSize } = require('image-size/fromFile')
+const { images } = await imageSize('images/multi-size.ico')
 for (const dimensions of images) {
   console.log(dimensions.width, dimensions.height)
 }

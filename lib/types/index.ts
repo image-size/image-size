@@ -1,4 +1,4 @@
-// load all available handlers explicitely for browserify support
+// load all available handlers explicitly for browserify support
 import { BMP } from './bmp'
 import { CUR } from './cur'
 import { DDS } from './dds'

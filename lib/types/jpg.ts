@@ -105,10 +105,6 @@ function validateInput(input: Uint8Array, index: number): void {
   if (index > input.length) {
     throw new TypeError('Corrupt JPG, exceeded buffer limits')
   }
-  // Every JPEG block must begin with a 0xFF
-  if (input[index] !== 0xff) {
-    throw new TypeError('Invalid JPG, marker table corrupted')
-  }
 }
 
 export const JPG: IImage = {
@@ -123,6 +119,12 @@ export const JPG: IImage = {
     while (input.length) {
       // read length of the next block
       const i = readUInt16BE(input, 0)
+
+      // Every JPEG block must begin with a 0xFF
+      if (input[i] !== 0xff) {
+        input = input.slice(1)
+        continue
+      }
 
       if (isEXIF(input)) {
         orientation = validateExifBlock(input, i)

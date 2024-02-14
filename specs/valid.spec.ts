@@ -157,6 +157,10 @@ describe('Valid images', () => {
           expect(asyncDimensions.orientation).to.equal(expected.orientation)
         }
 
+        if (expected.type) {
+          expect(asyncDimensions.type).to.equal(expected.type)
+        }
+
         if (type !== 'tiff') {
           expect(bufferDimensions.width).to.equal(expected.width)
           expect(bufferDimensions.height).to.equal(expected.height)

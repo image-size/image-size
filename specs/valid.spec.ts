@@ -101,6 +101,41 @@ const sizes: { [key: string]: ISizeCalculationResult } = {
     width: 128,
     height: 68,
   },
+  'specs/images/valid/heif/sample_avifCompat.avif': {
+    width: 123,
+    height: 456,
+    type: 'avif',
+  },
+  'specs/images/valid/heif/sample_heicCompat.avif': {
+    width: 123,
+    height: 456,
+    type: 'heic',
+  },
+  'specs/images/valid/heif/sample_heixCompat.avif': {
+    width: 123,
+    height: 456,
+    type: 'heic',
+  },
+  'specs/images/valid/heif/sample_hevcCompat.avif': {
+    width: 123,
+    height: 456,
+    type: 'heic',
+  },
+  'specs/images/valid/heif/sample_hevxCompat.avif': {
+    width: 123,
+    height: 456,
+    type: 'heic',
+  },
+  'specs/images/valid/heif/sample_mif1Compat.avif': {
+    width: 123,
+    height: 456,
+    type: 'heif',
+  },
+  'specs/images/valid/heif/sample_msf1Compat.avif': {
+    width: 123,
+    height: 456,
+    type: 'heif',
+  },
 }
 
 // Test all valid files
@@ -129,6 +164,9 @@ describe('Valid images', () => {
         expect(bufferDimensions.height).to.equal(expected.height)
         if (expected.orientation) {
           expect(bufferDimensions.orientation).to.equal(expected.orientation)
+        }
+        if (expected.type) {
+          expect(bufferDimensions.type).to.equal(expected.type)
         }
 
         if (bufferDimensions.images) {

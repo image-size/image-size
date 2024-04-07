@@ -27,7 +27,7 @@
     "bin/image-size.js"
   ],
   "engines": {
-    "node": ">=18.18.0"
+    "node": ">=16.x"
   },
   "packageManager": "yarn@4.0.2",
   "bin": "bin/image-size.js",

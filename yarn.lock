@@ -544,7 +544,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/chai@npm:4.3.11":
+"@types/chai-as-promised@npm:7.1.8":
+  version: 7.1.8
+  resolution: "@types/chai-as-promised@npm:7.1.8"
+  dependencies:
+    "@types/chai": "npm:*"
+  checksum: 88e2d42f14d1de19ba1c7b5c35f263fef37d3ad241c71f5eb59b10763706f3902f4131b93854c9c6ed520081c7e36be555849f202418357f905bea71178b7d02
+  languageName: node
+  linkType: hard
+
+"@types/chai@npm:*, @types/chai@npm:4.3.11":
   version: 4.3.11
   resolution: "@types/chai@npm:4.3.11"
   checksum: c83a00359684bf06114d5ad0ffa62c78b2fbfe09a985eda56e55cd3c191fe176052aef6e297a8c8a3608efb8ea7a44598cf7e0ae1a3a9311af892417e95b0b28
@@ -1075,6 +1084,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"chai-as-promised@npm:7.1.1":
+  version: 7.1.1
+  resolution: "chai-as-promised@npm:7.1.1"
+  dependencies:
+    check-error: "npm:^1.0.2"
+  peerDependencies:
+    chai: ">= 2.1.2 < 5"
+  checksum: 5d9ecab37b313047f5ea25d00b1cb6e7f2710c6e2f57d91aed7cfed5008d995cb65ea723af4e5d782bafd9a6eff5a4267af53dfe7212dc10dd1d92b9127bc531
+  languageName: node
+  linkType: hard
+
 "chai@npm:4.3.10":
   version: 4.3.10
   resolution: "chai@npm:4.3.10"
@@ -1111,7 +1131,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"check-error@npm:^1.0.3":
+"check-error@npm:^1.0.2, check-error@npm:^1.0.3":
   version: 1.0.3
   resolution: "check-error@npm:1.0.3"
   dependencies:
@@ -2054,6 +2074,7 @@ __metadata:
   resolution: "image-size@workspace:."
   dependencies:
     "@types/chai": "npm:4.3.11"
+    "@types/chai-as-promised": "npm:7.1.8"
     "@types/glob": "npm:8.1.0"
     "@types/mocha": "npm:10.0.6"
     "@types/node": "npm:18.19.3"
@@ -2061,6 +2082,7 @@ __metadata:
     "@typescript-eslint/eslint-plugin": "npm:6.16.0"
     "@typescript-eslint/parser": "npm:6.16.0"
     chai: "npm:4.3.10"
+    chai-as-promised: "npm:7.1.1"
     eslint: "npm:8.56.0"
     eslint-config-prettier: "npm:9.1.0"
     eslint-plugin-prettier: "npm:5.1.2"
@@ -2068,11 +2090,10 @@ __metadata:
     mocha: "npm:10.2.0"
     nyc: "npm:15.1.0"
     prettier: "npm:3.1.1"
-    queue: "npm:6.0.2"
     sinon: "npm:17.0.1"
     ts-node: "npm:10.9.2"
     typedoc: "npm:0.25.4"
-    typescript: "npm:5.3.3"
+    typescript: "npm:5.4.5"
   bin:
     image-size: bin/image-size.js
   languageName: unknown
@@ -2119,7 +2140,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"inherits@npm:2, inherits@npm:^2.0.3, inherits@npm:~2.0.3":
+"inherits@npm:2, inherits@npm:^2.0.3":
   version: 2.0.4
   resolution: "inherits@npm:2.0.4"
   checksum: cd45e923bee15186c07fa4c89db0aace24824c482fb887b528304694b2aa6ff8a898da8657046a5dcf3e46cd6db6c61629551f9215f208d7c3f157cf9b290521
@@ -3121,15 +3142,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"queue@npm:6.0.2":
-  version: 6.0.2
-  resolution: "queue@npm:6.0.2"
-  dependencies:
-    inherits: "npm:~2.0.3"
-  checksum: 3437954ef1442c86ff01a0fbe3dc6222838823b1ca97f37eff651bc20b868c0c2904424ef2c0d44cba46055f54b578f92866e573125dc9a5e8823d751e4d1585
-  languageName: node
-  linkType: hard
-
 "randombytes@npm:^2.1.0":
   version: 2.1.0
   resolution: "randombytes@npm:2.1.0"
@@ -3717,23 +3729,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@npm:5.3.3":
-  version: 5.3.3
-  resolution: "typescript@npm:5.3.3"
+"typescript@npm:5.4.5":
+  version: 5.4.5
+  resolution: "typescript@npm:5.4.5"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: 6e4e6a14a50c222b3d14d4ea2f729e79f972fa536ac1522b91202a9a65af3605c2928c4a790a4a50aa13694d461c479ba92cedaeb1e7b190aadaa4e4b96b8e18
+  checksum: d04a9e27e6d83861f2126665aa8d84847e8ebabcea9125b9ebc30370b98cb38b5dff2508d74e2326a744938191a83a69aa9fddab41f193ffa43eabfdf3f190a5
   languageName: node
   linkType: hard
 
-"typescript@patch:typescript@npm%3A5.3.3#optional!builtin<compat/typescript>":
-  version: 5.3.3
-  resolution: "typescript@patch:typescript@npm%3A5.3.3#optional!builtin<compat/typescript>::version=5.3.3&hash=e012d7"
+"typescript@patch:typescript@npm%3A5.4.5#optional!builtin<compat/typescript>":
+  version: 5.4.5
+  resolution: "typescript@patch:typescript@npm%3A5.4.5#optional!builtin<compat/typescript>::version=5.4.5&hash=e012d7"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: c93786fcc9a70718ba1e3819bab56064ead5817004d1b8186f8ca66165f3a2d0100fee91fa64c840dcd45f994ca5d615d8e1f566d39a7470fc1e014dbb4cf15d
+  checksum: 584be8bac7112ad49a9eb9992f71d542b1ff2fafb5bb315e1c196145e8feab589f1d7223cfb2d5df6770789582e6918f8287d1f2f89911b38eb80e29c560ad00
   languageName: node
   linkType: hard
 

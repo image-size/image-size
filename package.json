@@ -87,7 +87,7 @@
     "sinon": "17.0.1",
     "ts-node": "10.9.2",
     "typedoc": "0.25.4",
-    "typescript": "5.3.3"
+    "typescript": "5.4.5"
   },
   "nyc": {
     "include": "lib",

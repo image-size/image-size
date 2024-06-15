@@ -1,6 +1,6 @@
 {
   "name": "image-size",
-  "version": "2.0.0-beta.2",
+  "version": "2.0.0-beta.3",
   "description": "get dimensions of any image file",
   "main": "./dist/cjs/index.js",
   "module": "./dist/esm/index.mjs",

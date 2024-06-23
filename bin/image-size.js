@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+/* eslint-disable @typescript-eslint/no-var-requires */
 'use strict'
 
 const fs = require('fs')
@@ -28,18 +29,22 @@ files.forEach(function (image) {
       const greyImage = colorize(image, grey)
       const size = imageSize(image)
       const sizes = size.images || [size]
-      sizes.forEach(size => {
+      sizes.forEach((size) => {
         let greyType = ''
         if (size.type) {
           greyType = colorize(' (' + size.type + ')', grey)
         }
         console.info(
-          colorize(size.width, green) + greyX + colorize(size.height, green)
-            + ' - ' + greyImage + greyType
+          colorize(size.width, green) +
+            greyX +
+            colorize(size.height, green) +
+            ' - ' +
+            greyImage +
+            greyType,
         )
       })
     } else {
-      console.error('file doesn\'t exist - ', image)
+      console.error("file doesn't exist - ", image)
     }
   } catch (e) {
     // console.error(e.stack)

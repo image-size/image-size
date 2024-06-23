@@ -15,7 +15,7 @@ const PNMTypes = {
 type ValidSignature = keyof typeof PNMTypes
 type Handler = (type: string[]) => ISize
 
-const handlers: { [type: string]: Handler } = {
+const handlers: Record<string, Handler> = {
   default: (lines) => {
     let dimensions: string[] = []
 
@@ -38,7 +38,7 @@ const handlers: { [type: string]: Handler } = {
     }
   },
   pam: (lines) => {
-    const size: { [key: string]: number } = {}
+    const size: Record<string, number> = {}
     while (lines.length > 0) {
       const line = lines.shift() as string
       if (line.length > 16 || line.charCodeAt(0) > 128) {

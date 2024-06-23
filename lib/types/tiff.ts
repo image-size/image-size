@@ -40,7 +40,7 @@ function nextTag(input: Uint8Array) {
 
 // Extract IFD tags from TIFF metadata
 function extractTags(input: Uint8Array, isBigEndian: boolean) {
-  const tags: { [key: number]: number } = {}
+  const tags: Record<number, number> = {}
 
   let temp: Uint8Array | undefined = input
   while (temp && temp.length) {
@@ -88,7 +88,7 @@ export const TIFF: IImage = {
 
   calculate(input, filepath) {
     if (!filepath) {
-      throw new TypeError('Tiff doesn\'t support buffer')
+      throw new TypeError("Tiff doesn't support buffer")
     }
 
     // Determine BE/LE

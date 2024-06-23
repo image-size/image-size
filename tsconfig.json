@@ -9,7 +9,8 @@
     "removeComments": false,
     "strict": true,
     "alwaysStrict": true,
-    "moduleResolution": "node"
+    "moduleResolution": "node",
+    "lib": ["ES2021", "DOM"],
   },
   "include": [
     "lib/**/*"

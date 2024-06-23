@@ -37,5 +37,5 @@ export const HEIF: IImage = {
       }
     }
     throw new TypeError('Invalid HEIF, no size found')
-  }
+  },
 }

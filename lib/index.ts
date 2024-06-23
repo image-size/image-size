@@ -15,7 +15,7 @@ const MaxInputSize = 512 * 1024
 // This queue is for async `fs` operations, to avoid reaching file-descriptor limits
 const queue = new Queue({ concurrency: 100, autostart: true })
 
-type Options = {
+interface Options {
   disabledFS: boolean
   disabledTypes: imageType[]
 }
@@ -53,7 +53,7 @@ function lookup(input: Uint8Array, filepath?: string): ISizeCalculationResult {
 
   // throw up, if we don't understand the file
   throw new TypeError(
-    'unsupported file type: ' + type + ' (file: ' + filepath + ')'
+    'unsupported file type: ' + type + ' (file: ' + filepath + ')',
   )
 }
 
@@ -114,8 +114,8 @@ export function imageSize(input: string, callback: CallbackFn): void
  */
 export function imageSize(
   input: Uint8Array | string,
-  callback?: CallbackFn
-): ISizeCalculationResult | void {
+  callback?: CallbackFn,
+): ISizeCalculationResult | undefined {
   // Handle Uint8Array input
   if (input instanceof Uint8Array) {
     return lookup(input)
@@ -132,9 +132,9 @@ export function imageSize(
     queue.push(() =>
       readFileAsync(filepath)
         .then((input) =>
-          process.nextTick(callback, null, lookup(input, filepath))
+          process.nextTick(callback, null, lookup(input, filepath)),
         )
-        .catch(callback)
+        .catch(callback),
     )
   } else {
     const input = readFileSync(filepath)

@@ -22,7 +22,7 @@ const FILE_LENGTH_OFFSET = 4 // MSB => BIG ENDIAN
  */
 const ENTRY_LENGTH_OFFSET = 4 // MSB => BIG ENDIAN
 
-const ICON_TYPE_SIZE: { [key: string]: number } = {
+const ICON_TYPE_SIZE: Record<string, number> = {
   ICON: 32,
   'ICN#': 32,
   // m => 16 x 16
@@ -67,7 +67,7 @@ const ICON_TYPE_SIZE: { [key: string]: number } = {
 
 function readImageHeader(
   input: Uint8Array,
-  imageOffset: number
+  imageOffset: number,
 ): [string, number] {
   const imageLengthOffset = imageOffset + ENTRY_LENGTH_OFFSET
   return [

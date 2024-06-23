@@ -16,7 +16,7 @@ describe('Invalid invocation', () => {
       readSync(descriptor, buffer, 0, bufferSize, 0)
       expect(() => imageSize(buffer)).to.throw(
         TypeError,
-        'Tiff doesn\'t support buffer'
+        "Tiff doesn't support buffer",
       )
     })
   })
@@ -28,14 +28,14 @@ describe('Invalid invocation', () => {
     it('should throw', () => {
       expect(() => imageSize('specs/images/valid/jpg/sample.jpg')).to.throw(
         TypeError,
-        'disabled file type: jpg'
+        'disabled file type: jpg',
       )
       expect(() => imageSize('specs/images/valid/bmp/sample.bmp')).to.throw(
         TypeError,
-        'disabled file type: bmp'
+        'disabled file type: bmp',
       )
       expect(() =>
-        imageSize('specs/images/valid/png/sample.png')
+        imageSize('specs/images/valid/png/sample.png'),
       ).to.not.throw()
     })
   })
@@ -47,7 +47,7 @@ describe('Invalid invocation', () => {
     it('should only allow Uint8Array inputs', () => {
       expect(() => imageSize('specs/images/valid/jpg/sample.jpg')).to.throw(
         TypeError,
-        'invalid invocation. input should be a Uint8Array'
+        'invalid invocation. input should be a Uint8Array',
       )
     })
   })

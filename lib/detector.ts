@@ -4,7 +4,7 @@ import { typeHandlers } from './types/index'
 const keys = Object.keys(typeHandlers) as imageType[]
 
 // This map helps avoid validating for every single image type
-const firstBytes: { [byte: number]: imageType } = {
+const firstBytes: Record<number, imageType> = {
   0x38: 'psd',
   0x42: 'bmp',
   0x44: 'dds',

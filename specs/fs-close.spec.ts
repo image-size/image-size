@@ -31,7 +31,7 @@ describe('after done reading from files', () => {
       imageSize('specs/images/valid/jpg/large.jpg')
       expect(() => readFromClosed(spy.returnValues[0])).to.throw(
         Error,
-        'bad file descriptor'
+        'bad file descriptor',
       )
       spy.restore()
     })
@@ -74,11 +74,11 @@ describe('when Uint8Array allocation fails', () => {
     it('sync', () => {
       const spy = sinon.spy(fs, 'openSync')
       expect(() => imageSize('specs/images/valid/jpg/large.jpg')).to.throw(
-        RangeError
+        RangeError,
       )
       expect(() => readFromClosed(spy.returnValues[0])).to.throw(
         Error,
-        'bad file descriptor'
+        'bad file descriptor',
       )
       spy.restore()
     })

@@ -8,7 +8,7 @@ import type { ISizeCalculationResult } from '../lib/types/interface'
 
 const bufferSize = 8192
 
-const sizes: { [key: string]: ISizeCalculationResult } = {
+const sizes: Record<string, ISizeCalculationResult> = {
   default: {
     width: 123,
     height: 456,
@@ -105,7 +105,7 @@ const sizes: { [key: string]: ISizeCalculationResult } = {
 // Test all valid files
 describe('Valid images', () => {
   const validFiles = globSync('specs/images/valid/**/*.*').filter(
-    (file) => extname(file) !== '.md'
+    (file) => extname(file) !== '.md',
   )
 
   validFiles.forEach((file) =>
@@ -171,6 +171,6 @@ describe('Valid images', () => {
           }
         }
       })
-    })
+    }),
   )
 })

@@ -10,10 +10,10 @@ export const KTX: IImage = {
   calculate: (input) => {
     const type = input[5] === 0x31 ? 'ktx' : 'ktx2'
     const offset = type === 'ktx' ? 36 : 20
-    return ({
+    return {
       height: readUInt32LE(input, offset + 4),
       width: readUInt32LE(input, offset),
       type,
-    })
+    }
   },
 }

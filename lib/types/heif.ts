@@ -13,9 +13,14 @@ const brandMap = {
 
 export const HEIF: IImage = {
   validate(input) {
-    const ftype = toUTF8String(input, 4, 8)
-    const brand = toUTF8String(input, 8, 12)
-    return 'ftyp' === ftype && brand in brandMap
+    const boxType = toUTF8String(input, 4, 8)
+    if (boxType !== 'ftyp') return false
+
+    const ftypBox = findBox(input, 'ftyp', 0)
+    if (!ftypBox) return false
+
+    const brand = toUTF8String(input, ftypBox.offset + 8, ftypBox.offset + 12)
+    return brand in brandMap
   },
 
   calculate(input) {

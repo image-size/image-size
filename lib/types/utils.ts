@@ -63,20 +63,20 @@ export function readUInt(
   return methods[methodName](input, offset)
 }
 
-function readBox(buffer: Uint8Array, offset: number) {
-  if (buffer.length - offset < 4) return
-  const boxSize = readUInt32BE(buffer, offset)
-  if (buffer.length - offset < boxSize) return
+function readBox(input: Uint8Array, offset: number) {
+  if (input.length - offset < 4) return
+  const boxSize = readUInt32BE(input, offset)
+  if (input.length - offset < boxSize) return
   return {
-    name: toUTF8String(buffer, 4 + offset, 8 + offset),
+    name: toUTF8String(input, 4 + offset, 8 + offset),
     offset,
     size: boxSize,
   }
 }
 
-export function findBox(buffer: Uint8Array, boxName: string, offset: number) {
-  while (offset < buffer.length) {
-    const box = readBox(buffer, offset)
+export function findBox(input: Uint8Array, boxName: string, offset: number) {
+  while (offset < input.length) {
+    const box = readBox(input, offset)
     if (!box) break
     if (box.name === boxName) return box
     offset += box.size

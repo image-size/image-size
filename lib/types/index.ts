@@ -9,6 +9,7 @@ import { ICO } from './ico'
 import { J2C } from './j2c'
 import { JP2 } from './jp2'
 import { JPG } from './jpg'
+import { JXL } from './jxl'
 import { KTX } from './ktx'
 import { PNG } from './png'
 import { PNM } from './pnm'
@@ -29,6 +30,7 @@ export const typeHandlers = {
   j2c: J2C,
   jp2: JP2,
   jpg: JPG,
+  jxl: JXL,
   ktx: KTX,
   png: PNG,
   pnm: PNM,

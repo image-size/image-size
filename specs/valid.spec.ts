@@ -96,6 +96,11 @@ const sizes: Record<string, ISizeCalculationResult> = {
     height: 2,
     orientation: 8,
   },
+  'specs/images/valid/jpg/1x2-large-exif.jpg': {
+    width: 1,
+    height: 2,
+    orientation: 1,
+  },
   'specs/images/valid/png/sample_fried.png': {
     width: 128,
     height: 68,

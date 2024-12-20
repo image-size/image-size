@@ -37,6 +37,32 @@
     "dev": "tsup --watch",
     "prepack": "yarn clean && yarn build"
   },
+  "keywords": [
+    "image",
+    "size",
+    "dimensions",
+    "resolution",
+    "width",
+    "height",
+    "avif",
+    "bmp",
+    "cur",
+    "gif",
+    "heic",
+    "heif",
+    "icns",
+    "ico",
+    "jpeg",
+    "png",
+    "psd",
+    "svg",
+    "tga",
+    "tiff",
+    "webp"
+  ],
+  "repository": "git://github.com/image-size/image-size.git",
+  "author": "netroy <aditya@netroy.in> (http://netroy.in/)",
+  "license": "MIT",
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^7.2.0",
     "@typescript-eslint/parser": "^7.2.0",
@@ -51,5 +77,9 @@
   "resolutions": {
     "typescript": "5.5.4",
     "tsup/esbuild": "0.24.0"
+  },
+  "nyc": {
+    "include": "lib",
+    "exclude": "specs/*.spec.ts"
   }
 }

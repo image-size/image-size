@@ -40,7 +40,7 @@
   "scripts": {
     "lint": "eslint --ext .ts,.js bin lib specs",
     "format": "prettier --write lib specs",
-    "test": "TS_NODE_PROJECT=tsconfig.cjs.json nyc mocha",
+    "test": "TS_NODE_PROJECT=tsconfig.cjs.json nyc mocha --config .mocharc.yml",
     "clean": "rm -rf dist docs",
     "generate-docs": "typedoc",
     "build": "tsup",
@@ -104,5 +104,9 @@
   "nyc": {
     "include": "lib",
     "exclude": "specs/*.spec.ts"
+  },
+  "ts-node": {
+    "esm": true,
+    "experimentalSpecifierResolution": "node"
   }
 }

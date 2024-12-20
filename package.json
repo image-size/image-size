@@ -98,7 +98,6 @@
     "typescript": "5.4.5"
   },
   "resolutions": {
-    "typescript": "5.5.4",
     "tsup/esbuild": "0.24.0"
   },
   "nyc": {

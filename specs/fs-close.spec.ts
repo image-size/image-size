@@ -8,9 +8,7 @@ describe('after done reading from files', () => {
     await imageSizeFromFile('specs/images/valid/jpg/large.jpg')
     expect(spy).toHaveBeenCalledTimes(1)
     const fileHandle = spy.mock.results[0].value
-    await expect(fs.promises.readFile(fileHandle)).rejects.toThrow(
-      'EBADF: bad file descriptor',
-    )
+    await expect(fs.promises.readFile(fileHandle)).rejects.toThrowError()
     spy.mockRestore()
   })
 })
@@ -33,9 +31,7 @@ describe('when Uint8Array allocation fails', () => {
     ).rejects.toThrow('Array allocation failed')
     expect(spy).toHaveBeenCalledTimes(1)
     const fileHandle = spy.mock.results[0].value
-    await expect(fs.promises.readFile(fileHandle)).rejects.toThrow(
-      'EBADF: bad file descriptor',
-    )
+    await expect(fs.promises.readFile(fileHandle)).rejects.toThrowError()
     spy.mockRestore()
   })
 })

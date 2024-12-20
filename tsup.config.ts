@@ -11,8 +11,10 @@ export default defineConfig({
   sourcemap: true,
   clean: true,
   outExtension: ({ format }) => ({
-    js: format === 'esm' ? '.mjs' : '.cjs'
+    js: format === 'esm' ? '.mjs' : '.cjs',
+    dts: format === 'esm' ? '.d.ts' : '.d.cts'
   }),
   platform: 'node',
   target: 'node16',
+  outDir: 'dist',
 }) 

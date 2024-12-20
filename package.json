@@ -2,95 +2,54 @@
   "name": "image-size",
   "version": "2.0.0-beta.3",
   "description": "get dimensions of any image file",
-  "main": "./dist/cjs/index.js",
-  "module": "./dist/esm/index.mjs",
-  "types": "./dist/dts/index.d.ts",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
   "exports": {
     ".": {
-      "require": "./dist/cjs/index.js",
-      "import": "./dist/esm/index.mjs",
-      "types": "./dist/dts/index.d.ts"
-    },
-    "./*": {
-      "require": "./dist/cjs/*.js",
-      "import": "./dist/esm/*.mjs",
-      "types": "./dist/dts/*.d.ts"
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs"
     },
     "./types/*": {
-      "require": "./dist/cjs/types/*.js",
-      "import": "./dist/esm/types/*.mjs",
-      "types": "./dist/dts/types/*.d.ts"
+      "types": "./dist/types/*.d.ts",
+      "import": "./dist/types/*.mjs",
+      "require": "./dist/types/*.cjs"
     }
   },
   "files": [
     "dist",
     "bin/image-size.js"
   ],
+  "bin": "bin/image-size.js",
   "engines": {
     "node": ">=16.x"
   },
   "packageManager": "yarn@4.0.2",
-  "bin": "bin/image-size.js",
   "scripts": {
     "lint": "eslint --ext .ts,.js bin lib specs",
     "format": "prettier --write lib specs",
     "test": "TS_NODE_PROJECT=tsconfig.cjs.json nyc mocha",
     "clean": "rm -rf dist docs",
     "generate-docs": "typedoc",
-    "build": "tsc && tsc -p tsconfig.cjs.json",
-    "prepack": "yarn clean && yarn build && node scripts/fix-package.js"
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "prepack": "yarn clean && yarn build"
   },
-  "keywords": [
-    "image",
-    "size",
-    "dimensions",
-    "resolution",
-    "width",
-    "height",
-    "avif",
-    "bmp",
-    "cur",
-    "gif",
-    "heic",
-    "heif",
-    "icns",
-    "ico",
-    "jpeg",
-    "png",
-    "psd",
-    "svg",
-    "tga",
-    "tiff",
-    "webp"
-  ],
-  "repository": "git://github.com/image-size/image-size.git",
-  "author": "netroy <aditya@netroy.in> (http://netroy.in/)",
-  "license": "MIT",
   "devDependencies": {
-    "@types/chai": "4.3.11",
-    "@types/chai-as-promised": "7.1.8",
-    "@types/glob": "8.1.0",
-    "@types/mocha": "10.0.6",
-    "@types/node": "18.19.3",
-    "@types/sinon": "17.0.2",
-    "@typescript-eslint/eslint-plugin": "6.16.0",
-    "@typescript-eslint/parser": "6.16.0",
-    "chai": "4.3.10",
-    "chai-as-promised": "7.1.1",
-    "eslint": "8.56.0",
-    "eslint-config-prettier": "9.1.0",
-    "eslint-plugin-prettier": "5.1.2",
-    "glob": "10.3.10",
-    "mocha": "10.2.0",
-    "nyc": "15.1.0",
-    "prettier": "3.1.1",
-    "sinon": "17.0.1",
-    "ts-node": "10.9.2",
-    "typedoc": "0.25.4",
-    "typescript": "5.4.5"
+    "@typescript-eslint/eslint-plugin": "^7.2.0",
+    "@typescript-eslint/parser": "^7.2.0",
+    "esbuild": "0.24.0",
+    "eslint": "^8.57.1",
+    "eslint-config-prettier": "^8.10.0",
+    "eslint-plugin-prettier": "^5.2.1",
+    "prettier": "^3.4.2",
+    "tsup": "^8.3.5",
+    "typescript": "^5.5.4"
   },
-  "nyc": {
-    "include": "lib",
-    "exclude": "specs/*.spec.ts"
+  "resolutions": {
+    "typescript": "5.5.4",
+    "tsup/esbuild": "0.24.0"
   }
 }

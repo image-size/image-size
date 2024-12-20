@@ -7,7 +7,7 @@ export default defineConfig({
   ],
   format: ['esm', 'cjs'],
   dts: true,
-  splitting: true,
+  splitting: false,
   sourcemap: true,
   clean: true,
   outExtension: ({ format }) => ({

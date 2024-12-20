@@ -1,9 +1,6 @@
-import * as chai from 'chai'
-import * as chaiAsPromised from 'chai-as-promised'
+import { describe, it, expect } from 'vitest'
 import { sync as globSync } from 'glob'
 import { imageSize as imageSizeFromFile } from '../lib/fromFile'
-chai.use(chaiAsPromised)
-const { expect } = chai
 
 // Test all invalid files
 describe('Invalid Images', () => {
@@ -11,15 +8,12 @@ describe('Invalid Images', () => {
 
   invalidFiles.forEach((file) => {
     it(file, async () => {
-      await expect(imageSizeFromFile(file)).to.be.rejectedWith(
-        TypeError,
-        'Invalid',
-      )
+      await expect(imageSizeFromFile(file)).rejects.toThrow('Invalid')
     })
   })
 
   it('non-existent file', async () => {
-    await expect(imageSizeFromFile('fakefile.jpg')).to.be.rejectedWith(
+    await expect(imageSizeFromFile('fakefile.jpg')).rejects.toThrow(
       'ENOENT: no such file or directory',
     )
   })

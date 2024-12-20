@@ -1,13 +1,10 @@
+import { describe, it, expect, beforeAll, afterAll } from 'vitest'
 import { resolve } from 'node:path'
 import { openSync, readSync } from 'node:fs'
-import * as chai from 'chai'
-import * as chaiAsPromised from 'chai-as-promised'
 import { disableTypes } from '../lib/lookup'
 import { types } from '../lib/types'
 import { imageSize as imageSizeFromFile } from '../lib/fromFile'
 import { imageSize } from '../lib/index'
-chai.use(chaiAsPromised)
-const { expect } = chai
 
 // If something other than a buffer or filepath is passed
 describe('Invalid invocation', () => {
@@ -20,33 +17,31 @@ describe('Invalid invocation', () => {
       const filepath = resolve(file)
       const descriptor = openSync(filepath, 'r')
       readSync(descriptor, buffer, 0, bufferSize, 0)
-      expect(() => imageSize(buffer)).to.throw(
-        TypeError,
-        'Invalid Tiff. Missing tags',
-      )
+      expect(() => imageSize(buffer)).toThrow('Invalid Tiff. Missing tags')
     })
   })
 
   describe('for a disabled image type', () => {
-    before(() => disableTypes(['jpg', 'bmp']))
-    after(() => disableTypes([]))
+    beforeAll(() => disableTypes(['jpg', 'bmp']))
+    afterAll(() => disableTypes([]))
 
     it('should throw', async () => {
       await expect(
         imageSizeFromFile('specs/images/valid/jpg/sample.jpg'),
-      ).to.be.rejectedWith(TypeError, 'disabled file type: jpg')
+      ).rejects.toThrow('disabled file type: jpg')
       await expect(
         imageSizeFromFile('specs/images/valid/bmp/sample.bmp'),
-      ).to.be.rejectedWith(TypeError, 'disabled file type: bmp')
-      await expect(imageSizeFromFile('specs/images/valid/png/sample.png')).to
-        .not.be.rejected
+      ).rejects.toThrow('disabled file type: bmp')
+      await expect(
+        imageSizeFromFile('specs/images/valid/png/sample.png'),
+      ).resolves.toBeDefined()
     })
   })
 })
 
 describe('.types property', () => {
   it('should expose supported file types', () => {
-    expect(types).to.eql([
+    expect(types).toEqual([
       'bmp',
       'cur',
       'dds',

@@ -1,7 +1,16 @@
 {
   "extends": "../.eslintrc",
   "env": {
-    "mocha": true,
     "node": true
+  },
+  "globals": {
+    "describe": true,
+    "it": true,
+    "expect": true,
+    "beforeAll": true,
+    "afterAll": true,
+    "beforeEach": true,
+    "afterEach": true,
+    "vi": true
   }
 }

@@ -1,4 +1,4 @@
-import { expect } from 'chai'
+import { describe, it, expect } from 'vitest'
 import { sync as globSync } from 'glob'
 import { extname, resolve } from 'node:path'
 import { openSync, readSync } from 'node:fs'
@@ -125,20 +125,20 @@ describe('Valid images', () => {
         }
         const bufferDimensions = imageSize(buffer)
         const expected = sizes[file as keyof typeof sizes] || sizes.default
-        expect(bufferDimensions.width).to.equal(expected.width)
-        expect(bufferDimensions.height).to.equal(expected.height)
+        expect(bufferDimensions.width).toBe(expected.width)
+        expect(bufferDimensions.height).toBe(expected.height)
         if (expected.orientation) {
-          expect(bufferDimensions.orientation).to.equal(expected.orientation)
+          expect(bufferDimensions.orientation).toBe(expected.orientation)
         }
 
         if (bufferDimensions.images) {
           bufferDimensions.images.forEach((item, index) => {
             if (expected.images) {
               const expectedItem = expected.images[index]
-              expect(item.width).to.equal(expectedItem.width)
-              expect(item.height).to.equal(expectedItem.height)
+              expect(item.width).toBe(expectedItem.width)
+              expect(item.height).toBe(expectedItem.height)
               if (expectedItem.type) {
-                expect(item.type).to.equal(expectedItem.type)
+                expect(item.type).toBe(expectedItem.type)
               }
             }
           })

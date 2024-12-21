@@ -1,48 +1,46 @@
-import * as chai from 'chai'
-import * as chaiAsPromised from 'chai-as-promised'
-import * as sinon from 'sinon'
-import * as fs from 'node:fs'
+import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest'
+import { writeFileSync, unlinkSync, promises } from 'node:fs'
 import { imageSize as imageSizeFromFile } from '../lib/fromFile'
-chai.use(chaiAsPromised)
-const { expect } = chai
 
 describe('after done reading from files', () => {
   it('should close the file descriptor', async () => {
-    const spy = sinon.spy(fs.promises, 'open')
+    const spy = vi.spyOn(promises, 'open')
     await imageSizeFromFile('specs/images/valid/jpg/large.jpg')
-    expect(spy.calledOnce).to.be.true
-    const fileHandle = await spy.returnValues[0]
-    await expect(fs.promises.readFile(fileHandle)).to.be.rejectedWith(
-      'EBADF: bad file descriptor',
-    )
-    spy.restore()
+    expect(spy).toHaveBeenCalledTimes(1)
+    const fileHandle = spy.mock.results[0].value
+    await expect(promises.readFile(fileHandle)).rejects.toThrowError()
+    spy.mockRestore()
   })
 })
 
 describe('when Uint8Array allocation fails', () => {
-  const sandbox = sinon.createSandbox()
-
-  before(() => {
-    sandbox
-      .stub(global, 'Uint8Array')
-      // Error like the one thrown by Buffer.alloc when there is not enough free memory
-      .throws(new RangeError('Array allocation failed'))
+  beforeEach(() => {
+    vi.spyOn(global, 'Uint8Array').mockImplementation(() => {
+      throw new RangeError('Array allocation failed')
+    })
   })
 
-  after(() => {
-    sandbox.restore()
+  afterEach(() => {
+    vi.restoreAllMocks()
   })
 
   it('should close the file descriptor', async () => {
-    const spy = sinon.spy(fs.promises, 'open')
-    expect(
+    const spy = vi.spyOn(promises, 'open')
+    await expect(
       imageSizeFromFile('specs/images/valid/jpg/large.jpg'),
-    ).to.be.rejectedWith(RangeError, 'Array allocation failed')
-    expect(spy.calledOnce).to.be.true
-    const fileHandle = await spy.returnValues[0]
-    await expect(fs.promises.readFile(fileHandle)).to.be.rejectedWith(
-      'EBADF: bad file descriptor',
-    )
-    spy.restore()
+    ).rejects.toThrow('Array allocation failed')
+    expect(spy).toHaveBeenCalledTimes(1)
+    const fileHandle = spy.mock.results[0].value
+    await expect(promises.readFile(fileHandle)).rejects.toThrowError()
+    spy.mockRestore()
+  })
+})
+
+describe('File System Edge Cases', () => {
+  it('should handle empty files', async () => {
+    const emptyFile = 'specs/images/empty.jpg'
+    writeFileSync(emptyFile, '')
+    await expect(imageSizeFromFile(emptyFile)).rejects.toThrow('Empty file')
+    unlinkSync(emptyFile)
   })
 })

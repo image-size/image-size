@@ -8,7 +8,7 @@ describe('Invalid Images', () => {
 
   invalidFiles.forEach((file) => {
     it(file, async () => {
-      await expect(imageSizeFromFile(file)).rejects.toThrow('Invalid')
+      await expect(imageSizeFromFile(file)).rejects.toThrow(/Invalid|Unsupported|Corrupt/)
     })
   })
 

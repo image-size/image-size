@@ -86,6 +86,8 @@ describe('.types property', () => {
       'j2c',
       'jp2',
       'jpg',
+      'jxl',
+      'jxl-stream',
       'ktx',
       'png',
       'pnm',

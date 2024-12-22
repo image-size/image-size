@@ -100,6 +100,30 @@ const sizes: Record<string, ISizeCalculationResult> = {
     width: 128,
     height: 68,
   },
+  'specs/images/valid/jxl-stream/small_square.jxl': {
+    width: 64,
+    height: 64,
+  },
+  'specs/images/valid/jxl-stream/small_rect.jxl': {
+    width: 120,
+    height: 80,
+  },
+  'specs/images/valid/jxl-stream/large_explicit.jxl': {
+    width: 3000,
+    height: 2000,
+  },
+  'specs/images/valid/jxl-stream/large_16_9.jxl': {
+    width: 1920,
+    height: 1080,
+  },
+  'specs/images/valid/jxl-stream/max_small.jxl': {
+    width: 256,
+    height: 256,
+  },
+  'specs/images/valid/jxl-stream/min_large.jxl': {
+    width: 257,
+    height: 257,
+  },
 }
 
 // Test all valid files

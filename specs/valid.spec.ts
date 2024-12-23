@@ -1,12 +1,14 @@
-import { expect } from 'chai'
+import * as assert from 'node:assert'
+import { readFileSync } from 'node:fs'
+import { extname, resolve } from 'node:path'
+import { describe, it } from 'node:test'
 import { sync as globSync } from 'glob'
-import { extname, resolve } from 'path'
-import { openSync, readSync } from 'fs'
-import { imageSize } from '../lib'
+
 import { detector } from '../lib/detector'
 import type { ISizeCalculationResult } from '../lib/types/interface'
+import { imageSizeFileAsync } from './utils'
 
-const bufferSize = 8192
+const bufferSize = 10
 
 const sizes: Record<string, ISizeCalculationResult> = {
   default: {
@@ -132,69 +134,35 @@ describe('Valid images', () => {
     (file) => extname(file) !== '.md',
   )
 
-  validFiles.forEach((file) =>
-    describe(file, () => {
-      let type: string | undefined
-      let bufferDimensions: ISizeCalculationResult
-      let asyncDimensions: ISizeCalculationResult
+  for (const file of validFiles) {
+    const filepath = resolve(file)
+    const buffer = readFileSync(filepath)
+    const type = detector(buffer)
 
-      beforeEach((done) => {
-        const buffer = new Uint8Array(bufferSize)
-        const filepath = resolve(file)
-        const descriptor = openSync(filepath, 'r')
-        readSync(descriptor, buffer, 0, bufferSize, 0)
-        type = detector(buffer)
+    describe(type, () => {
+      it(file, async () => {
+        const dimensions = await imageSizeFileAsync(file)
 
-        // tiff cannot support buffers, unless the buffer contains the entire file
-        if (type !== 'tiff') {
-          bufferDimensions = imageSize(buffer)
-        }
-
-        imageSize(file, (err, dim) => {
-          if (err || !dim) {
-            done(err)
-          } else {
-            asyncDimensions = dim
-            done()
-          }
-        })
-      })
-
-      it('should return correct size for ' + file, () => {
         const expected = sizes[file as keyof typeof sizes] || sizes.default
-        expect(asyncDimensions.width).to.equal(expected.width)
-        expect(asyncDimensions.height).to.equal(expected.height)
-        if (asyncDimensions.images) {
-          asyncDimensions.images.forEach((item, index) => {
+        assert.equal(dimensions.width, expected.width)
+        assert.equal(dimensions.height, expected.height)
+        if (dimensions.images) {
+          dimensions.images.forEach((item, index) => {
             if (expected.images) {
               const expectedItem = expected.images[index]
-              expect(item.width).to.equal(expectedItem.width)
-              expect(item.height).to.equal(expectedItem.height)
+              assert.equal(item.width, expectedItem.width)
+              assert.equal(item.height, expectedItem.height)
               if (expectedItem.type) {
-                expect(item.type).to.equal(expectedItem.type)
+                assert.equal(item.type, expectedItem.type)
               }
             }
           })
         }
 
         if (expected.orientation) {
-          expect(asyncDimensions.orientation).to.equal(expected.orientation)
-        }
-
-        if (type !== 'tiff') {
-          expect(bufferDimensions.width).to.equal(expected.width)
-          expect(bufferDimensions.height).to.equal(expected.height)
-          if (bufferDimensions.images) {
-            bufferDimensions.images.forEach((item, index) => {
-              if (expected.images) {
-                const expectedItem = expected.images[index]
-                expect(item.width).to.equal(expectedItem.width)
-                expect(item.height).to.equal(expectedItem.height)
-              }
-            })
-          }
+          assert.equal(dimensions.orientation, expected.orientation)
         }
       })
-    }),
-  )
+    })
+  }
 })

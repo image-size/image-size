@@ -1,7 +1,8 @@
-import { resolve } from 'path'
-import { openSync, readSync } from 'fs'
-import { expect } from 'chai'
-import { imageSize, types, disableTypes, disableFS } from '../lib'
+import * as assert from 'node:assert'
+import { openSync, readSync } from 'node:fs'
+import { resolve } from 'node:path'
+import { after, before, describe, it } from 'node:test'
+import { disableFS, disableTypes, imageSize, types } from '../lib'
 
 // If something other than a buffer or filepath is passed
 describe('Invalid invocation', () => {
@@ -14,7 +15,8 @@ describe('Invalid invocation', () => {
       const filepath = resolve(file)
       const descriptor = openSync(filepath, 'r')
       readSync(descriptor, buffer, 0, bufferSize, 0)
-      expect(() => imageSize(buffer)).to.throw(
+      assert.throws(
+        () => imageSize(buffer),
         TypeError,
         "Tiff doesn't support buffer",
       )
@@ -26,17 +28,17 @@ describe('Invalid invocation', () => {
     after(() => disableTypes([]))
 
     it('should throw', () => {
-      expect(() => imageSize('specs/images/valid/jpg/sample.jpg')).to.throw(
+      assert.throws(
+        () => imageSize('specs/images/valid/jpg/sample.jpg'),
         TypeError,
         'disabled file type: jpg',
       )
-      expect(() => imageSize('specs/images/valid/bmp/sample.bmp')).to.throw(
+      assert.throws(
+        () => imageSize('specs/images/valid/bmp/sample.bmp'),
         TypeError,
         'disabled file type: bmp',
       )
-      expect(() =>
-        imageSize('specs/images/valid/png/sample.png'),
-      ).to.not.throw()
+      assert.doesNotThrow(() => imageSize('specs/images/valid/png/sample.png'))
     })
   })
 
@@ -45,7 +47,8 @@ describe('Invalid invocation', () => {
     after(() => disableFS(false))
 
     it('should only allow Uint8Array inputs', () => {
-      expect(() => imageSize('specs/images/valid/jpg/sample.jpg')).to.throw(
+      assert.throws(
+        () => imageSize('specs/images/valid/jpg/sample.jpg'),
         TypeError,
         'invalid invocation. input should be a Uint8Array',
       )
@@ -54,7 +57,7 @@ describe('Invalid invocation', () => {
 })
 
 describe('Callback ', () => {
-  it('should be called only once', (done) => {
+  it('should be called only once', async () => {
     const tmpError = new Error()
 
     const origException = process.listeners('uncaughtException').pop()
@@ -63,19 +66,21 @@ describe('Callback ', () => {
     }
 
     process.once('uncaughtException', (err) => {
-      expect(err).to.equal(tmpError)
+      assert.equal(err, tmpError)
     })
 
-    imageSize('specs/images/valid/jpg/sample.jpg', () => {
-      process.nextTick(() => done())
-      throw tmpError
+    await new Promise<void>((resolve) => {
+      imageSize('specs/images/valid/jpg/sample.jpg', () => {
+        process.nextTick(() => resolve())
+        throw tmpError
+      })
     })
   })
 })
 
 describe('.types property', () => {
   it('should expose supported file types', () => {
-    expect(types).to.eql([
+    assert.deepEqual(types, [
       'bmp',
       'cur',
       'dds',

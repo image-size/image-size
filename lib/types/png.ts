@@ -1,5 +1,5 @@
 import type { IImage } from './interface'
-import { toUTF8String, readUInt32BE } from './utils'
+import { readUInt32BE, toUTF8String } from './utils'
 
 const pngSignature = 'PNG\r\n\x1a\n'
 const pngImageHeaderChunkName = 'IHDR'

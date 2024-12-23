@@ -30,12 +30,11 @@ const handlers: Record<string, Handler> = {
 
     if (dimensions.length === 2) {
       return {
-        height: parseInt(dimensions[1], 10),
-        width: parseInt(dimensions[0], 10),
+        height: Number.parseInt(dimensions[1], 10),
+        width: Number.parseInt(dimensions[0], 10),
       }
-    } else {
-      throw new TypeError('Invalid PNM')
     }
+    throw new TypeError('Invalid PNM')
   },
   pam: (lines) => {
     const size: Record<string, number> = {}
@@ -46,7 +45,7 @@ const handlers: Record<string, Handler> = {
       }
       const [key, value] = line.split(' ')
       if (key && value) {
-        size[key.toLowerCase()] = parseInt(value, 10)
+        size[key.toLowerCase()] = Number.parseInt(value, 10)
       }
       if (size.height && size.width) {
         break
@@ -58,9 +57,8 @@ const handlers: Record<string, Handler> = {
         height: size.height,
         width: size.width,
       }
-    } else {
-      throw new TypeError('Invalid PAM')
     }
+    throw new TypeError('Invalid PAM')
   },
 }
 

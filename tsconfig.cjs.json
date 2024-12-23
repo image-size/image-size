@@ -5,6 +5,6 @@
     "module": "commonjs",
     "moduleResolution": "node",
     "esModuleInterop": false,
-    "outDir": "dist/cjs"
+    "noEmit": true
   }
 }

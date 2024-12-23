@@ -7,4 +7,4 @@
 * [Ross Johnson](https://github.com/rossj) (Mazira, LLC)
 * [Shinnosuke Watanabe](https://github.com/shinnn)
 * [Alexandre Morgaut](https://github.com/AMorgaut)
-
+* [Shmuli Margulies](https://github.com/shmuli9)

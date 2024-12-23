@@ -4,7 +4,7 @@ import { findBox, readUInt32BE, toUTF8String } from './utils'
 const brandMap = {
   avif: 'avif',
   mif1: 'heif',
-  msf1: 'heif', // hief-sequence
+  msf1: 'heif', // heif-sequence
   heic: 'heic',
   heix: 'heic',
   hevc: 'heic', // heic-sequence
@@ -12,25 +12,30 @@ const brandMap = {
 }
 
 export const HEIF: IImage = {
-  validate(buffer) {
-    const ftype = toUTF8String(buffer, 4, 8)
-    const brand = toUTF8String(buffer, 8, 12)
-    return 'ftyp' === ftype && brand in brandMap
+  validate(input) {
+    const boxType = toUTF8String(input, 4, 8)
+    if (boxType !== 'ftyp') return false
+
+    const ftypBox = findBox(input, 'ftyp', 0)
+    if (!ftypBox) return false
+
+    const brand = toUTF8String(input, ftypBox.offset + 8, ftypBox.offset + 12)
+    return brand in brandMap
   },
 
-  calculate(buffer) {
+  calculate(input) {
     // Based on https://nokiatech.github.io/heif/technical.html
-    const metaBox = findBox(buffer, 'meta', 0)
-    const iprpBox = metaBox && findBox(buffer, 'iprp', metaBox.offset + 12)
-    const ipcoBox = iprpBox && findBox(buffer, 'ipco', iprpBox.offset + 8)
-    const ispeBox = ipcoBox && findBox(buffer, 'ispe', ipcoBox.offset + 8)
+    const metaBox = findBox(input, 'meta', 0)
+    const iprpBox = metaBox && findBox(input, 'iprp', metaBox.offset + 12)
+    const ipcoBox = iprpBox && findBox(input, 'ipco', iprpBox.offset + 8)
+    const ispeBox = ipcoBox && findBox(input, 'ispe', ipcoBox.offset + 8)
     if (ispeBox) {
       return {
-        height: readUInt32BE(buffer, ispeBox.offset + 16),
-        width: readUInt32BE(buffer, ispeBox.offset + 12),
-        type: toUTF8String(buffer, 8, 12),
+        height: readUInt32BE(input, ispeBox.offset + 16),
+        width: readUInt32BE(input, ispeBox.offset + 12),
+        type: toUTF8String(input, 8, 12),
       }
     }
     throw new TypeError('Invalid HEIF, no size found')
-  }
+  },
 }

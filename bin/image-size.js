@@ -38,11 +38,11 @@ files.forEach(async (image) => {
             colorize(size.height, green) +
             ' - ' +
             greyImage +
-            greyType
+            greyType,
         )
       })
     } else {
-      console.error('file doesn\'t exist - ', image)
+      console.error("file doesn't exist - ", image)
     }
   } catch (e) {
     console.error(colorize(e.message, red), '-', image)

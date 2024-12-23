@@ -25,27 +25,25 @@ function nextTag(input: Uint8Array) {
 
 // Extract IFD tags from TIFF metadata
 function extractTags(input: Uint8Array, isBigEndian: boolean) {
-  const tags: { [key: number]: number } = {}
+  const tags: Record<number, number> = {}
 
   let temp: Uint8Array | undefined = input
-  while (temp && temp.length) {
+  while (temp?.length) {
     const code = readUInt(temp, 16, 0, isBigEndian)
     const type = readUInt(temp, 16, 2, isBigEndian)
     const length = readUInt(temp, 32, 4, isBigEndian)
 
     // 0 means end of IFD
-    if (code === 0) {
-      break
-    } else {
-      // 256 is width, 257 is height
-      // if (code === 256 || code === 257) {
-      if (length === 1 && (type === 3 || type === 4)) {
-        tags[code] = readValue(temp, isBigEndian)
-      }
+    if (code === 0) break
 
-      // move to the next tag
-      temp = nextTag(temp)
+    // 256 is width, 257 is height
+    // if (code === 256 || code === 257) {
+    if (length === 1 && (type === 3 || type === 4)) {
+      tags[code] = readValue(temp, isBigEndian)
     }
+
+    // move to the next tag
+    temp = nextTag(temp)
   }
 
   return tags
@@ -56,7 +54,8 @@ function determineEndianness(input: Uint8Array) {
   const signature = toUTF8String(input, 0, 2)
   if ('II' === signature) {
     return 'LE'
-  } else if ('MM' === signature) {
+  }
+  if ('MM' === signature) {
     return 'BE'
   }
 }

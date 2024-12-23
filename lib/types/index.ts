@@ -9,6 +9,8 @@ import { ICO } from './ico'
 import { J2C } from './j2c'
 import { JP2 } from './jp2'
 import { JPG } from './jpg'
+import { JXL } from './jxl'
+import { JXLStream } from './jxl-stream'
 import { KTX } from './ktx'
 import { PNG } from './png'
 import { PNM } from './pnm'
@@ -29,6 +31,8 @@ export const typeHandlers = new Map([
   ['j2c', J2C],
   ['jp2', JP2],
   ['jpg', JPG],
+  ['jxl', JXL],
+  ['jxl-stream', JXLStream],
   ['ktx', KTX],
   ['png', PNG],
   ['pnm', PNM],
@@ -39,6 +43,5 @@ export const typeHandlers = new Map([
   ['webp', WEBP],
 ] as const)
 
-
 export const types = Array.from(typeHandlers.keys())
-export type imageType = typeof types[number]
+export type imageType = (typeof types)[number]

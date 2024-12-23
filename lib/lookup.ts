@@ -1,6 +1,6 @@
+import { detector } from './detector'
 import type { imageType } from './types/index'
 import { typeHandlers } from './types/index'
-import { detector } from './detector'
 import type { ISizeCalculationResult } from './types/interface'
 
 type Options = {
@@ -23,7 +23,7 @@ export function lookup(input: Uint8Array): ISizeCalculationResult {
 
   if (typeof type !== 'undefined') {
     if (globalOptions.disabledTypes.indexOf(type) > -1) {
-      throw new TypeError('disabled file type: ' + type)
+      throw new TypeError(`disabled file type: ${type}`)
     }
 
     // find an appropriate handler for this file type
@@ -35,7 +35,7 @@ export function lookup(input: Uint8Array): ISizeCalculationResult {
   }
 
   // throw up, if we don't understand the file
-  throw new TypeError('unsupported file type: ' + type)
+  throw new TypeError(`unsupported file type: ${type}`)
 }
 
 export const disableTypes = (types: imageType[]): void => {

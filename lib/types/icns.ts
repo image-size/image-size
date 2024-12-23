@@ -1,5 +1,5 @@
 import type { IImage, ISize } from './interface'
-import { toUTF8String, readUInt32BE } from './utils'
+import { readUInt32BE, toUTF8String } from './utils'
 
 /**
  * ICNS Header
@@ -22,7 +22,7 @@ const FILE_LENGTH_OFFSET = 4 // MSB => BIG ENDIAN
  */
 const ENTRY_LENGTH_OFFSET = 4 // MSB => BIG ENDIAN
 
-const ICON_TYPE_SIZE: { [key: string]: number } = {
+const ICON_TYPE_SIZE: Record<string, number> = {
   ICON: 32,
   'ICN#': 32,
   // m => 16 x 16

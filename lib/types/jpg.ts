@@ -110,9 +110,9 @@ function validateInput(input: Uint8Array, index: number): void {
 export const JPG: IImage = {
   validate: (input) => toHexString(input, 0, 2) === 'ffd8',
 
-  calculate(input) {
+  calculate(_input) {
     // Skip 4 chars, they are for signature
-    input = input.slice(4)
+    let input = _input.slice(4)
 
     let orientation: number | undefined
     let next: number

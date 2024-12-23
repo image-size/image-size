@@ -16,8 +16,9 @@ A [Node](https://nodejs.org/en/) module to get dimensions of any image file
 - ICNS
 - ICO
 - J2C
-- JP2
+- JPEG-2000 (JP2)
 - JPEG
+- JPEG-XL
 - KTX (1 and 2)
 - PNG
 - PNM (PAM, PBM, PFM, PGM, PPM)

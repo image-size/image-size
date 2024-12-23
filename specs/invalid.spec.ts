@@ -1,26 +1,39 @@
-import * as chai from 'chai'
-import * as chaiAsPromised from 'chai-as-promised'
+import * as assert from 'node:assert'
+import { describe, it } from 'node:test'
 import { sync as globSync } from 'glob'
 import { imageSize as imageSizeFromFile } from '../lib/fromFile'
-chai.use(chaiAsPromised)
-const { expect } = chai
 
 // Test all invalid files
 describe('Invalid Images', () => {
   const invalidFiles = globSync('specs/images/invalid/**/*.*')
 
-  invalidFiles.forEach((file) => {
-    it(file, async () => {
-      await expect(imageSizeFromFile(file)).to.be.rejectedWith(
-        TypeError,
-        'Invalid',
+  for (const file of invalidFiles) {
+    describe(file, () => {
+      it('should reject with error', async () => {
+        await assert.rejects(
+          async () => await imageSizeFromFile(file),
+          (err: Error) => {
+            assert.ok(err instanceof TypeError)
+            assert.match(err.message, /^Invalid \w+$/)
+            return true
+          },
+        )
+      })
+    })
+  }
+
+  describe('non-existent file', () => {
+    const fakeFile = 'fakefile.jpg'
+
+    it('should reject with error', async () => {
+      await assert.rejects(
+        async () => await imageSizeFromFile(fakeFile),
+        (err: Error) => {
+          assert.ok(err instanceof Error)
+          assert.match(err.message, /^ENOENT.*$/)
+          return true
+        },
       )
     })
-  })
-
-  it('non-existent file', async () => {
-    await expect(imageSizeFromFile('fakefile.jpg')).to.be.rejectedWith(
-      'ENOENT: no such file or directory',
-    )
   })
 })

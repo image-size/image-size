@@ -2,7 +2,9 @@ import * as assert from 'node:assert'
 import { openSync, readSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { after, before, describe, it } from 'node:test'
-import { disableFS, disableTypes, imageSize, types } from '../lib'
+import { disableTypes, imageSize, types } from '../lib'
+
+import { imageSize as imageSizeFromFile } from '../lib/fromFile'
 
 // If something other than a buffer or filepath is passed
 describe('Invalid invocation', () => {
@@ -18,7 +20,7 @@ describe('Invalid invocation', () => {
       assert.throws(
         () => imageSize(buffer),
         TypeError,
-        "Tiff doesn't support buffer",
+        'Invalid Tiff. Missing tags',
       )
     })
   })
@@ -27,53 +29,20 @@ describe('Invalid invocation', () => {
     before(() => disableTypes(['jpg', 'bmp']))
     after(() => disableTypes([]))
 
-    it('should throw', () => {
-      assert.throws(
-        () => imageSize('specs/images/valid/jpg/sample.jpg'),
+    it('should throw', async () => {
+      await assert.rejects(
+        () => imageSizeFromFile('specs/images/valid/jpg/sample.jpg'),
         TypeError,
         'disabled file type: jpg',
       )
-      assert.throws(
-        () => imageSize('specs/images/valid/bmp/sample.bmp'),
+      await assert.rejects(
+        () => imageSizeFromFile('specs/images/valid/bmp/sample.bmp'),
         TypeError,
         'disabled file type: bmp',
       )
-      assert.doesNotThrow(() => imageSize('specs/images/valid/png/sample.png'))
-    })
-  })
-
-  describe('when FS reads are disabled', () => {
-    before(() => disableFS(true))
-    after(() => disableFS(false))
-
-    it('should only allow Uint8Array inputs', () => {
-      assert.throws(
-        () => imageSize('specs/images/valid/jpg/sample.jpg'),
-        TypeError,
-        'invalid invocation. input should be a Uint8Array',
+      await assert.doesNotReject(() =>
+        imageSizeFromFile('specs/images/valid/png/sample.png'),
       )
-    })
-  })
-})
-
-describe('Callback ', () => {
-  it('should be called only once', async () => {
-    const tmpError = new Error()
-
-    const origException = process.listeners('uncaughtException').pop()
-    if (origException) {
-      process.removeListener('uncaughtException', origException)
-    }
-
-    process.once('uncaughtException', (err) => {
-      assert.equal(err, tmpError)
-    })
-
-    await new Promise<void>((resolve) => {
-      imageSize('specs/images/valid/jpg/sample.jpg', () => {
-        process.nextTick(() => resolve())
-        throw tmpError
-      })
     })
   })
 })

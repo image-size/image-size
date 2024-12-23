@@ -1,8 +1,7 @@
 import * as assert from 'node:assert'
 import * as fs from 'node:fs'
 import { after, before, describe, it, mock } from 'node:test'
-import { imageSize } from '../lib'
-import { imageSizeFileAsync } from './utils'
+import { imageSize as imageSizeFromFile } from '../lib/fromFile'
 
 const testBuf = new Uint8Array(1)
 const readFromClosed = (fd: number) => fs.readSync(fd, testBuf, 0, 1, 0)
@@ -12,7 +11,7 @@ describe('after done reading from files', () => {
     it('async', async () => {
       const spy = mock.method(fs.promises, 'open')
       try {
-        await imageSizeFileAsync('specs/images/valid/jpg/large.jpg')
+        await imageSizeFromFile('specs/images/valid/jpg/large.jpg')
         assert.equal(spy.mock.callCount(), 1)
         const fileHandle = await spy.mock.calls[0].result
         // biome-ignore lint/style/noNonNullAssertion:
@@ -20,19 +19,6 @@ describe('after done reading from files', () => {
       } finally {
         spy.mock.restore()
       }
-    })
-
-    it('sync', () => {
-      const spy = mock.method(fs, 'openSync')
-      try {
-        imageSize('specs/images/valid/jpg/large.jpg')
-      } finally {
-        spy.mock.restore()
-      }
-      imageSize('specs/images/valid/jpg/large.jpg')
-      const fileHandle = spy.mock.calls[0].result
-      // biome-ignore lint/style/noNonNullAssertion: <explanation>
-      assert.throws(() => readFromClosed(fileHandle!))
     })
   })
 })
@@ -58,10 +44,9 @@ describe('when Uint8Array allocation fails', () => {
     it('async', async () => {
       const spy = mock.method(fs.promises, 'open')
       try {
-        const err = await imageSizeFileAsync(
+        const err = await imageSizeFromFile(
           'specs/images/valid/jpg/large.jpg',
         ).catch((error) => error)
-        console.log(err)
         assert.equal(err instanceof RangeError, true)
         assert.equal(spy.mock.callCount(), 1)
         const fileHandle = await spy.mock.calls[0].result
@@ -70,19 +55,6 @@ describe('when Uint8Array allocation fails', () => {
       } finally {
         spy.mock.restore()
       }
-    })
-
-    it('sync', () => {
-      const spy = mock.method(fs, 'openSync')
-      assert.throws(
-        () => imageSize('specs/images/valid/jpg/large.jpg'),
-        RangeError,
-      )
-      // expect(() => readFromClosed(spy.returnValues[0])).to.throw(
-      //   Error,
-      //   'bad file descriptor',
-      // )
-      spy.mock.restore()
     })
   })
 })

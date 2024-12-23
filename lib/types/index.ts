@@ -20,27 +20,28 @@ import { TGA } from './tga'
 import { TIFF } from './tiff'
 import { WEBP } from './webp'
 
-export const typeHandlers = {
-  bmp: BMP,
-  cur: CUR,
-  dds: DDS,
-  gif: GIF,
-  heif: HEIF,
-  icns: ICNS,
-  ico: ICO,
-  j2c: J2C,
-  jp2: JP2,
-  jpg: JPG,
-  jxl: JXL,
-  'jxl-stream': JXLStream,
-  ktx: KTX,
-  png: PNG,
-  pnm: PNM,
-  psd: PSD,
-  svg: SVG,
-  tga: TGA,
-  tiff: TIFF,
-  webp: WEBP,
-}
+export const typeHandlers = new Map([
+  ['bmp', BMP],
+  ['cur', CUR],
+  ['dds', DDS],
+  ['gif', GIF],
+  ['heif', HEIF],
+  ['icns', ICNS],
+  ['ico', ICO],
+  ['j2c', J2C],
+  ['jp2', JP2],
+  ['jpg', JPG],
+  ['jxl', JXL],
+  ['jxl-stream', JXLStream],
+  ['ktx', KTX],
+  ['png', PNG],
+  ['pnm', PNM],
+  ['psd', PSD],
+  ['svg', SVG],
+  ['tga', TGA],
+  ['tiff', TIFF],
+  ['webp', WEBP],
+] as const)
 
-export type imageType = keyof typeof typeHandlers
+export const types = Array.from(typeHandlers.keys())
+export type imageType = (typeof types)[number]

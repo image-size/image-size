@@ -1,5 +1,5 @@
 import type { IImage, ISize } from './interface'
-import { toUTF8String, readUInt32BE } from './utils'
+import { readUInt32BE, toUTF8String } from './utils'
 
 /**
  * ICNS Header

@@ -8,7 +8,7 @@ export const toUTF8String = (
 export const toHexString = (input: Uint8Array, start = 0, end = input.length) =>
   input
     .slice(start, end)
-    .reduce((memo, i) => memo + ('0' + i.toString(16)).slice(-2), '')
+    .reduce((memo, i) => memo + `0${i.toString(16)}`.slice(-2), '')
 
 export const readInt16LE = (input: Uint8Array, offset = 0) => {
   const val = input[offset] + input[offset + 1] * 2 ** 8
@@ -54,12 +54,11 @@ type MethodName = keyof typeof methods
 export function readUInt(
   input: Uint8Array,
   bits: 16 | 32,
-  offset: number,
-  isBigEndian: boolean,
+  offset = 0,
+  isBigEndian = false,
 ): number {
-  offset = offset || 0
   const endian = isBigEndian ? 'BE' : 'LE'
-  const methodName: MethodName = ('readUInt' + bits + endian) as MethodName
+  const methodName = `readUInt${bits}${endian}` as MethodName
   return methods[methodName](input, offset)
 }
 
@@ -75,10 +74,11 @@ function readBox(input: Uint8Array, offset: number) {
 }
 
 export function findBox(input: Uint8Array, boxName: string, offset: number) {
-  while (offset < input.length) {
-    const box = readBox(input, offset)
+  let currentOffset = offset
+  while (currentOffset < input.length) {
+    const box = readBox(input, currentOffset)
     if (!box) break
     if (box.name === boxName) return box
-    offset += box.size
+    currentOffset += box.size
   }
 }

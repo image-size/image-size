@@ -1,9 +1,9 @@
-import * as fs from 'fs'
-import * as path from 'path'
+import * as fs from 'node:fs'
+import * as path from 'node:path'
 import Queue from 'queue'
+import { detector } from './detector'
 import type { imageType } from './types/index'
 import { typeHandlers } from './types/index'
-import { detector } from './detector'
 import type { ISizeCalculationResult } from './types/interface'
 
 type CallbackFn = (e: Error | null, r?: ISizeCalculationResult) => void
@@ -38,7 +38,7 @@ function lookup(input: Uint8Array, filepath?: string): ISizeCalculationResult {
 
   if (typeof type !== 'undefined') {
     if (globalOptions.disabledTypes.indexOf(type) > -1) {
-      throw new TypeError('disabled file type: ' + type)
+      throw new TypeError(`disabled file type: ${type}`)
     }
 
     // find an appropriate handler for this file type
@@ -52,9 +52,7 @@ function lookup(input: Uint8Array, filepath?: string): ISizeCalculationResult {
   }
 
   // throw up, if we don't understand the file
-  throw new TypeError(
-    'unsupported file type: ' + type + ' (file: ' + filepath + ')',
-  )
+  throw new TypeError(`unsupported file type: ${type} (file: ${filepath})`)
 }
 
 /**
@@ -101,7 +99,7 @@ function readFileSync(filepath: string): Uint8Array {
   }
 }
 
-// eslint-disable-next-line @typescript-eslint/no-use-before-define
+// biome-ignore lint/suspicious/noGlobalAssign: This needed for backwards-compatibility
 module.exports = exports = imageSize // backwards compatibility
 
 export default imageSize

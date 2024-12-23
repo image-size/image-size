@@ -1,5 +1,5 @@
 import type { IImage } from './interface'
-import { toUTF8String, readUInt32LE } from './utils'
+import { readUInt32LE, toUTF8String } from './utils'
 
 export const KTX: IImage = {
   validate: (input) => {

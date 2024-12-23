@@ -11,6 +11,7 @@
     "alwaysStrict": true,
     "moduleResolution": "node",
     "lib": ["ES2021", "DOM"],
+    "skipLibCheck": true
   },
   "include": [
     "lib/**/*"

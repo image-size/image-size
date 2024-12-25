@@ -37,6 +37,9 @@ export const readUInt32BE = (input: Uint8Array, offset = 0) =>
 export const readUInt32LE = (input: Uint8Array, offset = 0) =>
   getView(input, offset).getUint32(0, true)
 
+export const readUInt64 = (input: Uint8Array, offset: number, isBigEndian: boolean): bigint =>
+  getView(input, offset).getBigUint64(0, !isBigEndian)
+
 // Abstract reading multi-byte unsigned integers
 const methods = {
   readUInt16BE,

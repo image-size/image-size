@@ -12,6 +12,7 @@ import {
   readUInt32LE,
   readUInt,
   findBox,
+  readUInt64,
 } from '../lib/types/utils'
 
 describe('Utils', () => {
@@ -87,6 +88,34 @@ describe('Utils', () => {
       const input = new Uint8Array([0, 0, 1, 0])
       assert.equal(readUInt(input, 32, 0, true), 256) // big-endian
       assert.equal(readUInt(input, 32, 0, false), 65536) // little-endian
+    })
+  })
+
+  describe('readUInt64', () => {
+    it('should read zero correctly in both endianness', () => {
+      const input = new Uint8Array([0, 0, 0, 0, 0, 0, 0, 0])
+      assert.equal(readUInt64(input, 0, true), 0n)  // BE
+      assert.equal(readUInt64(input, 0, false), 0n) // LE
+    })
+
+    it('should read 2^32 in big-endian', () => {
+      // 2^32 = 4294967296 = 0x0000000100000000
+      const input = new Uint8Array([0, 0, 0, 1, 0, 0, 0, 0])
+      assert.equal(readUInt64(input, 0, true), 4294967296n)
+    })
+
+    it('should read 2^32 in little-endian', () => {
+      // 2^32 = 4294967296 = 0x0000000100000000
+      const input = new Uint8Array([0, 0, 0, 0, 1, 0, 0, 0])
+      assert.equal(readUInt64(input, 0, false), 4294967296n)
+    })
+
+    it('should read max uint64 value in both endianness', () => {
+      // max uint64 = 2^64 - 1 = 18446744073709551615
+      const input = new Uint8Array([255, 255, 255, 255, 255, 255, 255, 255])
+      const expected = 18446744073709551615n
+      assert.equal(readUInt64(input, 0, true), expected)  // BE
+      assert.equal(readUInt64(input, 0, false), expected) // LE
     })
   })
 

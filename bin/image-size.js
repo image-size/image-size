@@ -25,13 +25,11 @@ files.forEach(async (image) => {
     if (fs.existsSync(path.resolve(image))) {
       const greyX = colorize('x', grey)
       const greyImage = colorize(image, grey)
-      const size = await imageSize(image)
-      const sizes = size.images || [size]
+      const result = await imageSize(image)
+      const sizes = result.images || [result]
       sizes.forEach((size) => {
-        let greyType = ''
-        if (size.type) {
-          greyType = colorize(' (' + size.type + ')', grey)
-        }
+        const type = size.type ?? result.type;
+        const greyType = type ? colorize(` (${type})`, grey) : ''
         console.info(
           colorize(size.width, green) +
             greyX +

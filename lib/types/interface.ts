@@ -1,6 +1,6 @@
 export interface ISize {
-  width: number | undefined
-  height: number | undefined
+  width: number
+  height: number
   orientation?: number
   type?: string
 }

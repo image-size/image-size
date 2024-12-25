@@ -3,7 +3,6 @@ import { openSync, readSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { after, before, describe, it } from 'node:test'
 import { disableTypes, imageSize, types } from '../lib'
-
 import { imageSize as imageSizeFromFile } from '../lib/fromFile'
 
 // If something other than a buffer or filepath is passed

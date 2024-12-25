@@ -30,6 +30,20 @@ export function lookup(input: Uint8Array): ISizeCalculationResult {
     const size = typeHandlers.get(type)!.calculate(input)
     if (size !== undefined) {
       size.type = size.type ?? type
+
+      // If multiple images, find the largest by area
+      if (size.images && size.images.length > 1) {
+        const largestImage = size.images.reduce((largest, current) => {
+          return current.width * current.height > largest.width * largest.height
+            ? current
+            : largest
+        }, size.images[0])
+
+        // Ensure the main result is the largest image
+        size.width = largestImage.width
+        size.height = largestImage.height
+      }
+
       return size
     }
   }

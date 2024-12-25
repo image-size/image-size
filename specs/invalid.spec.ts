@@ -9,7 +9,7 @@ describe('Invalid Images', () => {
 
   for (const file of invalidFiles) {
     describe(file, () => {
-      it('should reject with error', async () => {
+      it('should callback with error when called asynchronously', async () => {
         await assert.rejects(
           async () => await imageSizeFromFile(file),
           (err: Error) => {
@@ -25,7 +25,7 @@ describe('Invalid Images', () => {
   describe('non-existent file', () => {
     const fakeFile = 'fakefile.jpg'
 
-    it('should reject with error', async () => {
+    it('should callback with error when called asynchronously', async () => {
       await assert.rejects(
         async () => await imageSizeFromFile(fakeFile),
         (err: Error) => {

@@ -3,6 +3,7 @@ import { typeHandlers, types } from './types/index'
 
 // This map helps avoid validating for every single image type
 const firstBytes = new Map<number, imageType>([
+  [0x00, 'heif'],
   [0x38, 'psd'],
   [0x42, 'bmp'],
   [0x44, 'dds'],

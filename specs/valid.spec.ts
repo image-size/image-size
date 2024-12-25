@@ -1,12 +1,12 @@
 import * as assert from 'node:assert'
-import { openSync, readFileSync, readSync } from 'node:fs'
+import { readFileSync } from 'node:fs'
 import { extname, resolve } from 'node:path'
 import { describe, it } from 'node:test'
 import { sync as globSync } from 'glob'
-import { imageSize as imageSizeFromFile } from '../lib/fromFile'
 
 import { detector } from '../lib/detector'
 import type { ISizeCalculationResult } from '../lib/types/interface'
+import { imageSize as imageSizeFromFile } from '../lib/fromFile'
 
 const sizes: Record<string, ISizeCalculationResult> = {
   default: {
@@ -34,8 +34,8 @@ const sizes: Record<string, ISizeCalculationResult> = {
     height: 256,
   },
   'specs/images/valid/icns/sample.icns': {
-    width: 16,
-    height: 16,
+    width: 128,
+    height: 128,
     images: [
       { width: 16, height: 16, type: 'is32' },
       { width: 16, height: 16, type: 's8mk' },
@@ -123,6 +123,21 @@ const sizes: Record<string, ISizeCalculationResult> = {
   'specs/images/valid/jxl-stream/min_large.jxl': {
     width: 257,
     height: 257,
+  },
+  'specs/images/valid/heif/sample.heic': {
+    width: 123,
+    height: 456,
+    images: [
+      { width: 256, height: 256 },
+      { width: 128, height: 128 },
+      { width: 96, height: 96 },
+      { width: 72, height: 72 },
+      { width: 64, height: 64 },
+      { width: 48, height: 48 },
+      { width: 32, height: 32 },
+      { width: 24, height: 24 },
+      { width: 16, height: 16 },
+    ],
   },
 }
 

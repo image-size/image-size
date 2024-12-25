@@ -1,4 +1,4 @@
-import type { IImage } from './interface'
+import type { IImage, ISize } from './interface'
 import { findBox, readUInt32BE, toUTF8String } from './utils'
 
 const brandMap = {
@@ -28,14 +28,47 @@ export const HEIF: IImage = {
     const metaBox = findBox(input, 'meta', 0)
     const iprpBox = metaBox && findBox(input, 'iprp', metaBox.offset + 12)
     const ipcoBox = iprpBox && findBox(input, 'ipco', iprpBox.offset + 8)
-    const ispeBox = ipcoBox && findBox(input, 'ispe', ipcoBox.offset + 8)
-    if (ispeBox) {
-      return {
-        height: readUInt32BE(input, ispeBox.offset + 16),
-        width: readUInt32BE(input, ispeBox.offset + 12),
-        type: toUTF8String(input, 8, 12),
-      }
+
+    if (!ipcoBox) {
+      throw new TypeError('Invalid HEIF, no ipco box found')
     }
-    throw new TypeError('Invalid HEIF, no size found')
+
+    const type = toUTF8String(input, 8, 12)
+
+    const images: ISize[] = []
+    let currentOffset = ipcoBox.offset + 8
+
+    // Find all ispe and clap boxes
+    while (currentOffset < ipcoBox.offset + ipcoBox.size) {
+      const ispeBox = findBox(input, 'ispe', currentOffset)
+      if (!ispeBox) break
+
+      const rawWidth = readUInt32BE(input, ispeBox.offset + 12)
+      const rawHeight = readUInt32BE(input, ispeBox.offset + 16)
+
+      // Look for a clap box after the ispe box
+      const clapBox = findBox(input, 'clap', currentOffset)
+      let width = rawWidth
+      let height = rawHeight
+      if (clapBox && clapBox.offset < ipcoBox.offset + ipcoBox.size) {
+        const cropRight = readUInt32BE(input, clapBox.offset + 12)
+        width = rawWidth - cropRight
+      }
+
+      images.push({ height, width })
+
+      currentOffset = ispeBox.offset + ispeBox.size
+    }
+
+    if (images.length === 0) {
+      throw new TypeError('Invalid HEIF, no sizes found')
+    }
+
+    return {
+      width: images[0].width,
+      height: images[0].height,
+      type,
+      ...(images.length > 1 ? { images } : {}),
+    }
   },
 }

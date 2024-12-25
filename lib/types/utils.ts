@@ -10,37 +10,32 @@ export const toHexString = (input: Uint8Array, start = 0, end = input.length) =>
     .slice(start, end)
     .reduce((memo, i) => memo + `0${i.toString(16)}`.slice(-2), '')
 
-export const readInt16LE = (input: Uint8Array, offset = 0) => {
-  const val = input[offset] + input[offset + 1] * 2 ** 8
-  return val | ((val & (2 ** 15)) * 0x1fffe)
-}
+const getView = (input: Uint8Array, offset: number) =>
+  new DataView(input.buffer, input.byteOffset + offset)
+
+export const readInt16LE = (input: Uint8Array, offset = 0) =>
+  getView(input, offset).getInt16(0, true)
 
 export const readUInt16BE = (input: Uint8Array, offset = 0) =>
-  input[offset] * 2 ** 8 + input[offset + 1]
+  getView(input, offset).getUint16(0, false)
 
 export const readUInt16LE = (input: Uint8Array, offset = 0) =>
-  input[offset] + input[offset + 1] * 2 ** 8
+  getView(input, offset).getUint16(0, true)
 
-export const readUInt24LE = (input: Uint8Array, offset = 0) =>
-  input[offset] + input[offset + 1] * 2 ** 8 + input[offset + 2] * 2 ** 16
+// DataView doesn't have 24-bit methods
+export const readUInt24LE = (input: Uint8Array, offset = 0) => {
+  const view = getView(input, offset)
+  return view.getUint16(0, true) + (view.getUint8(2) << 16)
+}
 
 export const readInt32LE = (input: Uint8Array, offset = 0) =>
-  input[offset] +
-  input[offset + 1] * 2 ** 8 +
-  input[offset + 2] * 2 ** 16 +
-  (input[offset + 3] << 24)
+  getView(input, offset).getInt32(0, true)
 
 export const readUInt32BE = (input: Uint8Array, offset = 0) =>
-  input[offset] * 2 ** 24 +
-  input[offset + 1] * 2 ** 16 +
-  input[offset + 2] * 2 ** 8 +
-  input[offset + 3]
+  getView(input, offset).getUint32(0, false)
 
 export const readUInt32LE = (input: Uint8Array, offset = 0) =>
-  input[offset] +
-  input[offset + 1] * 2 ** 8 +
-  input[offset + 2] * 2 ** 16 +
-  input[offset + 3] * 2 ** 24
+  getView(input, offset).getUint32(0, true)
 
 // Abstract reading multi-byte unsigned integers
 const methods = {

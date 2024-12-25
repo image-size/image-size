@@ -34,8 +34,8 @@ const sizes: Record<string, ISizeCalculationResult> = {
     height: 256,
   },
   'specs/images/valid/icns/sample.icns': {
-    width: 16,
-    height: 16,
+    width: 128,
+    height: 128,
     images: [
       { width: 16, height: 16, type: 'is32' },
       { width: 16, height: 16, type: 's8mk' },

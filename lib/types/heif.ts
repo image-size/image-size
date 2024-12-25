@@ -1,4 +1,4 @@
-import type { IImage, ISize, ISizeCalculationResult } from './interface'
+import type { IImage, ISize } from './interface'
 import { findBox, readUInt32BE, toUTF8String } from './utils'
 
 const brandMap = {
@@ -9,15 +9,6 @@ const brandMap = {
   heix: 'heic',
   hevc: 'heic', // heic-sequence
   hevx: 'heic', // heic-sequence
-}
-
-interface ImageDimensions {
-  width: number
-  height: number
-  cropRight?: number
-  cropLeft?: number
-  cropTop?: number
-  cropBottom?: number
 }
 
 export const HEIF: IImage = {
@@ -59,44 +50,25 @@ export const HEIF: IImage = {
       const clapBox = findBox(input, 'clap', currentOffset)
       let width = rawWidth
       let height = rawHeight
-
       if (clapBox && clapBox.offset < ipcoBox.offset + ipcoBox.size) {
         const cropRight = readUInt32BE(input, clapBox.offset + 12)
-        if (cropRight === 1) {
-          width = rawWidth - 1
-        }
+        width = rawWidth - cropRight
       }
 
-      images.push({
-        height,
-        width,
-      })
+      images.push({ height, width })
 
       currentOffset = ispeBox.offset + ispeBox.size
     }
 
     if (images.length === 0) {
-      throw new TypeError('Invalid HEIF, no size found')
+      throw new TypeError('Invalid HEIF, no sizes found')
     }
 
-    // Find the largest image by area
-    const mainImage = images.reduce((largest, current) => {
-      return current.width * current.height > largest.width * largest.height
-        ? current
-        : largest
-    }, images[0])
-
-    const result: ISizeCalculationResult = {
-      width: mainImage.width,
-      height: mainImage.height,
+    return {
+      width: images[0].width,
+      height: images[0].height,
       type,
+      ...(images.length > 1 ? { images } : {}),
     }
-
-    // Only add images array if there are multiple images
-    if (images.length > 1) {
-      result.images = images
-    }
-
-    return result
   },
 }

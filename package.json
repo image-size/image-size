@@ -2,26 +2,8 @@
   "name": "image-size",
   "version": "2.0.0-beta.3",
   "description": "get dimensions of any image file",
-  "main": "./dist/cjs/index.js",
-  "module": "./dist/esm/index.mjs",
-  "types": "./dist/dts/index.d.ts",
-  "exports": {
-    ".": {
-      "require": "./dist/cjs/index.js",
-      "import": "./dist/esm/index.mjs",
-      "types": "./dist/dts/index.d.ts"
-    },
-    "./*": {
-      "require": "./dist/cjs/*.js",
-      "import": "./dist/esm/*.mjs",
-      "types": "./dist/dts/*.d.ts"
-    },
-    "./types/*": {
-      "require": "./dist/cjs/types/*.js",
-      "import": "./dist/esm/types/*.mjs",
-      "types": "./dist/dts/types/*.d.ts"
-    }
-  },
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "files": [
     "dist",
     "bin/image-size.js"
@@ -34,12 +16,12 @@
   "scripts": {
     "lint": "biome check lib specs",
     "format": "biome format --write lib specs",
-    "test": "TS_NODE_PROJECT=tsconfig.cjs.json c8 --reporter=text --reporter=lcov node --require ts-node/register --test --test-reporter=dot specs/*.spec.ts",
-    "test:watch": "TS_NODE_PROJECT=tsconfig.cjs.json node --require ts-node/register --test --watch specs/*.spec.ts",
+    "test": "c8 --reporter=text --reporter=lcov node --require ts-node/register --test --test-reporter=dot specs/*.spec.ts",
+    "test:watch": "node --require ts-node/register --test --watch specs/*.spec.ts",
     "clean": "rm -rf dist docs",
     "generate-docs": "typedoc",
-    "build": "tsc && tsc -p tsconfig.cjs.json",
-    "prepack": "yarn clean && yarn build && node scripts/fix-package.js"
+    "build": "tsc",
+    "prepack": "yarn clean && yarn build"
   },
   "keywords": [
     "image",

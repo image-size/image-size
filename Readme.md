@@ -4,7 +4,15 @@
 [![Package Version](https://img.shields.io/npm/v/image-size.svg)](https://www.npmjs.com/package/image-size)
 [![Downloads](https://img.shields.io/npm/dm/image-size.svg)](http://npm-stat.com/charts.html?package=image-size&author=netroy&from=&to=)
 
-A [Node](https://nodejs.org/en/) module to get dimensions of any image file
+Fast, lightweight NodeJS package to get dimensions of any image file or buffer.
+
+## Key Features
+- Zero dependencies
+- Supports all major image formats
+- Works with both files and buffers
+- Minimal memory footprint - reads only image headers
+- ESM and CommonJS support
+- TypeScript types included
 
 ## Supported formats
 
@@ -31,99 +39,72 @@ A [Node](https://nodejs.org/en/) module to get dimensions of any image file
 ## Installation
 
 ```shell
-npm install image-size --save
-```
-
-or
-
-```shell
+npm install image-size
+# or
 yarn add image-size
+# or
+pnpm add image-size
 ```
 
-## Programmatic Usage
+## Usage
 
 ### Passing in a Buffer/Uint8Array
+Best for streams, network requests, or when you already have the image data in memory.
 
 ```javascript
 import { imageSize } from 'image-size'
-const { width, height } = imageSize(bufferObject)
-console.log(width, height)
-```
-
-<details>
-<summary>CommonJS</summary>
-
-```javascript
+// or
 const { imageSize } = require('image-size')
-const { width, height } = imageSize(bufferObject)
-console.log(width, height)
-```
 
-</details>
+const dimensions = imageSize(buffer)
+console.log(dimensions.width, dimensions.height)
+```
 
 ### Reading from a file
+Best for local files. Returns a promise.
 
 ```javascript
 import { imageSizeFromFile } from 'image-size/fromFile'
-const dimensions = await imageSizeFromFile('images/funny-cats.png')
-console.log(dimensions.width, dimensions.height)
-```
-
-<details>
-<summary>CommonJS</summary>
-
-```javascript
+// or
 const { imageSizeFromFile } = require('image-size/fromFile')
-const dimensions = await imageSizeFromFile('images/funny-cats.png')
+
+const dimensions = await imageSizeFromFile('photos/image.jpg')
 console.log(dimensions.width, dimensions.height)
 ```
-
-</details>
 
 Note: Reading from files has a default concurrency limit of **100**
 To change this limit, you can call the `setConcurrency` function like this:
 
 ```javascript
 import { setConcurrency } from 'image-size/fromFile'
-setConcurrency(123456)
-```
-
-<details>
-<summary>CommonJS</summary>
-
-```javascript
+// or
 const { setConcurrency } = require('image-size/fromFile')
 setConcurrency(123456)
 ```
 
-</details>
+### 3. Command Line
+Useful for quick checks.
+
+```shell
+npx image-size image1.jpg image2.png
+```
 
 ### Multi-size
 
-If the target file/buffer is an icon (.ico) or a cursor (.cur), the `width` and `height` will be the ones of the first found image.
+If the target file/buffer is an HEIF, an ICO, or a CUR file, the `width` and `height` will be the ones of the largest image in the set.
 
 An additional `images` array is available and returns the dimensions of all the available images
 
 ```javascript
 import { imageSizeFromFile } from 'image-size/fromFile'
-const { images } = await imageSizeFromFile('images/multi-size.ico')
-for (const dimensions of images) {
-  console.log(dimensions.width, dimensions.height)
-}
-```
-
-<details>
-<summary>CommonJS</summary>
-
-```javascript
+// or
 const { imageSizeFromFile } = require('image-size/fromFile')
+
 const { images } = await imageSizeFromFile('images/multi-size.ico')
 for (const dimensions of images) {
   console.log(dimensions.width, dimensions.height)
 }
 ```
-
-</details>
 
 ### Using a URL
 
@@ -148,32 +129,6 @@ http.get(options, function (response) {
 })
 ```
 
-<details>
-<summary>CommonJS</summary>
-
-```javascript
-const url = require('node:url')
-const http = require('node:http')
-const { imageSize } = require('image-size')
-
-const imgUrl = 'http://my-amazing-website.com/image.jpeg'
-const options = url.parse(imgUrl)
-
-http.get(options, function (response) {
-  const chunks = []
-  response
-    .on('data', function (chunk) {
-      chunks.push(chunk)
-    })
-    .on('end', function () {
-      const buffer = Buffer.concat(chunks)
-      console.log(imageSize(buffer))
-    })
-})
-```
-
-</details>
-
 You can optionally check the buffer lengths & stop downloading the image after a few kilobytes.
 **You don't need to download the entire image**
 
@@ -181,18 +136,11 @@ You can optionally check the buffer lengths & stop downloading the image after a
 
 ```javascript
 import { disableTypes } from 'image-size'
-disableTypes(['tiff', 'ico'])
-```
-
-<details>
-<summary>CommonJS</summary>
-
-```javascript
+// or
 const { disableTypes } = require('image-size')
+
 disableTypes(['tiff', 'ico'])
 ```
-
-</details>
 
 ### JPEG image orientation
 
@@ -200,38 +148,34 @@ If the orientation is present in the JPEG EXIF metadata, it will be returned by 
 
 ```javascript
 import { imageSizeFromFile } from 'image-size/fromFile'
-const { width, height, orientation } = await imageSizeFromFile('images/photo.jpeg')
-console.log(width, height, orientation)
-```
-
-<details>
-<summary>CommonJS</summary>
-
-```javascript
+// or
 const { imageSizeFromFile } = require('image-size/fromFile')
+
 const { width, height, orientation } = await imageSizeFromFile('images/photo.jpeg')
 console.log(width, height, orientation)
 ```
 
-</details>
+# Limitations
 
-## Command-Line Usage (CLI)
+1. **Partial File Reading**
+   - Only reads image headers, not full files
+   - Some corrupted images might still report dimensions
 
-```shell
-npm install image-size --global
-```
+2. **SVG Limitations**
+   - Only supports pixel dimensions and viewBox
+   - Percentage values not supported
 
-or
+3. **File Access**
+   - Reading from files has a default concurrency limit of 100
+   - Can be adjusted using `setConcurrency()`
 
-```shell
-yarn global add image-size
-```
+4. **Buffer Requirements**
+   - Some formats (like TIFF) require the full header in buffer
+   - Streaming partial buffers may not work for all formats
 
-followed by
+## License
 
-```shell
-image-size image1 [image2] [image3] ...
-```
+MIT
 
 ## Credits
 

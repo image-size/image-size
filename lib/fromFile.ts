@@ -1,7 +1,7 @@
 import * as fs from 'node:fs'
 import * as path from 'node:path'
 
-import { lookup } from './lookup'
+import { imageSize } from './lookup'
 import type { ISizeCalculationResult } from './types/interface'
 
 // Maximum input size, with a default of 512 kilobytes.
@@ -39,7 +39,7 @@ const processQueue = async () => {
       const inputSize = Math.min(size, MaxInputSize)
       const input = new Uint8Array(inputSize)
       await handle.read(input, 0, inputSize, 0)
-      resolve(lookup(input))
+      resolve(imageSize(input))
     } catch (err) {
       reject(err as Error)
     } finally {
@@ -55,7 +55,7 @@ const processQueue = async () => {
 /**
  * @param {string} filePath - relative/absolute path of the image file
  */
-export const imageSize = async (filePath: string) =>
+export const imageSizeFromFile = async (filePath: string) =>
   new Promise<ISizeCalculationResult>((resolve, reject) => {
     queue.push({ filePath, resolve, reject })
     processQueue()

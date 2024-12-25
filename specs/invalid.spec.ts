@@ -1,7 +1,7 @@
 import * as assert from 'node:assert'
 import { describe, it } from 'node:test'
 import { sync as globSync } from 'glob'
-import { imageSize as imageSizeFromFile } from '../lib/fromFile'
+import { imageSizeFromFile } from '../lib/fromFile'
 
 // Test all invalid files
 describe('Invalid Images', () => {

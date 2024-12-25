@@ -6,7 +6,7 @@ import { sync as globSync } from 'glob'
 
 import { detector } from '../lib/detector'
 import type { ISizeCalculationResult } from '../lib/types/interface'
-import { imageSize as imageSizeFromFile } from '../lib/fromFile'
+import { imageSizeFromFile } from '../lib/fromFile'
 
 const sizes: Record<string, ISizeCalculationResult> = {
   default: {

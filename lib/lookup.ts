@@ -17,7 +17,7 @@ const globalOptions: Options = {
  * @param {Uint8Array} input
  * @returns {ISizeCalculationResult}
  */
-export function lookup(input: Uint8Array): ISizeCalculationResult {
+export function imageSize(input: Uint8Array): ISizeCalculationResult {
   // detect the file type... don't rely on the extension
   const type = detector(input)
 

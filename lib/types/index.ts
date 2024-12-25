@@ -11,6 +11,7 @@ import { JP2 } from './jp2'
 import { JPG } from './jpg'
 import { JXL } from './jxl'
 import { JXLStream } from './jxl-stream'
+import { JXR } from './jxr'
 import { KTX } from './ktx'
 import { PNG } from './png'
 import { PNM } from './pnm'
@@ -33,6 +34,7 @@ export const typeHandlers = {
   jpg: JPG,
   jxl: JXL,
   'jxl-stream': JXLStream,
+  jxr: JXR,
   ktx: KTX,
   png: PNG,
   pnm: PNM,

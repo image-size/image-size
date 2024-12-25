@@ -2,7 +2,7 @@ import * as assert from 'node:assert'
 import * as fs from 'node:fs'
 import { after, before, describe, it, mock } from 'node:test'
 import { imageSize } from '../lib'
-import { imageSizeFileAsync } from './utils'
+import { imageSizeFileAsync } from './test-helpers'
 
 const testBuf = new Uint8Array(1)
 const readFromClosed = (fd: number) => fs.readSync(fd, testBuf, 0, 1, 0)

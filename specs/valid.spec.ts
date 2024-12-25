@@ -6,7 +6,7 @@ import { sync as globSync } from 'glob'
 
 import { detector } from '../lib/detector'
 import type { ISizeCalculationResult } from '../lib/types/interface'
-import { imageSizeFileAsync } from './utils'
+import { imageSizeFileAsync } from './test-helpers'
 
 const bufferSize = 10
 

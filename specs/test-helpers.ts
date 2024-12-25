@@ -1,6 +1,7 @@
 import imageSize from '../lib'
 import type { ISizeCalculationResult } from '../lib/types/interface'
 
+// TODO: remove in 2.0
 export const imageSizeFileAsync = (
   file: string,
 ): Promise<ISizeCalculationResult> =>

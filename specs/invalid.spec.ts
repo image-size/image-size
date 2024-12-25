@@ -2,7 +2,7 @@ import * as assert from 'node:assert'
 import { describe, it } from 'node:test'
 import { sync as globSync } from 'glob'
 import { imageSize } from '../lib'
-import { imageSizeFileAsync } from './utils'
+import { imageSizeFileAsync } from './test-helpers'
 
 // Test all invalid files
 describe('Invalid Images', () => {

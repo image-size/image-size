@@ -94,7 +94,7 @@ describe('Utils', () => {
   describe('readUInt64', () => {
     it('should read zero correctly in both endianness', () => {
       const input = new Uint8Array([0, 0, 0, 0, 0, 0, 0, 0])
-      assert.equal(readUInt64(input, 0, true), 0n)  // BE
+      assert.equal(readUInt64(input, 0, true), 0n) // BE
       assert.equal(readUInt64(input, 0, false), 0n) // LE
     })
 
@@ -114,7 +114,7 @@ describe('Utils', () => {
       // max uint64 = 2^64 - 1 = 18446744073709551615
       const input = new Uint8Array([255, 255, 255, 255, 255, 255, 255, 255])
       const expected = 18446744073709551615n
-      assert.equal(readUInt64(input, 0, true), expected)  // BE
+      assert.equal(readUInt64(input, 0, true), expected) // BE
       assert.equal(readUInt64(input, 0, false), expected) // LE
     })
   })

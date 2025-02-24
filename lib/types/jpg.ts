@@ -120,6 +120,9 @@ export const JPG: IImage = {
       // read length of the next block
       const i = readUInt16BE(input, 0)
 
+      // ensure correct format
+      validateInput(input, i)
+
       // Every JPEG block must begin with a 0xFF
       if (input[i] !== 0xff) {
         input = input.slice(1)
@@ -129,9 +132,6 @@ export const JPG: IImage = {
       if (isEXIF(input)) {
         orientation = validateExifBlock(input, i)
       }
-
-      // ensure correct format
-      validateInput(input, i)
 
       // 0xFFC0 is baseline standard(SOF)
       // 0xFFC1 is baseline optimized(SOF)

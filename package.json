@@ -45,9 +45,7 @@
     "node": ">=16.x"
   },
   "packageManager": "yarn@4.0.2",
-  "bin": {
-    "image-size": "bin/image-size.js"
-  },
+  "bin": "bin/image-size.js",
   "scripts": {
     "lint": "biome check lib specs",
     "format": "biome format --write lib specs",

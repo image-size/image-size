@@ -13,6 +13,9 @@ export const toHexString = (input: Uint8Array, start = 0, end = input.length) =>
 const getView = (input: Uint8Array, offset: number) =>
   new DataView(input.buffer, input.byteOffset + offset)
 
+export const readUInt8 = (input: Uint8Array, offset = 0) =>
+  getView(input, offset).getUint8(0)
+
 export const readInt16LE = (input: Uint8Array, offset = 0) =>
   getView(input, offset).getInt16(0, true)
 

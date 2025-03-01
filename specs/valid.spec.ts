@@ -127,6 +127,7 @@ const sizes: Record<string, ISizeCalculationResult> = {
   'specs/images/valid/heif/sample.heic': {
     width: 123,
     height: 456,
+    orientation: 1,
     images: [
       { width: 256, height: 256 },
       { width: 128, height: 128 },

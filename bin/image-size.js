@@ -3,7 +3,7 @@
 
 const fs = require('node:fs')
 const path = require('node:path')
-const { imageSize } = require('../dist/cjs/fromFile')
+const { imageSizeFromFile } = require('../dist/fromFile.cjs')
 
 const files = process.argv.slice(2)
 
@@ -25,7 +25,7 @@ files.forEach(async (image) => {
     if (fs.existsSync(path.resolve(image))) {
       const greyX = colorize('x', grey)
       const greyImage = colorize(image, grey)
-      const result = await imageSize(image)
+      const result = await imageSizeFromFile(image)
       const sizes = result.images || [result]
       sizes.forEach((size) => {
         const type = size.type ?? result.type;

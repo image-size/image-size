@@ -44,6 +44,8 @@ npm install image-size
 yarn add image-size
 # or
 pnpm add image-size
+# or
+bun add image-size
 ```
 
 ## Usage

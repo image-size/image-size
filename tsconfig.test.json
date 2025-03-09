@@ -1,0 +1,13 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "module": "CommonJS",
+    "moduleResolution": "node",
+    "allowJs": true,
+    "esModuleInterop": true
+  },
+  "include": [
+    "lib/**/*",
+    "specs/**/*"
+  ]
+}

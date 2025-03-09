@@ -1,39 +1,39 @@
-import { expect } from 'chai'
+import * as assert from 'node:assert'
+import { describe, it } from 'node:test'
 import { sync as globSync } from 'glob'
-import { imageSize } from '../lib'
+import { imageSizeFromFile } from '../lib/fromFile'
 
 // Test all invalid files
 describe('Invalid Images', () => {
   const invalidFiles = globSync('specs/images/invalid/**/*.*')
 
-  invalidFiles.forEach((file) => {
+  for (const file of invalidFiles) {
     describe(file, () => {
-      it('should throw when called synchronously', () => {
-        expect(() => imageSize(file)).to.throw(TypeError, 'Invalid')
-      })
-
-      it('should callback with error when called asynchronously', (done) => {
-        imageSize(file, (e) => {
-          expect(e).to.be.instanceOf(TypeError)
-          expect(e?.message).to.match(/^Invalid \w+$/)
-          done()
-        })
+      it('should callback with error when called asynchronously', async () => {
+        await assert.rejects(
+          async () => await imageSizeFromFile(file),
+          (err: Error) => {
+            assert.ok(err instanceof TypeError)
+            assert.match(err.message, /^Invalid \w+$/)
+            return true
+          },
+        )
       })
     })
-  })
+  }
 
   describe('non-existent file', () => {
     const fakeFile = 'fakefile.jpg'
 
-    it('should throw when called synchronously', () => {
-      expect(() => imageSize(fakeFile)).to.throw(Error, 'ENOENT')
-    })
-
-    it('should callback with error when called asynchronously', (done) => {
-      imageSize(fakeFile, (e) => {
-        expect(e?.message).to.match(/^ENOENT.*$/)
-        done()
-      })
+    it('should callback with error when called asynchronously', async () => {
+      await assert.rejects(
+        async () => await imageSizeFromFile(fakeFile),
+        (err: Error) => {
+          assert.ok(err instanceof Error)
+          assert.match(err.message, /^ENOENT.*$/)
+          return true
+        },
+      )
     })
   })
 })

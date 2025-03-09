@@ -88,7 +88,7 @@ function validateExifBlock(input: Uint8Array, index: number) {
   const byteAlign = toHexString(
     exifBlock,
     EXIF_HEADER_BYTES,
-    EXIF_HEADER_BYTES + TIFF_BYTE_ALIGN_BYTES
+    EXIF_HEADER_BYTES + TIFF_BYTE_ALIGN_BYTES,
   )
 
   // Ignore Empty EXIF. Validate byte alignment
@@ -110,15 +110,18 @@ function validateInput(input: Uint8Array, index: number): void {
 export const JPG: IImage = {
   validate: (input) => toHexString(input, 0, 2) === 'ffd8',
 
-  calculate(input) {
+  calculate(_input) {
     // Skip 4 chars, they are for signature
-    input = input.slice(4)
+    let input = _input.slice(4)
 
     let orientation: number | undefined
     let next: number
     while (input.length) {
       // read length of the next block
       const i = readUInt16BE(input, 0)
+
+      // ensure correct format
+      validateInput(input, i)
 
       // Every JPEG block must begin with a 0xFF
       if (input[i] !== 0xff) {
@@ -129,9 +132,6 @@ export const JPG: IImage = {
       if (isEXIF(input)) {
         orientation = validateExifBlock(input, i)
       }
-
-      // ensure correct format
-      validateInput(input, i)
 
       // 0xFFC0 is baseline standard(SOF)
       // 0xFFC1 is baseline optimized(SOF)

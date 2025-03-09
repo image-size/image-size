@@ -1,7 +1,7 @@
 import type { IImage, ISize } from './interface'
 import { toUTF8String } from './utils'
 
-type IAttributes = {
+interface IAttributes {
   width: number | null
   height: number | null
   viewbox?: IAttributes | null
@@ -17,7 +17,7 @@ const extractorRegExps = {
 }
 
 const INCH_CM = 2.54
-const units: { [unit: string]: number } = {
+const units: Record<string, number> = {
   in: 96,
   cm: 96 / INCH_CM,
   em: 16,
@@ -30,7 +30,7 @@ const units: { [unit: string]: number } = {
 }
 
 const unitsReg = new RegExp(
-  `^([0-9.]+(?:e\\d+)?)(${Object.keys(units).join('|')})?$`
+  `^([0-9.]+(?:e\\d+)?)(${Object.keys(units).join('|')})?$`,
 )
 
 function parseLength(len: string) {

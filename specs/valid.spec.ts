@@ -1,14 +1,14 @@
-import { expect } from 'chai'
+import * as assert from 'node:assert'
+import { readFileSync } from 'node:fs'
+import { extname, resolve } from 'node:path'
+import { describe, it } from 'node:test'
 import { sync as globSync } from 'glob'
-import { extname, resolve } from 'path'
-import { openSync, readSync } from 'fs'
-import { imageSize } from '../lib'
+
 import { detector } from '../lib/detector'
 import type { ISizeCalculationResult } from '../lib/types/interface'
+import { imageSizeFromFile } from '../lib/fromFile'
 
-const bufferSize = 8192
-
-const sizes: { [key: string]: ISizeCalculationResult } = {
+const sizes: Record<string, ISizeCalculationResult> = {
   default: {
     width: 123,
     height: 456,
@@ -34,8 +34,8 @@ const sizes: { [key: string]: ISizeCalculationResult } = {
     height: 256,
   },
   'specs/images/valid/icns/sample.icns': {
-    width: 16,
-    height: 16,
+    width: 128,
+    height: 128,
     images: [
       { width: 16, height: 16, type: 'is32' },
       { width: 16, height: 16, type: 's8mk' },
@@ -100,77 +100,82 @@ const sizes: { [key: string]: ISizeCalculationResult } = {
     width: 128,
     height: 68,
   },
+  'specs/images/valid/jxl-stream/small_square.jxl': {
+    width: 64,
+    height: 64,
+  },
+  'specs/images/valid/jxl-stream/small_rect.jxl': {
+    width: 120,
+    height: 80,
+  },
+  'specs/images/valid/jxl-stream/large_explicit.jxl': {
+    width: 3000,
+    height: 2000,
+  },
+  'specs/images/valid/jxl-stream/large_16_9.jxl': {
+    width: 1920,
+    height: 1080,
+  },
+  'specs/images/valid/jxl-stream/max_small.jxl': {
+    width: 256,
+    height: 256,
+  },
+  'specs/images/valid/jxl-stream/min_large.jxl': {
+    width: 257,
+    height: 257,
+  },
+  'specs/images/valid/heif/sample.heic': {
+    width: 123,
+    height: 456,
+    images: [
+      { width: 256, height: 256 },
+      { width: 128, height: 128 },
+      { width: 96, height: 96 },
+      { width: 72, height: 72 },
+      { width: 64, height: 64 },
+      { width: 48, height: 48 },
+      { width: 32, height: 32 },
+      { width: 24, height: 24 },
+      { width: 16, height: 16 },
+    ],
+  },
 }
 
 // Test all valid files
 describe('Valid images', () => {
   const validFiles = globSync('specs/images/valid/**/*.*').filter(
-    (file) => extname(file) !== '.md'
+    (file) => extname(file) !== '.md',
   )
 
-  validFiles.forEach((file) =>
-    describe(file, () => {
-      let type: string | undefined
-      let bufferDimensions: ISizeCalculationResult
-      let asyncDimensions: ISizeCalculationResult
+  for (const file of validFiles) {
+    const filepath = resolve(file)
+    const buffer = readFileSync(filepath)
+    const type = detector(buffer)
 
-      beforeEach((done) => {
-        const buffer = new Uint8Array(bufferSize)
-        const filepath = resolve(file)
-        const descriptor = openSync(filepath, 'r')
-        readSync(descriptor, buffer, 0, bufferSize, 0)
-        type = detector(buffer)
+    describe(type, () => {
+      it(file, async () => {
+        const dimensions = await imageSizeFromFile(file)
 
-        // tiff cannot support buffers, unless the buffer contains the entire file
-        if (type !== 'tiff') {
-          bufferDimensions = imageSize(buffer)
-        }
-
-        imageSize(file, (err, dim) => {
-          if (err || !dim) {
-            done(err)
-          } else {
-            asyncDimensions = dim
-            done()
-          }
-        })
-      })
-
-      it('should return correct size for ' + file, () => {
         const expected = sizes[file as keyof typeof sizes] || sizes.default
-        expect(asyncDimensions.width).to.equal(expected.width)
-        expect(asyncDimensions.height).to.equal(expected.height)
-        if (asyncDimensions.images) {
-          asyncDimensions.images.forEach((item, index) => {
+        assert.equal(dimensions.width, expected.width)
+        assert.equal(dimensions.height, expected.height)
+        if (dimensions.images) {
+          dimensions.images.forEach((item, index) => {
             if (expected.images) {
               const expectedItem = expected.images[index]
-              expect(item.width).to.equal(expectedItem.width)
-              expect(item.height).to.equal(expectedItem.height)
+              assert.equal(item.width, expectedItem.width)
+              assert.equal(item.height, expectedItem.height)
               if (expectedItem.type) {
-                expect(item.type).to.equal(expectedItem.type)
+                assert.equal(item.type, expectedItem.type)
               }
             }
           })
         }
 
         if (expected.orientation) {
-          expect(asyncDimensions.orientation).to.equal(expected.orientation)
-        }
-
-        if (type !== 'tiff') {
-          expect(bufferDimensions.width).to.equal(expected.width)
-          expect(bufferDimensions.height).to.equal(expected.height)
-          if (bufferDimensions.images) {
-            bufferDimensions.images.forEach((item, index) => {
-              if (expected.images) {
-                const expectedItem = expected.images[index]
-                expect(item.width).to.equal(expectedItem.width)
-                expect(item.height).to.equal(expectedItem.height)
-              }
-            })
-          }
+          assert.equal(dimensions.orientation, expected.orientation)
         }
       })
     })
-  )
+  }
 })

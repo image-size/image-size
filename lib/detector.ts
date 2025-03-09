@@ -15,7 +15,7 @@ const firstBytes: { [byte: number]: imageType } = {
   0x69: 'icns',
   0x89: 'png',
   0xff: 'jpg',
-  ["<".charCodeAt(0)]: 'svg',
+  0x3c: 'svg',
 }
 
 export function detector(input: Uint8Array): imageType | undefined {

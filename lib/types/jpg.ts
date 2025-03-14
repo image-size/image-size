@@ -28,6 +28,16 @@ function extractSize(input: Uint8Array, index: number): ISize {
   }
 }
 
+function validateStartOfFrame(input: Uint8Array, index: number) {
+  const mark = toHexString(input, index + 0, index + 2)
+  // 0xFFC0 is baseline standard(SOF)
+  // 0xFFC1 is baseline optimized(SOF)
+  // 0xFFC2 is progressive(SOF2)
+  if (['ffc0', 'ffc1', 'ffc2'].includes(mark)) {
+    return extractSize(input, index + 5)
+  }
+}
+
 function extractOrientation(exifBlock: Uint8Array, isBigEndian: boolean) {
   // TODO: assert that this contains 0x002A
   // let STATIC_MOTOROLA_TIFF_HEADER_BYTES = 2
@@ -111,11 +121,13 @@ export const JPG: IImage = {
   validate: (input) => toHexString(input, 0, 2) === 'ffd8',
 
   calculate(_input) {
-    // Skip 4 chars, they are for signature
-    let input = _input.slice(4)
+    // Skip 2 chars, they are for signature
+    let input = _input.slice(2)
+
+    let size = validateStartOfFrame(input, 0)
+    input = input.slice(2)
 
     let orientation: number | undefined
-    let next: number
     while (input.length) {
       // read length of the next block
       const i = readUInt16BE(input, 0)
@@ -133,23 +145,12 @@ export const JPG: IImage = {
         orientation = validateExifBlock(input, i)
       }
 
-      // 0xFFC0 is baseline standard(SOF)
-      // 0xFFC1 is baseline optimized(SOF)
-      // 0xFFC2 is progressive(SOF2)
-      next = input[i + 1]
-      if (next === 0xc0 || next === 0xc1 || next === 0xc2) {
-        const size = extractSize(input, i + 5)
-
+      size ||= validateStartOfFrame(input, i)
+      if (size) {
         // TODO: is orientation=0 a valid answer here?
-        if (!orientation) {
-          return size
-        }
+        if (!orientation) return size
 
-        return {
-          height: size.height,
-          orientation,
-          width: size.width,
-        }
+        return { ...size, orientation }
       }
 
       // move to the next block

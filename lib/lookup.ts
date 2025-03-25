@@ -21,7 +21,7 @@ export function imageSize(input: Uint8Array): ISizeCalculationResult {
   // detect the file type... don't rely on the extension
   const type = detector(input)
 
-  if (typeof type !== 'undefined') {
+  if (type) {
     if (globalOptions.disabledTypes.indexOf(type) > -1) {
       throw new TypeError(`disabled file type: ${type}`)
     }

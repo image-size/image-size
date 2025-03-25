@@ -22,7 +22,7 @@ const FILE_LENGTH_OFFSET = 4 // MSB => BIG ENDIAN
  */
 const ENTRY_LENGTH_OFFSET = 4 // MSB => BIG ENDIAN
 
-const ICON_TYPE_SIZE: Record<string, number> = {
+const ICON_TYPE_SIZE = {
   ICON: 32,
   'ICN#': 32,
   // m => 16 x 16
@@ -65,18 +65,29 @@ const ICON_TYPE_SIZE: Record<string, number> = {
   ic10: 1024,
 }
 
+type IconType = keyof typeof ICON_TYPE_SIZE
+function isIconType(iconType: string): iconType is IconType {
+  return iconType in ICON_TYPE_SIZE
+}
+function parseIconType(iconType: string): IconType {
+  if (!isIconType(iconType)) {
+    throw new Error(`Not a valid ICON_TYPE_SIZE: ${iconType}`)
+  }
+  return iconType
+}
+
 function readImageHeader(
   input: Uint8Array,
   imageOffset: number,
-): [string, number] {
+): [IconType, number] {
   const imageLengthOffset = imageOffset + ENTRY_LENGTH_OFFSET
   return [
-    toUTF8String(input, imageOffset, imageLengthOffset),
+    parseIconType(toUTF8String(input, imageOffset, imageLengthOffset)),
     readUInt32BE(input, imageLengthOffset),
   ]
 }
 
-function getImageSize(type: string): ISize {
+function getImageSize(type: IconType): ISize {
   const size = ICON_TYPE_SIZE[type]
   return { width: size, height: size, type }
 }

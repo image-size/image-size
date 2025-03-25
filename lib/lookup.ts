@@ -27,7 +27,7 @@ export function imageSize(input: Uint8Array): ISizeCalculationResult {
     }
 
     // find an appropriate handler for this file type
-    const size = typeHandlers.get(type)!.calculate(input)
+    const size = typeHandlers[type].calculate(input)
     if (size !== undefined) {
       size.type = size.type ?? type
 

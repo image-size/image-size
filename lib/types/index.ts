@@ -45,3 +45,12 @@ export const typeHandlers = {
 
 export const types = Object.keys(typeHandlers) as readonly ImageType[]
 export type ImageType = keyof typeof typeHandlers
+function isImageType(imageType: string): imageType is ImageType {
+  return imageType in typeHandlers
+}
+export function parseImageType(imageType: string): ImageType {
+  if (!isImageType(imageType)) {
+    throw new Error(`Not a valid ImageType: ${imageType}`)
+  }
+  return imageType
+}

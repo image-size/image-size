@@ -14,22 +14,27 @@ const sizes: Record<string, ISizeCalculationResult> = {
     height: 456,
   },
   'specs/images/valid/cur/sample.cur': {
+    type: 'cur',
     width: 32,
     height: 32,
   },
   'specs/images/valid/ico/sample.ico': {
+    type: 'ico',
     width: 32,
     height: 32,
   },
   'specs/images/valid/ico/sample-compressed.ico': {
+    type: 'ico',
     width: 32,
     height: 32,
   },
   'specs/images/valid/ico/sample-256.ico': {
+    type: 'ico',
     width: 256,
     height: 256,
   },
   'specs/images/valid/ico/sample-256-compressed.ico': {
+    type: 'ico',
     width: 256,
     height: 256,
   },
@@ -49,6 +54,7 @@ const sizes: Record<string, ISizeCalculationResult> = {
     type: 'icns',
   },
   'specs/images/valid/ico/multi-size.ico': {
+    type: 'ico',
     width: 256,
     height: 256,
     images: [
@@ -64,6 +70,7 @@ const sizes: Record<string, ISizeCalculationResult> = {
     ],
   },
   'specs/images/valid/ico/multi-size-compressed.ico': {
+    type: 'ico',
     width: 256,
     height: 256,
     images: [
@@ -79,58 +86,71 @@ const sizes: Record<string, ISizeCalculationResult> = {
     ],
   },
   'specs/images/valid/jpg/large.jpg': {
+    type: 'jpg',
     width: 1600,
     height: 1200,
     orientation: 1,
   },
   'specs/images/valid/jpg/very-large.jpg': {
+    type: 'jpg',
     width: 4800,
     height: 3600,
     orientation: 1,
   },
   'specs/images/valid/jpg/1x2-flipped-big-endian.jpg': {
+    type: 'jpg',
     width: 1,
     height: 2,
     orientation: 8,
   },
   'specs/images/valid/jpg/1x2-flipped-little-endian.jpg': {
+    type: 'jpg',
     width: 1,
     height: 2,
     orientation: 8,
   },
   'specs/images/valid/png/sample_fried.png': {
+    type: 'png',
     width: 128,
     height: 68,
   },
   'specs/images/valid/jxl-stream/small_square.jxl': {
+    type: 'jxl-stream',
     width: 64,
     height: 64,
   },
   'specs/images/valid/jxl-stream/small_rect.jxl': {
+    type: 'jxl-stream',
     width: 120,
     height: 80,
   },
   'specs/images/valid/jxl-stream/large_explicit.jxl': {
+    type: 'jxl-stream',
     width: 3000,
     height: 2000,
   },
   'specs/images/valid/jxl-stream/large_16_9.jxl': {
+    type: 'jxl-stream',
     width: 1920,
     height: 1080,
   },
   'specs/images/valid/jxl-stream/max_small.jxl': {
+    type: 'jxl-stream',
     width: 256,
     height: 256,
   },
   'specs/images/valid/jxl-stream/min_large.jxl': {
+    type: 'jxl-stream',
     width: 257,
     height: 257,
   },
   'specs/images/valid/heif/sample.heic': {
+    type: 'heic',
     width: 123,
     height: 456,
   },
   'specs/images/valid/heif/sample-multi.heic': {
+    type: 'heic',
     width: 123,
     height: 456,
     images: [
@@ -164,6 +184,9 @@ describe('Valid images', () => {
           expected.orientation,
           'orientation',
         )
+        if (expected.type) {
+          assert.equal(dimensions.type, expected.type, 'type')
+        }
       })
     })
   }

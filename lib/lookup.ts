@@ -21,33 +21,33 @@ export function imageSize(input: Uint8Array): ISizeCalculationResult {
   // detect the file type... don't rely on the extension
   const type = detector(input)
 
-  if (type) {
-    if (globalOptions.disabledTypes.indexOf(type) > -1) {
-      throw new TypeError(`disabled file type: ${type}`)
-    }
-
-    // find an appropriate handler for this file type
-    const size = typeHandlers[type].calculate(input)
-    size.type = size.type ?? type
-
-    // If multiple images, find the largest by area
-    if (size.images && size.images.length > 1) {
-      const largestImage = size.images.reduce((largest, current) => {
-        return current.width * current.height > largest.width * largest.height
-          ? current
-          : largest
-      }, size.images[0])
-
-      // Ensure the main result is the largest image
-      size.width = largestImage.width
-      size.height = largestImage.height
-    }
-
-    return size
+  if (!type) {
+    // throw up, if we don't understand the file
+    throw new TypeError(`unsupported file type: ${type}`)
   }
 
-  // throw up, if we don't understand the file
-  throw new TypeError(`unsupported file type: ${type}`)
+  if (globalOptions.disabledTypes.indexOf(type) > -1) {
+    throw new TypeError(`disabled file type: ${type}`)
+  }
+
+  // find an appropriate handler for this file type
+  const size = typeHandlers[type].calculate(input)
+  size.type = size.type ?? type
+
+  // If multiple images, find the largest by area
+  if (size.images && size.images.length > 1) {
+    const largestImage = size.images.reduce((largest, current) => {
+      return current.width * current.height > largest.width * largest.height
+        ? current
+        : largest
+    }, size.images[0])
+
+    // Ensure the main result is the largest image
+    size.width = largestImage.width
+    size.height = largestImage.height
+  }
+
+  return size
 }
 
 export const disableTypes = (types: ImageType[]): void => {

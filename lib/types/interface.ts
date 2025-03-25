@@ -1,8 +1,10 @@
+import { ImageFormat } from '.'
+
 export interface ISize {
   width: number
   height: number
   orientation?: number
-  type?: string
+  type?: ImageFormat
 }
 
 export type ISizeCalculationResult = {

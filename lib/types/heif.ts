@@ -1,4 +1,5 @@
-import type { IImage, ISize } from './interface'
+import { parseImageFormat } from '.'
+import type { IImage, ISize, ISizeCalculationResult } from './interface'
 import { findBox, readUInt32BE, toUTF8String } from './utils'
 
 const brandMap = {
@@ -33,7 +34,7 @@ export const HEIF: IImage = {
       throw new TypeError('Invalid HEIF, no ipco box found')
     }
 
-    const type = toUTF8String(input, 8, 12)
+    const type = parseImageFormat(toUTF8String(input, 8, 12))
 
     const images: ISize[] = []
     let currentOffset = ipcoBox.offset + 8

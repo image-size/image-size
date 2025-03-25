@@ -4,7 +4,7 @@ import { CUR } from './cur'
 import { DDS } from './dds'
 import { GIF } from './gif'
 import { HEIF } from './heif'
-import { ICNS } from './icns'
+import { ICNS, IconType, isIconType } from './icns'
 import { ICO } from './ico'
 import { J2C } from './j2c'
 import { JP2 } from './jp2'
@@ -53,4 +53,26 @@ export function parseImageType(imageType: string): ImageType {
     throw new Error(`Not a valid ImageType: ${imageType}`)
   }
   return imageType
+}
+
+const extraImageFormats = ['ktx2', 'bigtiff', 'avif', 'heic'] as const
+type ExtraImageFormat = (typeof extraImageFormats)[number]
+function isExtraImageFormat(
+  extraImageFormat: string,
+): extraImageFormat is ExtraImageFormat {
+  return extraImageFormats.includes(extraImageFormat as ExtraImageFormat)
+}
+
+export type ImageFormat = ImageType | IconType | ExtraImageFormat
+export function parseImageFormat(imageFormat: string): ImageFormat {
+  if (
+    !(
+      isImageType(imageFormat) ||
+      isIconType(imageFormat) ||
+      isExtraImageFormat(imageFormat)
+    )
+  ) {
+    throw new Error(`Not a valid ImageFormat: ${imageFormat}`)
+  }
+  return imageFormat
 }

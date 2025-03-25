@@ -65,8 +65,8 @@ const ICON_TYPE_SIZE = {
   ic10: 1024,
 }
 
-type IconType = keyof typeof ICON_TYPE_SIZE
-function isIconType(iconType: string): iconType is IconType {
+export type IconType = keyof typeof ICON_TYPE_SIZE
+export function isIconType(iconType: string): iconType is IconType {
   return iconType in ICON_TYPE_SIZE
 }
 function parseIconType(iconType: string): IconType {

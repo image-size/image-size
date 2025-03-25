@@ -44,4 +44,4 @@ export const typeHandlers = new Map([
 ] as const)
 
 export const types = Array.from(typeHandlers.keys())
-export type imageType = (typeof types)[number]
+export type ImageType = (typeof types)[number]

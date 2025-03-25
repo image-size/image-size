@@ -1,10 +1,10 @@
 import { detector } from './detector'
-import type { imageType } from './types/index'
+import type { ImageType } from './types/index'
 import { typeHandlers } from './types/index'
 import type { ISizeCalculationResult } from './types/interface'
 
 type Options = {
-  disabledTypes: imageType[]
+  disabledTypes: ImageType[]
 }
 
 const globalOptions: Options = {
@@ -52,6 +52,6 @@ export function imageSize(input: Uint8Array): ISizeCalculationResult {
   throw new TypeError(`unsupported file type: ${type}`)
 }
 
-export const disableTypes = (types: imageType[]): void => {
+export const disableTypes = (types: ImageType[]): void => {
   globalOptions.disabledTypes = types
 }

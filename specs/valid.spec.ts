@@ -139,6 +139,14 @@ const sizes: Record<string, ISizeCalculationResult> = {
       { width: 16, height: 16 },
     ],
   },
+  'specs/images/valid/heif/sample-multi.heic': {
+    width: 123,
+    height: 456,
+    images: [
+      { width: 123, height: 456 },
+      { width: 63, height: 64 },
+    ],
+  },
 }
 
 // Test all valid files

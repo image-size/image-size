@@ -168,16 +168,7 @@ describe('Valid images', () => {
         assert.equal(dimensions.width, expected.width, 'width')
         assert.equal(dimensions.height, expected.height, 'height')
         if (dimensions.images) {
-          dimensions.images.forEach((item, index) => {
-            if (expected.images) {
-              const expectedItem = expected.images[index]
-              assert.equal(item.width, expectedItem.width)
-              assert.equal(item.height, expectedItem.height)
-              if (expectedItem.type) {
-                assert.equal(item.type, expectedItem.type)
-              }
-            }
-          })
+          assert.deepStrictEqual(dimensions.images, expected.images, 'images')
         }
 
         if (expected.orientation) {

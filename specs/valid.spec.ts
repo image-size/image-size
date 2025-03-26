@@ -157,8 +157,8 @@ describe('Valid images', () => {
         const dimensions = await imageSizeFromFile(file)
 
         const expected = sizes[file as keyof typeof sizes] || sizes.default
-        assert.equal(dimensions.width, expected.width)
-        assert.equal(dimensions.height, expected.height)
+        assert.equal(dimensions.width, expected.width, 'width')
+        assert.equal(dimensions.height, expected.height, 'height')
         if (dimensions.images) {
           dimensions.images.forEach((item, index) => {
             if (expected.images) {
@@ -173,7 +173,11 @@ describe('Valid images', () => {
         }
 
         if (expected.orientation) {
-          assert.equal(dimensions.orientation, expected.orientation)
+          assert.equal(
+            dimensions.orientation,
+            expected.orientation,
+            'orientation',
+          )
         }
       })
     })

@@ -9,10 +9,6 @@ import type { ISizeCalculationResult } from '../lib/types/interface'
 import { imageSizeFromFile } from '../lib/fromFile'
 
 const sizes: Record<string, ISizeCalculationResult> = {
-  default: {
-    width: 123,
-    height: 456,
-  },
   'specs/images/valid/cur/sample.cur': {
     type: 'cur',
     width: 32,
@@ -415,7 +411,7 @@ describe('Valid images', () => {
       it(file, async () => {
         const dimensions = await imageSizeFromFile(file)
 
-        const expected = sizes[file as keyof typeof sizes] || sizes.default
+        const expected = sizes[file as keyof typeof sizes]
 
         // The `compression` property is created for tiff images, but there is no typing for it.
         // It is deleted to not fail test.

@@ -411,7 +411,7 @@ describe('Valid images', () => {
       it(file, async () => {
         const dimensions = await imageSizeFromFile(file)
 
-        const expected = sizes[file as keyof typeof sizes]
+        const expected = sizes[file]
 
         // The `compression` property is created for tiff images, but there is no typing for it.
         // It is deleted to not fail test.

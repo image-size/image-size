@@ -424,9 +424,7 @@ describe('Valid images', () => {
           expected.orientation,
           'orientation',
         )
-        if (expected.type) {
-          assert.equal(dimensions.type, expected.type, 'type')
-        }
+        assert.equal(dimensions.type, expected.type, 'type')
       })
     })
   }

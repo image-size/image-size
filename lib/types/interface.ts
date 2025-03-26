@@ -7,11 +7,13 @@ export interface ISize {
   type?: ImageFormat
 }
 
-export type ISizeCalculationResult = {
+export type IImageCalculationResult = {
   images?: ISize[]
 } & ISize
 
+export type ISizeCalculationResult = IImageCalculationResult
+
 export interface IImage {
   validate: (input: Uint8Array) => boolean
-  calculate: (input: Uint8Array) => ISizeCalculationResult
+  calculate: (input: Uint8Array) => IImageCalculationResult
 }

@@ -159,14 +159,11 @@ describe('Valid images', () => {
         assert.equal(dimensions.width, expected.width, 'width')
         assert.equal(dimensions.height, expected.height, 'height')
         assert.deepStrictEqual(dimensions.images, expected.images, 'images')
-
-        if (expected.orientation) {
-          assert.equal(
-            dimensions.orientation,
-            expected.orientation,
-            'orientation',
-          )
-        }
+        assert.equal(
+          dimensions.orientation,
+          expected.orientation,
+          'orientation',
+        )
       })
     })
   }

@@ -81,10 +81,12 @@ const sizes: Record<string, ISizeCalculationResult> = {
   'specs/images/valid/jpg/large.jpg': {
     width: 1600,
     height: 1200,
+    orientation: 1,
   },
   'specs/images/valid/jpg/very-large.jpg': {
     width: 4800,
     height: 3600,
+    orientation: 1,
   },
   'specs/images/valid/jpg/1x2-flipped-big-endian.jpg': {
     width: 1,

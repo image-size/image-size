@@ -1,19 +1,19 @@
 import { ImageFormat } from '.'
 
-export interface ISize {
+export interface ISizeCalculationResult {
   width: number
   height: number
   orientation?: number
+  type: ImageFormat
+  images?: ISize[]
+}
+
+export interface IImageCalculationResult
+  extends Omit<ISizeCalculationResult, 'type'> {
   type?: ImageFormat
 }
 
-export type IImageCalculationResult = {
-  images?: ISize[]
-} & ISize
-
-export type ISizeCalculationResult = {
-  type: ImageFormat
-} & Omit<IImageCalculationResult, 'type'>
+export type ISize = Omit<IImageCalculationResult, 'images'>
 
 export interface IImage {
   validate: (input: Uint8Array) => boolean

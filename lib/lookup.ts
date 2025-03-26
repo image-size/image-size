@@ -31,8 +31,8 @@ export function imageSize(input: Uint8Array): ISizeCalculationResult {
   }
 
   // find an appropriate handler for this file type
-  const size = typeHandlers[type].calculate(input)
-  size.type = size.type ?? type
+  const result = typeHandlers[type].calculate(input)
+  const size = { ...result, type: result.type ?? type }
 
   // If multiple images, find the largest by area
   if (size.images && size.images.length > 1) {

@@ -11,7 +11,9 @@ export type IImageCalculationResult = {
   images?: ISize[]
 } & ISize
 
-export type ISizeCalculationResult = IImageCalculationResult
+export type ISizeCalculationResult = {
+  type: ImageFormat
+} & Omit<IImageCalculationResult, 'type'>
 
 export interface IImage {
   validate: (input: Uint8Array) => boolean

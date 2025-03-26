@@ -156,9 +156,7 @@ describe('Valid images', () => {
         const expected = sizes[file as keyof typeof sizes] || sizes.default
         assert.equal(dimensions.width, expected.width, 'width')
         assert.equal(dimensions.height, expected.height, 'height')
-        if (dimensions.images) {
-          assert.deepStrictEqual(dimensions.images, expected.images, 'images')
-        }
+        assert.deepStrictEqual(dimensions.images, expected.images, 'images')
 
         if (expected.orientation) {
           assert.equal(

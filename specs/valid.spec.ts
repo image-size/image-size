@@ -416,15 +416,12 @@ describe('Valid images', () => {
         const dimensions = await imageSizeFromFile(file)
 
         const expected = sizes[file as keyof typeof sizes] || sizes.default
-        assert.equal(dimensions.width, expected.width, 'width')
-        assert.equal(dimensions.height, expected.height, 'height')
-        assert.deepStrictEqual(dimensions.images, expected.images, 'images')
-        assert.equal(
-          dimensions.orientation,
-          expected.orientation,
-          'orientation',
-        )
-        assert.equal(dimensions.type, expected.type, 'type')
+
+        // The `compression` property is created for tiff images, but there is no typing for it.
+        // It is deleted to not fail test.
+        delete (dimensions as any).compression
+
+        assert.deepStrictEqual(dimensions, expected)
       })
     })
   }

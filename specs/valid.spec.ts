@@ -158,6 +158,246 @@ const sizes: Record<string, ISizeCalculationResult> = {
       { width: 63, height: 64 },
     ],
   },
+  'specs/images/valid/webp/lossy.webp': {
+    width: 123,
+    height: 456,
+    type: 'webp',
+  },
+  'specs/images/valid/webp/lossless.webp': {
+    width: 123,
+    height: 456,
+    type: 'webp',
+  },
+  'specs/images/valid/webp/extended.webp': {
+    width: 123,
+    height: 456,
+    type: 'webp',
+  },
+  'specs/images/valid/tiff/little-endian.tiff': {
+    width: 123,
+    height: 456,
+    type: 'tiff',
+  },
+  'specs/images/valid/tiff/jpeg.tiff': {
+    width: 123,
+    height: 456,
+    type: 'tiff',
+  },
+  'specs/images/valid/tiff/bigtiff-little-endian.tiff': {
+    width: 123,
+    height: 456,
+    type: 'bigtiff',
+  },
+  'specs/images/valid/tiff/bigtiff-jpeg.tiff': {
+    width: 123,
+    height: 456,
+    type: 'bigtiff',
+  },
+  'specs/images/valid/tiff/bigtiff-big-endian.tiff': {
+    width: 123,
+    height: 456,
+    type: 'bigtiff',
+  },
+  'specs/images/valid/tiff/big-endian.tiff': {
+    width: 123,
+    height: 456,
+    type: 'tiff',
+  },
+  'specs/images/valid/tga/sample.tga': {
+    width: 123,
+    height: 456,
+    type: 'tga',
+  },
+  'specs/images/valid/svg/width-height.svg': {
+    width: 123,
+    height: 456,
+    type: 'svg',
+  },
+  'specs/images/valid/svg/viewbox.svg': {
+    width: 123,
+    height: 456,
+    type: 'svg',
+  },
+  'specs/images/valid/svg/viewbox-width.svg': {
+    width: 123,
+    height: 456,
+    type: 'svg',
+  },
+  'specs/images/valid/svg/viewbox-width-height.svg': {
+    width: 123,
+    height: 456,
+    type: 'svg',
+  },
+  'specs/images/valid/svg/viewbox-width-height-brackets.svg': {
+    width: 123,
+    height: 456,
+    type: 'svg',
+  },
+  'specs/images/valid/svg/viewbox-units.svg': {
+    width: 123,
+    height: 456,
+    type: 'svg',
+  },
+  'specs/images/valid/svg/viewbox-lowercase.svg': {
+    width: 123,
+    height: 456,
+    type: 'svg',
+  },
+  'specs/images/valid/svg/viewbox-height.svg': {
+    width: 123,
+    height: 456,
+    type: 'svg',
+  },
+  'specs/images/valid/svg/units-inches.svg': {
+    width: 123,
+    height: 456,
+    type: 'svg',
+  },
+  'specs/images/valid/svg/single-quotes.svg': {
+    width: 123,
+    height: 456,
+    type: 'svg',
+  },
+  'specs/images/valid/svg/percentage.svg': {
+    width: 123,
+    height: 456,
+    type: 'svg',
+  },
+  'specs/images/valid/svg/ignore-stroke-width.svg': {
+    width: 123,
+    height: 456,
+    type: 'svg',
+  },
+  'specs/images/valid/svg/exponent-width-height.svg': {
+    width: 123,
+    height: 456,
+    type: 'svg',
+  },
+  'specs/images/valid/psd/sample.psd': {
+    width: 123,
+    height: 456,
+    type: 'psd',
+  },
+  'specs/images/valid/pnm/sample.ppm': {
+    width: 123,
+    height: 456,
+    type: 'pnm',
+  },
+  'specs/images/valid/pnm/sample.pgm': {
+    width: 123,
+    height: 456,
+    type: 'pnm',
+  },
+  'specs/images/valid/pnm/sample.pfm': {
+    width: 123,
+    height: 456,
+    type: 'pnm',
+  },
+  'specs/images/valid/pnm/sample.pbm': {
+    width: 123,
+    height: 456,
+    type: 'pnm',
+  },
+  'specs/images/valid/pnm/sample.pam': {
+    width: 123,
+    height: 456,
+    type: 'pnm',
+  },
+  'specs/images/valid/pnm/sample-ascii.ppm': {
+    width: 123,
+    height: 456,
+    type: 'pnm',
+  },
+  'specs/images/valid/pnm/sample-ascii.pgm': {
+    width: 123,
+    height: 456,
+    type: 'pnm',
+  },
+  'specs/images/valid/pnm/sample-ascii.pbm': {
+    width: 123,
+    height: 456,
+    type: 'pnm',
+  },
+  'specs/images/valid/png/sample.png': {
+    width: 123,
+    height: 456,
+    type: 'png',
+  },
+  'specs/images/valid/ktx/sample.ktx2': {
+    width: 123,
+    height: 456,
+    type: 'ktx2',
+  },
+  'specs/images/valid/ktx/sample.ktx': {
+    width: 123,
+    height: 456,
+    type: 'ktx',
+  },
+  'specs/images/valid/jxl-stream/sample.jxl.stream': {
+    width: 123,
+    height: 456,
+    type: 'jxl-stream',
+  },
+  'specs/images/valid/jxl/sample.jxl': {
+    width: 123,
+    height: 456,
+    type: 'jxl',
+  },
+  'specs/images/valid/jpg/sampleExported.jpg': {
+    width: 123,
+    height: 456,
+    type: 'jpg',
+  },
+  'specs/images/valid/jpg/sample.jpg': {
+    width: 123,
+    height: 456,
+    type: 'jpg',
+  },
+  'specs/images/valid/jpg/progressive.jpg': {
+    width: 123,
+    height: 456,
+    type: 'jpg',
+  },
+  'specs/images/valid/jpg/optimized.jpg': {
+    width: 123,
+    height: 456,
+    type: 'jpg',
+  },
+  'specs/images/valid/jp2/sample.jp2': {
+    width: 123,
+    height: 456,
+    type: 'jp2',
+  },
+  'specs/images/valid/heif/sample.heif': {
+    width: 123,
+    height: 456,
+    type: 'heic',
+  },
+  'specs/images/valid/heif/sample.avif': {
+    width: 123,
+    height: 456,
+    type: 'avif',
+  },
+  'specs/images/valid/heif/sample-garbled.avif': {
+    width: 123,
+    height: 456,
+    type: 'avif',
+  },
+  'specs/images/valid/gif/sample.gif': {
+    width: 123,
+    height: 456,
+    type: 'gif',
+  },
+  'specs/images/valid/dds/sample.dds': {
+    width: 123,
+    height: 456,
+    type: 'dds',
+  },
+  'specs/images/valid/bmp/sample.bmp': {
+    width: 123,
+    height: 456,
+    type: 'bmp',
+  },
 }
 
 // Test all valid files

@@ -1,5 +1,5 @@
 import { parseImageFormat } from '.'
-import type { IImage, ISize, ISizeCalculationResult } from './interface'
+import type { IImage, ISize } from './interface'
 import { findBox, readUInt32BE, toUTF8String } from './utils'
 
 const brandMap = {

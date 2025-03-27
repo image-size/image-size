@@ -8,3 +8,4 @@
 * [Shinnosuke Watanabe](https://github.com/shinnn)
 * [Alexandre Morgaut](https://github.com/AMorgaut)
 * [Shmuli Margulies](https://github.com/shmuli9)
+* [Victor Widell](https://github.com/geon)

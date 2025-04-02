@@ -74,12 +74,17 @@ function readBox(input: Uint8Array, offset: number) {
   }
 }
 
-export function findBox(input: Uint8Array, boxName: string, offset: number) {
-  let currentOffset = offset
+export function findBox(
+  input: Uint8Array,
+  boxName: string,
+  currentOffset: number,
+) {
   while (currentOffset < input.length) {
     const box = readBox(input, currentOffset)
     if (!box) break
     if (box.name === boxName) return box
-    currentOffset += box.size
+    // Fix the infinite loop by ensuring offset always increases
+    // If box.size is 0, advance by at least 8 bytes (the size of the box header)
+    currentOffset += box.size > 0 ? box.size : 8
   }
 }

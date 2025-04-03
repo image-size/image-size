@@ -82,6 +82,10 @@ const sizes: Record<string, ISizeCalculationResult> = {
     width: 1600,
     height: 1200,
   },
+  'specs/images/valid/jpg/coast.jpg': {
+    width: 100,
+    height: 75,
+  },
   'specs/images/valid/jpg/very-large.jpg': {
     width: 4800,
     height: 3600,

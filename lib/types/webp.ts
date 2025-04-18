@@ -31,8 +31,8 @@ export const WEBP: IImage = {
   validate(input) {
     const riffHeader = 'RIFF' === toUTF8String(input, 0, 4)
     const webpHeader = 'WEBP' === toUTF8String(input, 8, 12)
-    const vp8Header = 'VP8' === toUTF8String(input, 12, 15)
-    return riffHeader && webpHeader && vp8Header
+    const vp8Header = toUTF8String(input, 12, 16)
+    return riffHeader && webpHeader && /^(VP8 |VP8L|VP8X)$/.test(vp8Header)
   },
 
   calculate(_input) {
@@ -51,14 +51,14 @@ export const WEBP: IImage = {
     }
 
     // Lossless webp stream signature
-    if (chunkHeader === 'VP8 ' && input[0] !== 0x2f) {
-      return calculateLossy(input)
+    if (chunkHeader === 'VP8L' && input[0] === 0x2f) {
+      return calculateLossless(input)
     }
 
     // Lossy webp stream signature
     const signature = toHexString(input, 3, 6)
-    if (chunkHeader === 'VP8L' && signature !== '9d012a') {
-      return calculateLossless(input)
+    if (chunkHeader === 'VP8 ' && signature === '9d012a') {
+      return calculateLossy(input)
     }
 
     throw new TypeError('Invalid WebP')

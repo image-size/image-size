@@ -1,3 +1,5 @@
+项目介绍（英文版） 梁飘月
+
 This repository focuses on a Node.js module specifically designed for detecting image sizes. With notable advantages like zero dependencies and multi - format support, this module demonstrates broad applicability in actual development scenarios. The core content is as follows:
 
 1. Functional Features  
@@ -30,5 +32,3 @@ This project is released under the MIT License, allowing free use and modificati
 
 5. Other Information  
 This project is licensed under the MIT license, featuring open - source nature with free use and modification allowed. The repository contains numerous files for different functions like configuration, testing, and building, effectively ensuring the project’s normal operation and continuous development.  
-
-

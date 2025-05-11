@@ -1,3 +1,5 @@
+<!--廖真余-->
+
 ## The main function of the warehouse is a Node.js module, which is used to detect the size (image dimensions) of an image. As can be seen from the description, it can help developers quickly obtain information such as the width and height of an image, which can be used in various application scenarios related to image processing.
 
 
@@ -8,8 +10,10 @@ applicable scene: When the image data comes from a network request or other non-
 
 ```javascript
 import { imageSize } from 'image-size';
+import { readFileSync } from 'fs'; // Node.js 内置模块，用于读取文件
 
-const buffer = ...; // 假设此处已经获取了图片的缓冲区数据
+const buffer = readFileSync('D:\\photos\\13.png');
+
 const dimensions = imageSize(buffer);
 
 console.log(`图片宽度: ${dimensions.width}, 高度: ${dimensions.height}`);
@@ -20,11 +24,15 @@ Screenshot of main function implementation：photos\shixian1
 Handle local Promise
 
 ```javascript
-import { imageSizeFromFile } from 'image-size/fromFile';
+import { imageSizeFromFile, setConcurrency } from 'image-size/fromFile';
 
-const dimensions = await imageSizeFromFile('photos/image.jpg');
+async function run() {
+    // 设置并发限制为 50
+    setConcurrency(50);
 
-console.log(`图片宽度: ${dimensions.width}, 高度: ${dimensions.height}`);
+    const dimensions = await imageSizeFromFile('D:\\photos\\11.jpg');
+    console.log(`图片宽度：${dimensions.width}, 高度：${dimensions.height}`);
+}
 ```
 
 matters need attention: (1)Default is 100 files. (2)You can do it by method self setConcurrency
@@ -38,21 +46,21 @@ Screenshot of main function implementation：photos\shixian2
 ### 3. Get the image size from the remote URL
 If the image is stored, the HTTP request obtains the buffer data of the image and parses the size.
 ```javascript
-import http from 'node:http';
-import { imageSize } from 'image-size';
+const https = require('node:https'); // 替换为https模块
+const { imageSize } = require('image-size');
 
-const imageUrl = 'http://example.com/image.jpg';
+const imageUrl = 'https://pic.52112.com/2019/06/06/JPS-190606_155/24poJOgl7m_small.jpg';
 
-http.get(imageUrl, (response) => {
-  const chunks = [];
-  
-  response.on('data', (chunk) => chunks.push(chunk));
-  response.on('end', () => {
-    const buffer = Buffer.concat(chunks);
-    const dimensions = imageSize(buffer);
-
-    console.log(`图片宽度: ${dimensions.width}, 高度: ${dimensions.height}`);
-  });
+https.get(imageUrl, (response) => { // 注意https.get
+    const chunks = [];
+    response.on('data', (chunk) => chunks.push(chunk));
+    response.on('end', () => {
+        const buffer = Buffer.concat(chunks);
+        const dimensions = imageSize(buffer);
+        console.log(`图片宽度: ${dimensions.width}, 高度: ${dimensions.height}`);
+    });
+}).on('error', (error) => {
+    console.error('请求出错:', error.message); // 处理网络或权限问题
 });
 ```
 Screenshot of main function implementation：photos\shixian3
@@ -76,16 +84,37 @@ for (const dimensions of images) {
 For quick image size checks, you can use the command line tool.
 
 ```shell
-npx image-size image1.jpg image2.png
+npx image-size 11.jpg 13.png
 ```
 Screenshot of main function implementation：photos\shixian4
 
 ### 3.Disable specific image formats
 If you do not need to support certain image formats, you can disable them by configuring them.
 ```javascript
-import { disableTypes } from 'image-size';
+const { disableTypes, imageSize } = require('image-size');
+const fs = require('fs');
 
-disableTypes(['tiff', 'ico']); // 禁用 TIFF 和 ICO 格式
+// 禁用特定格式（可根据需要调整）
+disableTypes(['tiff', 'ico', 'svg']);
+
+async function checkImages() {
+    const imagePaths = [
+        'D:\\photos\\11.jpg',   // 支持的格式
+        'D:\\photos\\svg.svg',        // 已禁用的格式
+    ];
+
+    for (const path of imagePaths) {
+        try {
+            const buffer = fs.readFileSync(path);
+            const dimensions = imageSize(buffer);
+            console.log(`${path}: 尺寸=${dimensions.width}x${dimensions.height}`);
+        } catch (error) {
+            console.error(`${path}: 错误 - ${error.message}`);
+        }
+    }
+}
+
+checkImages();
 ```
 Screenshot of main function implementation：photos\shixian5
 
@@ -101,7 +130,7 @@ setConcurrency(200);
 
 async function testImageSize() {
     try {
-        const dimensions = await imageSizeFromFile('path/to/your/image.jpg');
+        const dimensions = await imageSizeFromFile('D:\\photos\\11.jpg');
         console.log(`Width: ${dimensions.width}, Height: ${dimensions.height}`);
     } catch (error) {
         console.error('Error getting image dimensions:', error);
@@ -116,10 +145,32 @@ Screenshot of main function implementation：photos\shixian6
 For JPEG images, you can get the direction defined in the EXIF (English) metadata.
 
 ```javascript
-import { imageSizeFromFile } from 'image-size/fromFile';
+const { imageSizeFromFile } = require('image-size/fromFile');
 
-const { width, height, orientation } = await imageSizeFromFile('photos/image.jpg');
-console.log(`宽度: ${width}, 高度: ${height}, 方向: ${orientation}`);
+async function getImageInfo() {
+    try {
+        
+        const filePath = 'D:\\photos\\11.jpg';
+
+        
+        const { width, height, orientation } = await imageSizeFromFile(filePath);
+
+        
+        const direction = orientation
+            ? `方向代码 ${orientation}`
+            : '无方向信息（默认）';
+
+        console.log(`图片信息：`);
+        console.log(`- 宽度: ${width}px`);
+        console.log(`- 高度: ${height}px`);
+        console.log(`- 方向: ${direction}`);
+    } catch (error) {
+        console.error(`错误：${error.message}`);
+    }
+}
+
+
+getImageInfo();
 ```
 Screenshot of main function implementation：photos\shixian7
 
@@ -127,13 +178,20 @@ Screenshot of main function implementation：photos\shixian7
 
 1. **Partial file reading**
  only the header information of the image is read, and the size may still be returned for damaged files.
+
 2. **SVG format:**
  only supports pixel size and viewBox, does not support percentage values.
+
 3. **File access:**
  There are concurrency limits on file reading, which can be adjusted using setConcurrency.
+
 4. **Buffer requirements:**
  Some formats (such as TIFF) require complete header information.
+
 5. **Synchronous reading:**
  The synchronous API blocks the main thread and is not recommended.
+
 6. **Disable type:**
  You can use disableTypes to disable specific image type processing.
+
+ <!--廖真余-->

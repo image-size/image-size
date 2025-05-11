@@ -25,10 +25,8 @@ It only reads the image header, so detection results for some damaged images may
 For the SVG format, only pixel dimensions and viewBox are supported—percentage values are not.  
 File reading has a concurrency limit, and some formats require Buffer - data integrity.  
 
-4. License and Maintenance
-This project is released under the MIT License, allowing free use and modification. The repository includes configuration, testing, and build scripts to ensure stability and continuous improvement.
 
-5. Other Information  
+4. Other Information  
 This project is licensed under the MIT license, featuring open - source nature with free use and modification allowed. The repository contains numerous files for different functions like configuration, testing, and building, effectively ensuring the project’s normal operation and continuous development.  
 
 

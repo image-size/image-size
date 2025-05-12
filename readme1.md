@@ -8,9 +8,12 @@
 ### 1.Read the size from the image buffer in memory
 applicable scene: When the image data comes from a network request or other non-file source.
 
+operating steps:
+1.Create a JavaScript file
+2.Write the following code in the file:
 ```javascript
 import { imageSize } from 'image-size';
-import { readFileSync } from 'fs'; // Node.js 内置模块，用于读取文件
+import { readFileSync } from 'fs'; // Node.js Built-in module for reading files.
 
 const buffer = readFileSync('D:\\photos\\13.png');
 
@@ -18,16 +21,21 @@ const dimensions = imageSize(buffer);
 
 console.log(`图片宽度: ${dimensions.width}, 高度: ${dimensions.height}`);
 ```
+3.Run the file in the terminal:node src/image.js
+
 Screenshot of main function implementation：photos\shixian1
 
 ### 2. Read the image size from the local file
 Handle local Promise
 
+operating steps:
+1.Create a JavaScript file
+2.Write the following code in the file:
 ```javascript
 import { imageSizeFromFile, setConcurrency } from 'image-size/fromFile';
 
 async function run() {
-    // 设置并发限制为 50
+    // Set the concurrency limit to 50
     setConcurrency(50);
 
     const dimensions = await imageSizeFromFile('D:\\photos\\11.jpg');
@@ -39,19 +47,24 @@ matters need attention: (1)Default is 100 files. (2)You can do it by method self
 ```javascript
 import { setConcurrency } from 'image-size/fromFile';
 
-setConcurrency(50); // 将并发限制调整为 50
+setConcurrency(50); // Set the concurrency limit to 50
 ```
+3.Run the file in the terminal:node src/index.js
 Screenshot of main function implementation：photos\shixian2
 
 ### 3. Get the image size from the remote URL
 If the image is stored, the HTTP request obtains the buffer data of the image and parses the size.
+
+operating steps:
+1.Create a JavaScript file
+2.Write the following code in the file:
 ```javascript
-const https = require('node:https'); // 替换为https模块
+const https = require('node:https'); // Replace with the https module.
 const { imageSize } = require('image-size');
 
 const imageUrl = 'https://pic.52112.com/2019/06/06/JPS-190606_155/24poJOgl7m_small.jpg';
 
-https.get(imageUrl, (response) => { // 注意https.get
+https.get(imageUrl, (response) => { // attention https.get
     const chunks = [];
     response.on('data', (chunk) => chunks.push(chunk));
     response.on('end', () => {
@@ -60,9 +73,11 @@ https.get(imageUrl, (response) => { // 注意https.get
         console.log(`图片宽度: ${dimensions.width}, 高度: ${dimensions.height}`);
     });
 }).on('error', (error) => {
-    console.error('请求出错:', error.message); // 处理网络或权限问题
+    console.error('请求出错:', error.message); // Handle network or permission issues.
 });
 ```
+3.Run the file in the terminal:node src/photos.js
+
 Screenshot of main function implementation：photos\shixian3
 ## Advanced features
 
@@ -83,6 +98,9 @@ for (const dimensions of images) {
 ### 2.Command line usage
 For quick image size checks, you can use the command line tool.
 
+operating steps:
+Run the following command in the terminal:
+
 ```shell
 npx image-size 11.jpg 13.png
 ```
@@ -94,13 +112,12 @@ If you do not need to support certain image formats, you can disable them by con
 const { disableTypes, imageSize } = require('image-size');
 const fs = require('fs');
 
-// 禁用特定格式（可根据需要调整）
 disableTypes(['tiff', 'ico', 'svg']);
 
 async function checkImages() {
     const imagePaths = [
-        'D:\\photos\\11.jpg',   // 支持的格式
-        'D:\\photos\\svg.svg',        // 已禁用的格式
+        'D:\\photos\\11.jpg',   // Supported formats
+        'D:\\photos\\svg.svg',        // Disabled formats
     ];
 
     for (const path of imagePaths) {
@@ -125,7 +142,7 @@ The default concurrency limit for reading files is 100. If you need to change th
 ```javascript
 const { imageSizeFromFile, setConcurrency } = require('image-size/fromFile');
 
-// 设置并发限制为 200
+// Set the concurrency limit to 200
 setConcurrency(200);
 
 async function testImageSize() {
@@ -173,6 +190,97 @@ async function getImageInfo() {
 getImageInfo();
 ```
 Screenshot of main function implementation：photos\shixian7
+
+### 6.Read the image MIME type
+The MIME type of the image can be obtained, which is useful for applications that need to know the image format
+
+```javascript
+
+import { imageSizeFromFile } from 'image-size/fromFile';
+
+(async () => {
+    try {
+        const { type } = await imageSizeFromFile('D:/photos/11.jpg');
+        console.log(`图片MIME类型: ${type}`);
+    } catch (error) {
+        console.error('读取图片MIME类型时出错:', error);
+    }
+})();
+```
+Screenshot of main function implementation：photos\shixian8
+
+### 7.Get the size of the image file
+```javascript
+import { imageSizeFromFile } from 'image-size/fromFile';
+import { stat } from 'node:fs/promises';
+
+(async () => {
+    try {
+        const dimensions = await imageSizeFromFile('D:/photos/11.jpg');
+        const { size } = await stat('D:/photos/11.jpg');
+
+        console.log(`尺寸: ${dimensions.width}x${dimensions.height}`);
+        console.log(`文件大小: ${size} 字节`);
+    } catch (error) {
+        console.error('读取图片信息时出错:', error);
+    }
+})();
+```
+Screenshot of main function implementation：photos\shixian9
+
+### 8.Batch process all images in the directory
+
+Use fs.readdir to traverse all the files in the directory and filter out the image files for processing
+
+```javascript
+import { imageSizeFromFile } from 'image-size/fromFile';
+import { readdir } from 'node:fs/promises';
+import path from 'node:path';
+
+const directoryPath = 'D:/photos';
+
+        const files = await readdir(directoryPath);
+
+        for (const file of files) 
+            const filePath = path.join(directoryPath, file);
+            const ext = path.extname(file).toLowerCase();
+```
+Screenshot of main function implementation：photos\shixian10
+
+### 9.Verify that the image size meets the requirements
+Check that the image size meets the minimum / maximum width and height requirements
+
+```javascript
+import { imageSizeFromFile } from 'image-size/fromFile';
+
+        const dimensions = await imageSizeFromFile('D:/photos/11.jpg');
+        
+        const MIN_WIDTH = 800;
+        const MIN_HEIGHT = 600;
+```
+Screenshot of main function implementation：photos\shixian11
+
+
+### 10.Calculate the aspect ratio of the image
+Get the aspect ratio of the image, which is useful in situations where you need to maintain the image proportion
+
+```javascript
+import { imageSizeFromFile } from 'image-size/fromFile';
+
+(async () => {
+    try {
+        const dimensions = await imageSizeFromFile('D:/photos/11.jpg');
+        const aspectRatio = dimensions.width / dimensions.height;
+
+        console.log(`宽高比: ${aspectRatio.toFixed(2)}:1`);
+    } catch (error) {
+        console.error('计算宽高比时出错:', error);
+    }
+})();
+```
+Screenshot of main function implementation：photos\shixian12
+
+
 
 # Use restrictions and precautions
 

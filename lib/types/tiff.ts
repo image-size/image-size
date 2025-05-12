@@ -1,6 +1,7 @@
 import * as fs from 'node:fs'
 import type { IImage, ISize } from './interface'
 import { readUInt, readUInt64, toHexString, toUTF8String } from './utils'
+import { ImageSizeInfoOutOfBoundsError } from '../utils/customErrors'
 
 const CONSTANTS = {
   TAG: {
@@ -41,9 +42,10 @@ function readIFD(input: Uint8Array, { isBigEndian, isBigTiff }: TIFFFormat) {
     ? CONSTANTS.COUNT_SIZE.BIG
     : CONSTANTS.COUNT_SIZE.STANDARD
   if (ifdOffset + entryCountSize > input.byteLength) {
-    throw new TypeError(
+    throw new ImageSizeInfoOutOfBoundsError(
       'Tiff tags are outside of the read file part, starting at index ' +
         ifdOffset,
+      ifdOffset,
     )
   }
   return input.slice(ifdOffset + entryCountSize)

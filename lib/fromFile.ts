@@ -3,13 +3,13 @@ import * as path from 'node:path'
 
 import { imageSize } from './lookup'
 import type { ISizeCalculationResult } from './types/interface'
+import { ImageSizeInfoOutOfBoundsError } from './utils/customErrors'
 
 // Default maximum input size is 512 kilobytes.
 const DefaultMaxInputSize = 512 * 1024
 
 type Job = {
   filePath: string
-  maxInputSize: number
   resolve: (value: ISizeCalculationResult) => void
   reject: (error: Error) => void
 }
@@ -24,31 +24,39 @@ export const setConcurrency = (c: number): void => {
 
 const processQueue = async () => {
   const jobs = queue.splice(0, concurrency)
-  const promises = jobs.map(
-    async ({ filePath, maxInputSize, resolve, reject }) => {
-      let handle: fs.promises.FileHandle
-      try {
-        handle = await fs.promises.open(path.resolve(filePath), 'r')
-      } catch (err) {
-        return reject(err as Error)
+  const promises = jobs.map(async ({ filePath, resolve, reject }) => {
+    let handle: fs.promises.FileHandle
+    try {
+      handle = await fs.promises.open(path.resolve(filePath), 'r')
+    } catch (err) {
+      return reject(err as Error)
+    }
+    try {
+      const { size } = await handle.stat()
+      if (size <= 0) {
+        throw new Error('Empty file')
       }
+      const inputSize = Math.min(size, DefaultMaxInputSize)
+      const input = new Uint8Array(inputSize)
+      await handle.read(input, 0, inputSize, 0)
       try {
-        const { size } = await handle.stat()
-        if (size <= 0) {
-          throw new Error('Empty file')
-        }
-        // TO-DO: make this adaptive based on the initial signature of the image
-        const inputSize = Math.min(size, maxInputSize)
-        const input = new Uint8Array(inputSize)
-        await handle.read(input, 0, inputSize, 0)
         resolve(imageSize(input))
       } catch (err) {
-        reject(err as Error)
-      } finally {
-        await handle.close()
+        // If the image size information was outside of the originally read part of the file, re-attempt using an extended input buffer.
+        if (err instanceof ImageSizeInfoOutOfBoundsError) {
+          const input = new Uint8Array(size)
+          const inputStart = Math.min(size, err.newOffset)
+          const inputSize = Math.min(size, err.newOffset + DefaultMaxInputSize)
+          await handle.read(input, 0, inputSize, 0)
+          resolve(imageSize(input))
+        }
       }
-    },
-  )
+    } catch (err) {
+      reject(err as Error)
+    } finally {
+      await handle.close()
+    }
+  })
 
   await Promise.allSettled(promises)
 
@@ -57,13 +65,9 @@ const processQueue = async () => {
 
 /**
  * @param {string} filePath - relative/absolute path of the image file
- * @param {number} maxInputSize - maximum input size, with a default of 512 kilobytes.
  */
-export const imageSizeFromFile = async (
-  filePath: string,
-  maxInputSize: number = DefaultMaxInputSize,
-) =>
+export const imageSizeFromFile = async (filePath: string) =>
   new Promise<ISizeCalculationResult>((resolve, reject) => {
-    queue.push({ filePath, maxInputSize, resolve, reject })
+    queue.push({ filePath, resolve, reject })
     processQueue()
   })

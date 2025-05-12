@@ -82,20 +82,6 @@ const { setConcurrency } = require('image-size/fromFile')
 setConcurrency(123456)
 ```
 
-Note: By default, `image-size` reads the first 512kb of the local file only. When dealing with images where the image size is only specified in a later part of the file, pass a larger `maxInputSize` parameter as so:
-
-```javascript
-import { imageSizeFromFile } from 'image-size/fromFile'
-// or
-const { imageSizeFromFile } = require('image-size/fromFile')
-
-const dimensions = await imageSizeFromFile(
-  'graphics/myLargeFile.tiff',
-  10 * 512 * 1024,
-) // The default value for `maxInputSize` is `512 * 1024`, aka 512kb.
-console.log(dimensions.width, dimensions.height)
-```
-
 ### Reading from a file Syncronously (not recommended) ⚠️
 v1.x of this library had a sync API, that internally used sync file reads.  
 
@@ -185,7 +171,7 @@ console.log(width, height, orientation)
 # Limitations
 
 1. **Partial File Reading**
-   - Only reads image headers, not full files. When reading images from file, you can optionally pass a larger `maxInputSize` argument.
+   - Only reads image headers, not full files. The only exception is when `imageSizeFromFile` fails to read the image size from the initial 512kb of the file - in this case, a larger part of the file is re-read.
    - Some corrupted images might still report dimensions
 
 2. **SVG Limitations**

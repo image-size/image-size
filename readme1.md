@@ -1,6 +1,6 @@
 项目介绍（英文版） 梁飘月
 
-This repository focuses on a Node.js module specifically designed for detecting image sizes. With notable advantages like zero dependencies<!--by 梁飘月--> and multi-format compatibility<!--by 梁飘月-->, this module demonstrates broad applicability in actual development scenarios. The core content is as follows:
+This repository focuses on a Node.js module specifically designed for detecting image sizes. With notable advantages like zero dependencies <!--by 梁飘月--> and multi-format compatibility<!--by 梁飘月-->, this module demonstrates broad applicability in actual development scenarios. The core content is as follows:
 
 1. Functional Features  
 Compatibility with Multiple Formats and zero dependencies Advantage<!--by 梁飘月-->: This module does not rely on additional libraries. It can seamlessly handle common image formats such as BMP, GIF, JPEG, and PNG, and also supports emerging formats like HEIC and JPEG - XL. This extensive compatibility fully meets the needs of image size detection in various scenarios.  

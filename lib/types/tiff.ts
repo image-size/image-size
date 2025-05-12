@@ -40,6 +40,12 @@ function readIFD(input: Uint8Array, { isBigEndian, isBigTiff }: TIFFFormat) {
   const entryCountSize = isBigTiff
     ? CONSTANTS.COUNT_SIZE.BIG
     : CONSTANTS.COUNT_SIZE.STANDARD
+  if (ifdOffset + entryCountSize > input.byteLength) {
+    throw new TypeError(
+      'Tiff tags are outside of the read file part, starting at index ' +
+        ifdOffset,
+    )
+  }
   return input.slice(ifdOffset + entryCountSize)
 }
 

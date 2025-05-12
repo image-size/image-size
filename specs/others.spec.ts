@@ -4,6 +4,7 @@ import { resolve } from 'node:path'
 import { after, before, describe, it } from 'node:test'
 import { disableTypes, imageSize, types } from '../lib'
 import { imageSizeFromFile } from '../lib/fromFile'
+import { ImageSizeInfoOutOfBoundsError } from '../lib/utils/customErrors'
 
 // If something other than a buffer or filepath is passed
 describe('Invalid invocation', () => {
@@ -18,8 +19,8 @@ describe('Invalid invocation', () => {
       readSync(descriptor, buffer, 0, bufferSize, 0)
       assert.throws(
         () => imageSize(buffer),
-        TypeError,
-        'Invalid Tiff. Missing tags',
+        ImageSizeInfoOutOfBoundsError,
+        'ImageSizeInfoOutOfBoundsError: Tiff tags are outside of the read file part, starting at index 157220',
       )
     })
   })

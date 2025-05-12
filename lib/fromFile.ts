@@ -44,11 +44,21 @@ const processQueue = async () => {
       } catch (err) {
         // If the image size information was outside of the originally read part of the file, re-attempt using an extended input buffer.
         if (err instanceof ImageSizeInfoOutOfBoundsError) {
-          const input = new Uint8Array(size)
-          const inputStart = Math.min(size, err.newOffset)
-          const inputSize = Math.min(size, err.newOffset + DefaultMaxInputSize)
-          await handle.read(input, 0, inputSize, 0)
-          resolve(imageSize(input))
+          const additionalLength = Math.min(
+            size - inputSize,
+            err.requiredStartOffset + DefaultMaxInputSize - inputSize,
+          )
+          if (additionalLength <= 0) {
+            reject(err)
+          }
+          const additionalData = new Uint8Array(additionalLength)
+          await handle.read(additionalData, 0, additionalLength, inputSize)
+          const combinedData = new Uint8Array(inputSize + additionalLength)
+          combinedData.set(input, 0)
+          combinedData.set(additionalData, inputSize)
+          resolve(imageSize(combinedData))
+        } else {
+          reject(err as Error)
         }
       }
     } catch (err) {

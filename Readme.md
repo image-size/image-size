@@ -171,7 +171,7 @@ console.log(width, height, orientation)
 # Limitations
 
 1. **Partial File Reading**
-   - Only reads image headers, not full files. The only exception is when `imageSizeFromFile` fails to read the image size from the initial 512kb of the file - in this case, a larger part of the file is re-read.
+   - Only reads image headers, not full files
    - Some corrupted images might still report dimensions
 
 2. **SVG Limitations**

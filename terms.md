@@ -28,7 +28,7 @@
 26. 检查图像是否符合特定条件的过程 → Image Validation
 27. HTTP请求 → HTTP Request
 28. 从文件中解析元数据的过程 → Metadata Extraction
-29. Node.js 提供的操作文件系统的模块 → File System API
+29. Node.js提供的操作文件系统的模块 → File System API
 30. 通过文件内容或扩展名识别其 MIME 类型的过程 → MIME Type Detection
 31. 遍历目录树并处理所有子文件/子目录的操作 → Recursive Processing
 32. Windows 光标文件格式 → CUR(Cursor format)

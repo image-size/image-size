@@ -424,4 +424,3 @@ Screenshot of main function implementation：photos\shixian12
 
  <!--by 廖真余-->
 >>>>>>> upstream/main
->>>>>>> upstream/main

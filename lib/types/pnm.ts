@@ -47,7 +47,7 @@ const handlers: Record<string, Handler> = {
       if (key && value) {
         const lower = key.toLowerCase()
         if (lower === 'height' || lower === 'width') {
-          size[key.toLowerCase()] = Number.parseInt(value, 10)
+          size[lower] = Number.parseInt(value, 10)
           if (size.height && size.width) {
             break
           }

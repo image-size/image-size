@@ -45,13 +45,15 @@ const handlers: Record<string, Handler> = {
       }
       const [key, value] = line.split(' ')
       if (key && value) {
-        size[key.toLowerCase()] = Number.parseInt(value, 10)
-      }
-      if (size.height && size.width) {
-        break
+        const lower = key.toLowerCase()
+        if (lower === 'height' || lower === 'width') {
+          size[lower] = Number.parseInt(value, 10)
+          if (size.height && size.width) {
+            break
+          }
+        }
       }
     }
-
     if (size.height && size.width) {
       return {
         height: size.height,

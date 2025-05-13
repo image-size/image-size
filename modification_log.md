@@ -1,5 +1,63 @@
-AI修改过程-廖真余
 
+Ai修改记录——梁飘月
+
+第一次ai搜索主要修改说明：
+1.把项目的主要内容做出了调整优化内容更加简洁。
+
+2.术语修正："multi - format support" → "multi-format compatibility"；
+"command-line usage" → "Command-Line Interface"；
+"zero dependency" → "zero dependencies"；
+“network - request data”→ “data - prohes”；
+“obtain” → “get” ；
+ “allowcessing approacing for easy adaptation” → “allowing easy adaptation”。
+
+3.修改格式（`npx image - size` 改为规范的 `npx image - size`，内容中有空格错误修改为`image-size`， `npx image - size` 去掉中间空格为 `npx image-size`）。
+
+4.优化句子结构（ “File reading has a concurrency limit” 改为 “There is a concurrency limit for file reading” 显得简洁一点）。
+
+第二次ai搜索主要修改说明：
+5.添加项目的局限性：准确性限制和性能与数据限制。
+6.添加其他许可与性能与数据限制。
+
+AI修改记录--杨富惠
+第一次修改记录说明：
+语言表达优化
+修改前：Node.js安装就是去官网下安装包，然后装一下就行。
+修改后：访问Node.js官方网站[https://nodejs.org/]，根据操作系统下载Windows系统.msi后缀的安装包。运行安装包，按照向导提示操作，保持默认设置，直至安装完成。安装后，在命令行cmd输入`node -v`，显示版本号表示安装成功。
+解释：修改前表述过于简略、口语化，缺乏具体操作细节和专业性。借助AI，明确了下载链接、安装包类型，详细阐述了安装流程和验证方法，使读者能更清晰准确地了解Node.js的安装步骤。
+
+内容完整性补充
+修改前：安装Git，去官网下安装包。
+修改后：访问Git官方网站[https://git-scm.com/]。下载适配Windows系统，exe后缀的安装包。运行安装包，大多数选项保持默认。在选择安装组件时，按需勾选。安装结束后，在命令行输入`git --version`，出现版本信息即表示安装成功。
+解释：原始内容只提及下载安装包这一简单步骤。利用AI补充了下载网址、安装包后缀信息，还增加了安装过程中选项设置的说明以及安装后的验证方式，让Git安装步骤的说明更加完整、规范，符合技术文档的要求。
+
+逻辑结构调整
+修改前：在安装项目依赖部分，先写了安装命令，然后才介绍进入项目目录，逻辑较为混乱。
+修改后：先说明进入项目目录，执行`cd image-size`，再阐述“安装依赖，项目使用npm管理依赖，执行：`npm install`。
+解释：按照正常操作逻辑，应先进入项目所在目录，然后再执行安装依赖的命令。AI帮助识别出原内容逻辑上的不合理之处，并进行调整，使安装依赖这部分内容的步骤顺序更符合实际操作流程，读者阅读时也更容易理解和遵循。 
+
+第二次修改记录说明：
+操作顺序优化
+修改前：先克隆代码，然后装依赖。
+修改后：在使用 `git clone` 命令将代码库克隆到本地后，使用 `cd` 命令进入项目目录。随后，运行 `npm install` 命令来安装项目依赖。
+解释：调整了操作顺序，使之符合逻辑流程，先获取代码再安装依赖，这样用户可以更顺畅地进行操作。
+
+增强可操作性
+修改前：用命令行工具检查图片尺寸。
+修改后：打开命令行工具，导航至图片所在目录。使用 `npx image-size` 命令后跟图片路径，如 `npx image-size "path\to\image.png"`，以获取图片尺寸信息。
+解释：提供了更具体的操作步骤，包括如何打开命令行工具和如何正确使用命令，这样的描述更具操作性，方便用户跟随执行。
+
+错误处理指导
+修改前：如果安装失败，再试一次。
+修改后：如果在安装过程中遇到错误，请检查命令行输出的错误信息。通常，错误日志会提供有关失败原因的线索。根据提示进行调整后，再次尝试安装。
+解释：增加了错误处理的指导，帮助用户理解安装失败的可能原因，并鼓励他们根据错误信息进行故障排除，提升了文档的实用性。
+
+用户交互提示
+修改前：安装完成后，运行项目。
+修改后：项目依赖安装完成后，在命令行中输入 `npm start` 来启动项目。如果遇到任何问题，项目文档中可能包含特定的启动指南或常见问题解答。
+解释：增加了与用户的交互提示，不仅指导用户如何启动项目，还提醒他们查看文档以获取更多帮助，这样的信息对于用户来说更有帮助。
+
+AI修改过程-廖真余
 主要功能的使用教程
 第一添加了功能概述部分，补充了对不同应用场景的说明，强调了模块的灵活性和广泛支持多种图像格式的特点。
 一、文档结构优化
@@ -31,25 +89,6 @@ AI修改过程-廖真余
  在多尺寸文件（HEIF/ICO/CUR）中，width/height 为最大图像尺寸，所有尺寸存储于 images 数组。
  SVG 格式有限制，仅支持像素值（如 100px）和 viewBox，不支持百分比尺寸（如 50%）。
 
-Ai修改记录——梁飘月
-
-第一次ai搜索主要修改说明：
-1.把项目的主要内容做出了调整优化内容更加简洁。
-
-2.术语修正："multi - format support" → "multi-format compatibility"；
-"command-line usage" → "Command-Line Interface"；
-"zero dependency" → "zero dependencies"；
-“network - request data”→ “data - prohes”；
-“obtain” → “get” ；
- “allowcessing approacing for easy adaptation” → “allowing easy adaptation”。
-
-3.修改格式（`npx image - size` 改为规范的 `npx image - size`，内容中有空格错误修改为`image-size`， `npx image - size` 去掉中间空格为 `npx image-size`）。
-
-4.优化句子结构（ “File reading has a concurrency limit” 改为 “There is a concurrency limit for file reading” 显得简洁一点）。
-
-第二次ai搜索主要修改说明：
-5.添加项目的局限性：准确性限制和性能与数据限制。
-6.添加其他许可与性能与数据限制。
 
 Ai修改记录——谢婉莹
 项目介绍
@@ -161,3 +200,4 @@ AI修改记录（术语表） 刘美和
 （补充全称）
 
 <!-- by 刘美和 -->
+>>>>>>> upstream/main

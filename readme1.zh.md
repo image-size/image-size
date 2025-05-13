@@ -102,3 +102,256 @@ npx image-size "C:\Users\86138\Desktop\3DEEDD2D7AEE216F97911D4219E5DAEF.gif"
 
 以上这些命令展示了如何使用图像尺寸工具来获取本地存储的图像文件的尺寸信息。 
 <!--by 谢婉莹-->
+
+主要功能使用教程--中文 刘美和
+## 这个仓库的主要功能是作为一个Node.js工具，专门用来检测图片的尺寸（也就是宽高）。开发人员可以用它快速获取图片的宽度和高度，这在处理图片相关的功能时非常有用，比如调整图片大小、验证图片格式等场景。
+
+## 基础用法
+###1. 从内存中的图片数据读取尺寸
+适用场景：当图片数据来自网络下载或其他非文件来源时
+操作步骤：
+1. 新建一个JavaScript文件
+2. 写入以下代码：
+javascript
+import { imageSize } from 'image-size';
+import { readFileSync } from 'fs'; // Node.js自带的文件读取工具
+ 
+const buffer = readFileSync('D:\\photos\\13.png');
+ 
+const dimensions = imageSize(buffer);
+ 
+console.log('图片宽度: ${dimensions.width}, 高度: ${dimensions.height}');
+3. 在终端运行这个文件：node image.js
+效果截图：photos\shixian1
+
+###2. 直接读取本地图片文件
+支持异步Promise写法
+javascript
+import { imageSizeFromFile, setConcurrency } from 'image-size/fromFile';
+ 
+async function run() {
+    setConcurrency(50);
+ 
+    const dimensions = await imageSizeFromFile('D:\\photos\\11.jpg');
+    console.log('图片宽度：${dimensions.width}, 高度：${dimensions.height}');
+}
+ 
+注意事项：(1)默认并发限制
+默认情况下，同时处理的文件数为 100 个。
+(2)可自定义并发数
+你可以通过调用 setConcurrency 方法自行调整并发限制。
+javascript
+import { setConcurrency } from 'image-size/fromFile';
+setConcurrency(50); // 改为同时处理50个
+效果截图：photos\shixian2
+
+###3. 从网络链接获取图片尺寸
+如果图片在服务器上，可以通过网络请求下载图片数据后检测尺寸：
+javascript
+const https = require('node:https'); // 使用https模块
+const { imageSize } = require('image-size');
+ 
+const imageUrl = 'https://pic.52112.com/2019/06/06/JPS-190606_155/24poJOgl7m_small.jpg';
+ 
+https.get(imageUrl, (response) => {
+    const chunks = [];
+    response.on('data', (chunk) => chunks.push(chunk));
+    response.on('end', () => {
+        const buffer = Buffer.concat(chunks); 
+        const dimensions = imageSize(buffer); 
+        console.log('图片宽度: ${dimensions.width}, 高度: ${dimensions.height}');
+    });
+}).on('error', (error) => {
+    console.error('请求失败:', error.message); // 处理网络问题
+});
+效果截图：photos\shixian3
+
+##进阶功能
+###1. 处理多尺寸图像文件
+注意：像HEIF、ICO或CUR这类特殊格式，可能包含多个不同尺寸的图片。工具会返回最大图片的尺寸，所有尺寸信息可以在images数组里找到。
+javascript
+import { imageSizeFromFile } from 'image-size/fromFile'
+// or
+const { imageSizeFromFile } = require('image-size/fromFile')
+ 
+const { images } = await imageSizeFromFile('images/multi-size.ico')
+for (const dimensions of images) {
+  console.log(dimensions.width, dimsensions.height) 
+}
+
+###2. 命令行快速检测
+如果需快速检查图片尺寸，可以使用命令行工具。
+
+shell
+npx image-size 11.jpg 13.png 
+效果截图：photos\shixian4
+
+###3. 禁用不需要的格式
+如果某些格式你不需要支持，可以手动关闭它们。
+javascript
+const { disableTypes, imageSize } = require('image-size');
+const fs = require('fs');
+ 
+disableTypes(['tiff', 'ico', 'svg']);
+ 
+async function checkImages() {
+    const imagePaths = [
+        'D:\\photos\\11.jpg',   // 支持的格式
+        'D:\\photos\\svg.svg',  // 已被禁用的格式
+    ];
+ 
+    for (const path of imagePaths) {
+        try {
+            const buffer = fs.readFileSync(path);
+            const dimensions = imageSize(buffer);
+            console.log('${path}: 尺寸=${dimensions.width}x${dimensions.height}');
+        } catch (error) {
+            console.error('${path}: 出错 - ${error.message}'); 
+        }
+    }
+}
+ 
+checkImages();
+效果截图：photos\shixian5
+
+###4. 控制同时处理的文件数
+文件读取的默认并发限制为 100。如果需要调整此限制，可以使用 setConcurrency 函数。
+javascript
+const { imageSizeFromFile, setConcurrency } = require('image-size/fromFile');
+ 
+// 改为同时处理200个文件
+setConcurrency(200);
+ 
+async function testImageSize() {
+    try {
+        const dimensions = await imageSizeFromFile('D:\\photos\\11.jpg');
+        console.log('宽度: ${dimensions.width}, 高度: ${dimensions.height}');
+    } catch (error) {
+        console.error('获取尺寸失败:', error);
+    }
+}
+ 
+testImageSize();
+效果截图：photos\shixian6
+
+###5. 检测JPEG方向信息
+对于JPEG图片，可以读取EXIF元数据中的方向信息。
+javascript
+const { imageSizeFromFile } = require('image-size/fromFile');
+ 
+async function getImageInfo() {
+    try {
+        const filePath = 'D:\\photos\\11.jpg';
+        
+        const { width, height, orientation } = await imageSizeFromFile(filePath);
+        
+        const direction = orientation
+            ? '方向代码 ${orientation}'
+            : '无方向信息（默认）';
+ 
+        console.log('图片信息：');
+        console.log('- 宽度: ${width}px');
+        console.log('- 高度: ${height}px');
+        console.log('- 方向: ${direction}');
+    } catch (error) {
+        console.error('错误：${error.message}');
+    }
+}
+ 
+getImageInfo();
+效果截图：photos\shixian7
+
+###6. 获取图片MIME格式类型
+可以获取图像的 MIME 类型，这对于需要知道图像格式的应用程序非常有用。
+javascript
+import { imageSizeFromFile } from 'image-size/fromFile';
+ 
+(async () => {
+    try {
+        const { type } = await imageSizeFromFile('D:/photos/11.jpg');
+        console.log('图片MIME类型: ${type}'); 
+    } catch (error) {
+        console.error('读取图片MIME类型时出错:',  error);
+    }
+})();
+效果截图：photos\shixian8
+
+###7. 获取图片文件大小
+javascript
+import { imageSizeFromFile } from 'image-size/fromFile';
+import { stat } from 'node:fs/promises';
+ 
+(async () => {
+    try {
+        const dimensions = await imageSizeFromFile('D:/photos/11.jpg');
+        const { size } = await stat('D:/photos/11.jpg');
+ 
+        console.log('尺寸: ${dimensions.width}x${dimensions.height}');
+        console.log('文件大小: ${size} 字节');
+    } catch (error) {
+        console.error('读取图片信息失败:', error);
+    }
+})();
+效果截图：photos\shixian9
+
+###8. 批量处理文件夹中的所有图片
+使用 fs.readdir 遍历目录中的所有文件，并筛选出图片文件进行处理。
+javascript
+import { imageSizeFromFile } from 'image-size/fromFile';
+import { readdir } from 'node:fs/promises';
+import path from 'node:path';
+ 
+const directoryPath = 'D:/photos'; 
+ 
+const files = await readdir(directoryPath);
+ 
+for (const file of files) 
+    const filePath = path.join(directoryPath, file);
+    const ext = path.extname(file).toLowerCase();
+
+效果截图：见 photos\shixian10
+
+###9. 检查图片尺寸是否达标
+检查图片尺寸是否符合最小/最大宽度和高度要求。
+javascript
+import { imageSizeFromFile } from 'image-size/fromFile';
+ 
+const dimensions = await imageSizeFromFile('D:/photos/11.jpg');
+ 
+const MIN_WIDTH = 800;  
+const MIN_HEIGHT = 600; 
+ 
+效果截图：photos\shixian11
+
+###10. 计算图片宽高比
+获取图像的宽高比，这在需要保持图像比例的情况下很有用。
+javascript
+import { imageSizeFromFile } from 'image-size/fromFile';
+ 
+(async () => {
+    try {
+        const dimensions = await imageSizeFromFile('D:/photos/11.jpg');
+        const aspectRatio = dimensions.width / dimensions.height;
+ 
+        console.log('宽高比: ${aspectRatio.toFixed(2)}:1');
+    } catch (error) {
+        console.error('计算宽高比失败:', error);
+    }
+})();
+效果截图：photos\shixian12
+
+## 使用限制和注意事项
+1. 部分文件读取
+仅读取图像的头部信息，对于损坏的文件可能仍会返回尺寸。
+2. SVG格式
+仅支持像素尺寸和 viewBox，不支持百分比值。
+3. 文件访问
+文件读取存在并发限制，可以使用 setConcurrency 进行调整。
+4. 缓冲区要求
+某些格式（如 TIFF）需要完整的头部信息。
+5. 同步读取
+同步 API 会阻塞主线程，不建议使用。
+6. 禁用格式
+可以使用 disableTypes 禁用特定图像格式的处理。
+
+<!-- by 刘美和 -->

@@ -3,10 +3,10 @@ import * as path from 'node:path'
 
 import { imageSize } from './lookup'
 import type { ISizeCalculationResult } from './types/interface'
+import { ImageSizeInfoOutOfBoundsError } from './utils/customErrors'
 
-// Maximum input size, with a default of 512 kilobytes.
-// TO-DO: make this adaptive based on the initial signature of the image
-const MaxInputSize = 512 * 1024
+// Default maximum input size is 512 kilobytes.
+const DefaultMaxInputSize = 512 * 1024
 
 type Job = {
   filePath: string
@@ -36,10 +36,31 @@ const processQueue = async () => {
       if (size <= 0) {
         throw new Error('Empty file')
       }
-      const inputSize = Math.min(size, MaxInputSize)
+      const inputSize = Math.min(size, DefaultMaxInputSize)
       const input = new Uint8Array(inputSize)
       await handle.read(input, 0, inputSize, 0)
-      resolve(imageSize(input))
+      try {
+        resolve(imageSize(input))
+      } catch (err) {
+        // If the image size information was outside of the originally read part of the file, re-attempt using an extended input buffer.
+        if (err instanceof ImageSizeInfoOutOfBoundsError) {
+          const additionalLength = Math.min(
+            size - inputSize,
+            err.requiredStartOffset + DefaultMaxInputSize - inputSize,
+          )
+          if (additionalLength <= 0) {
+            reject(err)
+          }
+          const additionalData = new Uint8Array(additionalLength)
+          await handle.read(additionalData, 0, additionalLength, inputSize)
+          const combinedData = new Uint8Array(inputSize + additionalLength)
+          combinedData.set(input, 0)
+          combinedData.set(additionalData, inputSize)
+          resolve(imageSize(combinedData))
+        } else {
+          reject(err as Error)
+        }
+      }
     } catch (err) {
       reject(err as Error)
     } finally {

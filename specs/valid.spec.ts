@@ -139,6 +139,10 @@ const sizes: Record<string, ISizeCalculationResult> = {
       { width: 16, height: 16 },
     ],
   },
+  'specs/images/valid/heif/sample-animated.avif': {
+    width: 400,
+    height: 400,
+  },
 }
 
 // Test all valid files

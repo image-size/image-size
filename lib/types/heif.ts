@@ -2,6 +2,7 @@ import type { IImage, ISize } from './interface'
 import { findBox, readUInt32BE, toUTF8String } from './utils'
 
 const brandMap = {
+  avis: 'avif',
   avif: 'avif',
   mif1: 'heif',
   msf1: 'heif', // heif-sequence

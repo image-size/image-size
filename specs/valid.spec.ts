@@ -139,13 +139,17 @@ const sizes: Record<string, ISizeCalculationResult> = {
       { width: 16, height: 16 },
     ],
   },
+  'specs/images/valid/svg/huge-svg-tag.svg': {
+    width: 461,
+    height: 471,
+  },
 }
 
 // Test all valid files
 describe('Valid images', () => {
-  const validFiles = globSync('specs/images/valid/**/*.*').filter(
-    (file) => extname(file) !== '.md',
-  )
+  const validFiles = globSync('specs/images/valid/**/*.*')
+    .filter((file) => extname(file) !== '.md')
+    .map((file) => file.replaceAll('\\', '/'))
 
   for (const file of validFiles) {
     const filepath = resolve(file)

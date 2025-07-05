@@ -13,6 +13,7 @@ import {
   readUInt,
   findBox,
   readUInt64,
+  boyerMoore,
 } from '../lib/types/utils'
 
 describe('Utils', () => {
@@ -155,6 +156,60 @@ describe('Utils', () => {
 
       const result = findBox(input, 'test', 0)
       assert.equal(result, undefined)
+    })
+  })
+
+  describe('boyerMoore', () => {
+    it('should find needle in haystack', () => {
+      const needle = new Uint8Array([1, 2, 3])
+      const haystack = new Uint8Array([0, 1, 2, 3, 4])
+      const search = boyerMoore(needle)
+      assert.equal(search(haystack), 1)
+    })
+
+    it('should return -1 when needle is not found', () => {
+      const needle = new Uint8Array([5, 6, 7])
+      const haystack = new Uint8Array([0, 1, 2, 3, 4])
+      const search = boyerMoore(needle)
+      assert.equal(search(haystack), -1)
+    })
+
+    it('should handle needle longer than haystack', () => {
+      const needle = new Uint8Array([1, 2, 3, 4])
+      const haystack = new Uint8Array([1, 2])
+      const search = boyerMoore(needle)
+      assert.equal(search(haystack), -1) // Needle cannot be found in shorter haystack
+    })
+
+    it('should handle haystack with needle at the start', () => {
+      const needle = new Uint8Array([1, 2])
+      const haystack = new Uint8Array([1, 2, 3, 4])
+      const search = boyerMoore(needle)
+      assert.equal(search(haystack), 0) // Needle found at index 0
+    })
+
+    it('should handle needle at the end of haystack', () => {
+      const needle = new Uint8Array([3, 4])
+      const haystack = new Uint8Array([1, 2, 3, 4])
+      const search = boyerMoore(needle)
+      assert.equal(search(haystack), 2) // Needle found at index 2
+    })
+
+    it('should handle multiple occurrences of needle in haystack', () => {
+      const needle = new Uint8Array([1, 2])
+      const haystack = new Uint8Array([0, 1, 2, 0, 1, 2])
+      const search = boyerMoore(needle)
+      assert.equal(search(haystack), 1) // First occurrence found at index 1
+    })
+
+    it('should handle large haystack and needle', () => {
+      const encoder = new TextEncoder()
+      const needle = encoder.encode('<svg')
+      const start = '<?xml version="1.0" encoding="utf-8"?>'
+      const largeComment = new Array(1000).fill('<!-- comment -->').join('\n')
+      const haystack = encoder.encode(`${start}${largeComment}<svg`)
+      const search = boyerMoore(needle)
+      assert.equal(search(haystack), start.length + largeComment.length) // Needle found after the XML declaration and comments
     })
   })
 })

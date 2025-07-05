@@ -211,5 +211,20 @@ describe('Utils', () => {
       const search = boyerMoore(needle)
       assert.equal(search(haystack), start.length + largeComment.length) // Needle found after the XML declaration and comments
     })
+
+    it('should not search beyond specified limit', () => {
+      const needle = new Uint8Array([2, 3])
+      const haystack = new Uint8Array([0, 1, 2, 3, 4])
+      const search = boyerMoore(needle)
+      assert.equal(search(haystack, 3), -1) // Limit is 3, needle not found within limit
+      assert.equal(search(haystack, 5), 2) // Full haystack search finds needle at index 2
+    })
+
+    it('should work with limit bigger than haystack', () => {
+      const needle = new Uint8Array([2, 3])
+      const haystack = new Uint8Array([0, 1, 2, 3, 4])
+      const search = boyerMoore(needle)
+      assert.equal(search(haystack, 1000), 2)
+    })
   })
 })

@@ -1,2 +1,2 @@
 export { types } from './types'
-export { imageSize, imageSize as default, disableTypes } from './lookup'
+export { imageSize, imageFormat, imageSize as default, disableTypes } from './lookup'

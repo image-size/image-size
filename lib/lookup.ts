@@ -12,6 +12,23 @@ const globalOptions: Options = {
 }
 
 /**
+ * Return image format based on an Uint8Array
+ *
+ * @param {Uint8Array} input
+ * @returns {imageType}
+ */
+export function imageFormat(input: Uint8Array): imageType {
+  const type = detector(input)
+  if (typeof type !== 'undefined') {
+    if (globalOptions.disabledTypes.indexOf(type) > -1) {
+      throw new TypeError(`disabled file type: ${type}`)
+    }
+    return type
+  }
+  throw new TypeError(`unsupported file type: ${type}`)
+}
+
+/**
  * Return size information based on an Uint8Array
  *
  * @param {Uint8Array} input

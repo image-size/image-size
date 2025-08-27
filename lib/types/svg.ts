@@ -1,5 +1,5 @@
 import type { IImage, ISize } from './interface'
-import { toUTF8String } from './utils'
+import { boyerMoore, toUTF8String } from './utils'
 
 interface IAttributes {
   width: number | null
@@ -7,11 +7,9 @@ interface IAttributes {
   viewbox?: IAttributes | null
 }
 
-const svgReg = /<svg\s([^>"']|"[^"]*"|'[^']*')*>/
-
 const extractorRegExps = {
   height: /\sheight=(['"])([^%]+?)\1/,
-  root: svgReg,
+  root: /<svg\s([^>"']|"[^"]*"|'[^']*')*>/,
   viewbox: /\sviewBox=(['"])(.+?)\1/i,
   width: /\swidth=(['"])([^%]+?)\1/,
 }
@@ -87,9 +85,67 @@ function calculateByViewbox(attrs: IAttributes, viewbox: IAttributes): ISize {
   }
 }
 
-export const SVG: IImage = {
-  // Scan only the first kilo-byte to speed up the check on larger files
-  validate: (input) => svgReg.test(toUTF8String(input, 0, 1000)),
+const encoder = new TextEncoder()
+
+const findXmlStart = boyerMoore(encoder.encode('<?xml'))
+const findDoctypeStart = boyerMoore(encoder.encode('<!DOCTYPE'))
+const findSvgStart = boyerMoore(encoder.encode('<svg'))
+
+type IImageWithSearchLimits = IImage & {
+  /**
+   * Defines how many bytes to search for specific markers,
+   * customize these values in case of specific needs
+   */
+  searchLimits: {
+    /**
+     * Number of bytes to search for the XML header '<?xml'
+     * when detecting XML files (slow path of SVG detection)
+     * defaults to 10 bytes (to account for initial whitespace)
+     */
+    xmlStart: number
+    /**
+     * Number of bytes to search for the XML doctype '<!DOCTYPE'
+     * when detecting XML files (slow path of SVG detection)
+     * defaults to 60 bytes (to account for additional whitespace and XML header)
+     */
+    doctypeStart: number
+
+    /**
+     * Number of bytes to search for the SVG root element '<svg'
+     * when detecting SVG files (fast path of SVG detection)
+     * defaults to 180 bytes (to account for additional whitespace, XML header and doctype)
+     */
+    svgStart: number
+  }
+};
+
+export const SVG: IImageWithSearchLimits = {
+  searchLimits: {
+    xmlStart: 10,
+    doctypeStart: 60,
+    svgStart: 180
+  },
+
+  validate(input) {
+    // See https://github.com/image-size/image-size/issues/397
+
+    // typical fast path: '<svg' in the first few bytes
+    if (findSvgStart(input, SVG.searchLimits.svgStart) >= 0) {
+      return true
+    }
+
+    // slower path: check if we detect an XML file and then to a full search
+    // SVG is the only XML based format this lib supports, it should be an
+    // acceptable performance hit if somebody provides non SVG XMLs
+    if (
+      findXmlStart(input, SVG.searchLimits.xmlStart) >= 0 ||
+      findDoctypeStart(input, SVG.searchLimits.doctypeStart) >= 0
+    ) {
+      return findSvgStart(input) >= 0
+    }
+
+    return false
+  },
 
   calculate(input) {
     const root = toUTF8String(input).match(extractorRegExps.root)

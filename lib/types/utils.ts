@@ -88,3 +88,32 @@ export function findBox(
     currentOffset += box.size > 0 ? box.size : 8
   }
 }
+
+export function boyerMoore(
+  needle: Uint8Array,
+): (haystack: Uint8Array, limit?: number) => number {
+  const needleLen = needle.length
+  const occurence = new Array<number>(256).fill(needleLen)
+  for (let i = 0; i < needleLen - 1; ++i) {
+    occurence[needle[i]] = needleLen - 1 - i
+  }
+
+  return (haystack: Uint8Array, limit?: number): number => {
+    const haystackLen =
+      limit !== undefined ? Math.min(haystack.length, limit) : haystack.length
+    if (haystackLen < needleLen) return -1
+
+    let i = 0
+    while (i <= haystackLen - needleLen) {
+      let j = needleLen - 1
+      while (j >= 0 && haystack[i + j] === needle[j]) {
+        j--
+      }
+      if (j < 0) {
+        return i
+      }
+      i += occurence[haystack[i + needleLen - 1]]
+    }
+    return -1
+  }
+}

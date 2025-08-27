@@ -86,23 +86,61 @@ function calculateByViewbox(attrs: IAttributes, viewbox: IAttributes): ISize {
 }
 
 const encoder = new TextEncoder()
-const findSvgStart = boyerMoore(encoder.encode('<svg'))
+
 const findXmlStart = boyerMoore(encoder.encode('<?xml'))
 const findDoctypeStart = boyerMoore(encoder.encode('<!DOCTYPE'))
+const findSvgStart = boyerMoore(encoder.encode('<svg'))
 
-export const SVG: IImage = {
+type IImageWithSearchLimits = IImage & {
+  /**
+   * Defines how many bytes to search for specific markers,
+   * customize these values in case of specific needs
+   */
+  searchLimits: {
+    /**
+     * Number of bytes to search for the XML header '<?xml'
+     * when detecting XML files (slow path of SVG detection)
+     * defaults to 10 bytes (to account for initial whitespace)
+     */
+    xmlStart: number
+    /**
+     * Number of bytes to search for the XML doctype '<!DOCTYPE'
+     * when detecting XML files (slow path of SVG detection)
+     * defaults to 60 bytes (to account for additional whitespace and XML header)
+     */
+    doctypeStart: number
+
+    /**
+     * Number of bytes to search for the SVG root element '<svg'
+     * when detecting SVG files (fast path of SVG detection)
+     * defaults to 180 bytes (to account for additional whitespace, XML header and doctype)
+     */
+    svgStart: number
+  }
+};
+
+export const SVG: IImageWithSearchLimits = {
+  searchLimits: {
+    xmlStart: 10,
+    doctypeStart: 60,
+    svgStart: 180
+  },
+
   validate(input) {
     // See https://github.com/image-size/image-size/issues/397
 
-    // typical fast path: '<svg' in the first 1kb
-    if (findSvgStart(input, 1000) >= 0) {
+    // typical fast path: '<svg' in the first few bytes
+    if (findSvgStart(input, SVG.searchLimits.svgStart) >= 0) {
       return true
     }
 
     // slower path: check if we detect an XML file and then to a full search
     // SVG is the only XML based format this lib supports, it should be an
     // acceptable performance hit if somebody provides non SVG XMLs
-    if (findXmlStart(input, 1000) >= 0 || findDoctypeStart(input, 1000) >= 0) {
+    if (
+      findXmlStart(input, SVG.searchLimits.xmlStart) >= 0 ||
+      findDoctypeStart(input, SVG.searchLimits.doctypeStart) >= 0
+    ) {
       return findSvgStart(input) >= 0
     }
 

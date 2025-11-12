@@ -30,7 +30,7 @@ const units: Record<string, number> = {
 }
 
 const unitsReg = new RegExp(
-  `^([0-9.]+(?:e\\d+)?)(${Object.keys(units).join('|')})?$`,
+  `^([0-9.]+(?:e\\d+)?)(${Object.keys(units).join('|')})?$`
 )
 
 function parseLength(len: string) {
@@ -88,8 +88,13 @@ function calculateByViewbox(attrs: IAttributes, viewbox: IAttributes): ISize {
 }
 
 export const SVG: IImage = {
-  // Scan only the first kilo-byte to speed up the check on larger files
-  validate: (input) => svgReg.test(toUTF8String(input, 0, 1000)),
+  validate: (input) => {
+    // Scan only the first kilo-byte to speed up the check on larger files
+    const fastScan = svgReg.test(toUTF8String(input, 0, 1000))
+    // The fast check could result in false negative but never false positive
+    if (fastScan) return true
+    return svgReg.test(toUTF8String(input))
+  },
 
   calculate(input) {
     const root = toUTF8String(input).match(extractorRegExps.root)

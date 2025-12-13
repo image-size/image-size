@@ -4,9 +4,9 @@ import * as path from 'node:path'
 import { imageSize } from './lookup'
 import type { ISizeCalculationResult } from './types/interface'
 
-// Maximum input size, with a default of 512 kilobytes.
+// Maximum input size, with a default of 1024 kilobytes.
 // TO-DO: make this adaptive based on the initial signature of the image
-const MaxInputSize = 512 * 1024
+const MaxInputSize = 1024 * 1024
 
 type Job = {
   filePath: string

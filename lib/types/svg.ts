@@ -1,5 +1,6 @@
 import type { IImage, ISize } from './interface'
 import { toUTF8String } from './utils'
+import { Buffer } from 'node:buffer'
 
 interface IAttributes {
   width: number | null
@@ -88,8 +89,9 @@ function calculateByViewbox(attrs: IAttributes, viewbox: IAttributes): ISize {
 }
 
 export const SVG: IImage = {
-  // Scan only the first kilo-byte to speed up the check on larger files
-  validate: (input) => svgReg.test(toUTF8String(input, 0, 1000)),
+  // svgReg.test requires conversion to string and finding the terminal '>',
+  // which can be slow for large files
+  validate: (input) => Buffer.from(input.buffer).includes('<svg'),
 
   calculate(input) {
     const root = toUTF8String(input).match(extractorRegExps.root)

@@ -139,6 +139,42 @@ const sizes: Record<string, ISizeCalculationResult> = {
       { width: 16, height: 16 },
     ],
   },
+  // Files with out-of-order compatibility brands - detect type from compat brand
+  'specs/images/valid/heif/sample_avifCompat.avif': {
+    width: 123,
+    height: 456,
+    type: 'avif',
+  },
+  'specs/images/valid/heif/sample_heicCompat.avif': {
+    width: 123,
+    height: 456,
+    type: 'heic',
+  },
+  'specs/images/valid/heif/sample_heixCompat.avif': {
+    width: 123,
+    height: 456,
+    type: 'heic',
+  },
+  'specs/images/valid/heif/sample_hevcCompat.avif': {
+    width: 123,
+    height: 456,
+    type: 'heic',
+  },
+  'specs/images/valid/heif/sample_hevxCompat.avif': {
+    width: 123,
+    height: 456,
+    type: 'heic',
+  },
+  'specs/images/valid/heif/sample_mif1Compat.avif': {
+    width: 123,
+    height: 456,
+    type: 'heif',
+  },
+  'specs/images/valid/heif/sample_msf1Compat.avif': {
+    width: 123,
+    height: 456,
+    type: 'heif',
+  },
 }
 
 // Test all valid files
@@ -174,6 +210,9 @@ describe('Valid images', () => {
 
         if (expected.orientation) {
           assert.equal(dimensions.orientation, expected.orientation)
+        }
+        if (expected.type) {
+          assert.equal(dimensions.type, expected.type)
         }
       })
     })

@@ -1,9 +1,13 @@
-# Tired maintainers doesn't want your slop
-Archiving this repo, because I don't want to deal with the same LLM generated "security advisory" about an inifinite loop.  
+# Tired maintainer doesn't want your slop
+Archiving this repo, because I don't want to deal with the same LLM generated "security advisory" about an inifinite loop over and over again.  
 I do not wish to participate in this sloppy mess of a platform. 
-Please do not create issues or advisories for me, and please do not summon me in your slop 🙏.
+Please do not create issues or advisories for me, and please do not summon me 🙏.
 
-At some point I'll revive this project to address actual issues, but only after I migrate this project to Codeberg.
+At some point I'll revive this project to address actual issues, but on [Codeberg](https://codeberg.org/image-size/image-size).
+
+This repo on github will not be updated. 
+
+---
 
 # image-size
 

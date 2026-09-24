@@ -1,11 +1,10 @@
+**This project is now maintained on [Codeberg](https://codeberg.org/image-size/image-size). This repo on GitHub will not be updated.**
+
 # Tired maintainer doesn't want your slop
-Archiving this repo, because I don't want to deal with the same LLM generated "security advisory" about an inifinite loop over and over again.  
-I do not wish to participate in this sloppy mess of a platform. 
-Please do not create issues or advisories for me, and please do not summon me 🙏.
+Archiving this repo, because I don't want to deal with the same LLM generated "security advisory" about an infinite loop, or PRs written by LLMs that the submitter doesn't even understand.
+If you can't be bothered to write it, then don't expect me to read it.
 
-At some point I'll revive this project to address actual issues, but on [Codeberg](https://codeberg.org/image-size/image-size).
-
-This repo on github will not be updated. 
+Considering the sloppy mess of a platform GitHub has become, I do not wish to participate here. 
 
 ---
 
